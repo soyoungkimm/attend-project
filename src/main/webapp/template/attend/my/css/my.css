@@ -1,0 +1,86 @@
+
+body { font-size:10pt;  font-family:verdana,나눔고딕; letter-spacing:-1px; }
+
+.mytable th { text-align:center; vertical-align:bottom; padding:5px; }
+.mytable td { text-align:center; vertical-align:top; padding:3px; }
+
+.mytable-leftmiddle th { text-align:left; vertical-align:bottom; padding:5px; }
+.mytable-leftmiddle td { text-align:left; vertical-align:middle; padding:5px; }
+
+.mytable-centermiddle th { text-align:center; vertical-align:bottom; padding:5px; }
+.mytable-centermiddle td { text-align:center; vertical-align:middle; padding:5px; }
+
+.mymargin5 { margin:5px 0px 5px 0px; }
+
+.mycolor1 { background-color:steelblue; color:white; }
+.mycolor2 { background-color:lightsteelblue; }
+.mycolor3 { background-color:#dfefff; }
+.mycolor4 { background-color:#ffff99; }
+
+.mypadding3 { padding:3px 0px 3px 0px; }
+.mypadding5 { padding:5px 0px 5px 0px; }
+
+hr > .mymenuline { background-color:#aaaaaa;margin:0 25px 0 25px; }
+
+.btn-group-xs > .btn, .btn-xs {
+  padding: .38rem .28rem .38rem .30rem;
+  font-size: 0.9rem;
+  line-height: 0.5rem;
+  border-radius: .2rem;
+}
+
+.lecbox {
+	width: 45px;
+	height: 25px;
+	float: center;
+	position: relative;
+}
+.lecbox_text {
+	width: 45px;
+	border:1px solid #cccccc;
+	color:black;
+	background-color:#ffff99;
+	text-align:center;
+	font-size:7pt;
+	line-height:1.2rem;
+}
+
+.lecbox0 {
+	height: 25px;
+	float: center;
+	position: relative;
+}
+.lecbox0_text {
+	border:1px solid #cccccc;
+	color:black;
+	background-color:#ffff99;
+	text-align:center;
+	font-size:7pt;
+	line-height:1.2rem;
+}
+
+.mythumb_box {
+	font-size : 14px;
+	text-align:center;
+	border: 1px solid lightgray;
+	padding:3px;
+	margin:5px 0px 5px 0px;
+}
+.mythumb_image {
+	height: 150px;
+	max-width: 100%;
+	margin-bottom:3px
+}
+.mythumb_bigimage {
+	height: 550px;
+	max-width: 100%;
+	margin-bottom:3px
+}
+.mythumb_text {
+	border: 1px solid lightgray;
+	background-color:lightsteelblue;
+	padding:3px;
+}
+
+.mynopic { background-color:#eeeeee; width:98%; height:140px; border:1px solid #cccccc; border-radius:5px; margin:3px }
+

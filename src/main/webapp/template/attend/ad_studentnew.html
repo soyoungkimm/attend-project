@@ -1,0 +1,329 @@
+<!-------------------------------------------------------------------------------->
+<!-- 프로그램 : 인덕대학교 컴퓨터소프트웨어학과 전자출석 Demo                              -->
+<!--                                                                                                                  -->
+<!-- 소속 : 인덕대학교  컴퓨터소프트웨어학과  창업동아리 겜지기                              -->
+<!-- 교수 : 윤형태 ( 2019.05 - 2022.06 )                                                                  -->
+<!-------------------------------------------------------------------------------->
+
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<title>인덕대학교 전자출석 Demo (겜지기)</title>
+
+	<link rel="shortcut icon" href="my/images/favicon.ico">
+
+	<!-- css 선언부 ---------------------------------------------------------------->
+	<link href="my/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="my/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="my/css/style.css" rel="stylesheet" type="text/css" />		
+
+	<link href="my/css/dataTables.bootstrap4.min.css" rel="stylesheet">	<!-- datatable.net -->
+
+	<link href="my/css/my.css" rel="stylesheet" type="text/css">
+		
+</head>
+
+<body class="adminbody">
+
+<div id="main">
+
+	<!--상단 메뉴 시작 -->
+	<div class="headerbar">
+
+        <div class="headerbar-left">
+			<a href="index.html" class="logo"><img src="my/images/induk_logo.png"> <span>전자출석 Demo</span></a>
+        </div>
+
+        <nav class="navbar-custom">
+			<ul class="list-inline float-right mb-0">
+				<li class="list-inline-item dropdown notif">
+					<a class="nav-link dropdown-toggle nav-user" data-toggle="dropdown" href="#" role="button" ariaaspopup="false" aria-expanded="false">
+						<img src="my/images/avatars/admin.png" alt="Profile image" class="avatar-rounded">
+					</a>
+					<div class="dropdown-menu dropdown-menu-right profile-dropdown">
+						<div class="dropdown-item noti-title">
+							<h5 class="text-overflow"><small>Hello, admin</small> </h5>
+						</div>
+						<a href="#" class="dropdown-item notify-item">
+							<i class="fa fa-power-off"></i> <span>Logout</span>
+						</a>
+					</div>
+				</li>
+			</ul>
+
+			<ul class="list-inline menu-left mb-0">
+				<li class="float-left">
+					<button class="button-menu-mobile open-left">
+						<i class="fa fa-fw fa-bars"></i>
+					</button>
+				</li>                        
+			</ul>
+        </nav>
+
+	</div>
+	<!--상단 메뉴 끝 -->
+	
+ 
+	<!-- 좌측 Sidebar 메뉴 시작-->
+	<div class="left main-sidebar">
+		<div class="sidebar-inner leftscroll">
+			<div id="sidebar-menu">
+				<ul>
+
+					<li class="submenu">
+						<a href="#" class="active"><i class="fa fa-fw fa-table"></i> <span> 직원(학사행정) </span> <span class="menu-arrow"></span></a>
+						<ul class="list-unstyled">
+							<li><a href="ad_main.html" style="padding:5px 0 5px 40px;">직원 메인</a></li>
+							<li><a href="ad_control.html" style="padding:5px 0 5px 40px;">제어판</a></li>
+							<li><a href="ad_notice.html" style="padding:5px 0 5px 40px;">공지사항</a></li>
+							<li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
+							<li class="active"><a href="ad_student.html" style="padding:5px 0 5px 40px;">학생정보</a></li>
+							<li><a href="ad_teacher.html" style="padding:5px 0 5px 40px;">교수정보</a></li>
+							<li><a href="ad_assist.html" style="padding:5px 0 5px 40px;">조교정보</a></li>
+							<li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
+							<li><a href="ad_depart.html" style="padding:5px 0 5px 40px;">학과/부서</a></li>
+							<li><a href="ad_room.html" style="padding:5px 0 5px 40px;">강의실</a></li>
+							<li><a href="ad_building.html " style="padding:5px 0 5px 40px;">건물</a></li>
+							<li><a href="ad_holiday.html" style="padding:5px 0 5px 40px;">휴일</a></li>
+						</ul>
+					</li>
+					<li class="submenu">
+						<a href="#"><i class="fa fa-fw fa-table"></i> <span> 직원(전자출석) </span> <span class="menu-arrow"></span></a>
+						<ul class="list-unstyled">
+							<li><a href="ad_timeall.html" style="padding:5px 0 5px 40px;">학과별 시간표</a></li>
+							<li><a href="ad_timeteacher.html" style="padding:5px 0 5px 40px;">교수별 강의현황</a></li>
+							<li><a href="ad_lecmove.html" style="padding:5px 0 5px 40px;">휴보강</a></li>
+						</ul>
+					</li>
+					<li class="submenu">
+						<a href="#"><i class="fa fa-fw fa-male"></i> <span>조교</span> <span class="menu-arrow"></span></a>
+						<ul class="list-unstyled">
+							<li><a href="as_main.html" style="padding:5px 0 5px 40px;">조교 메인</a></li>
+							<li><a href="as_sub.html" style="padding:5px 0 5px 40px;">학년별 교과목</a></li>
+							<li><a href="as_lec.html" style="padding:5px 0 5px 40px;">반별 교과목</a></li>
+							<li><a href="as_time.html" style="padding:5px 0 5px 40px;">시간표 작성</a></li>
+							<li><a href="as_timeall.html" style="padding:5px 0 5px 40px;">학과별 시간표</a></li>
+							<li><a href="as_lecall.html" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
+							<li><a href="as_lecmove.html" style="padding:5px 0 5px 40px;">휴보강</a></li>
+						</ul>
+					</li>
+					<li class="submenu">
+						<a href="#"><i class="fa fa-fw fa-user"></i> <span> 교수 </span> <span class="menu-arrow"></span></a>
+						<ul class="list-unstyled">
+							<li><a href="te_main.html" style="padding:5px 0 5px 40px;">교수 메인</a></li>
+							<li><a href="te_time.html" style="padding:5px 0 5px 40px;">시간표</a></li>
+							<li><a href="te_lec.html" style="padding:5px 0 5px 40px;">일별 출석부</a></li>
+							<li><a href="te_lecall.html" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
+							<li><a href="te_lecmove.html" style="padding:5px 0 5px 40px;">휴보강</a></li>
+							<li><a href="te_lecqa.html" style="padding:5px 0 5px 40px;">교과목 문의</a></li>
+						</ul>
+					</li>
+					<li class="submenu">
+						<a href="#"><i class="fa fa-fw fa-table"></i> <span> 학생 </span> <span class="menu-arrow"></span></a>
+						<ul class="list-unstyled">
+							<li><a href="st_main.html" style="padding:5px 0 5px 40px;">학생 메인</a></li>
+							<li><a href="st_time.html" style="padding:5px 0 5px 40px;">시간표</a></li>
+							<li><a href="st_lecall.html" style="padding:5px 0 5px 40px;">출석부</a></li>
+							<li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
+							<li><a href="st_lec.html" style="padding:5px 0 5px 40px;">수강신청</a></li>
+							<li><a href="st_lecsj.html" style="padding:5px 0 5px 40px;">수강과목</a></li>
+							<li><a href="st_lecqa.html" style="padding:5px 0 5px 40px;">교과목 문의</a></li>
+						</ul>
+					</li>
+
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+	<!-- 좌측 Sidebar 메뉴 끝-->
+
+    <div class="content-page">
+	    <div class="content">
+			<div class="container-fluid">
+<!------------------------------------------------------------------------------>
+<!-- 내용 시작 -->
+<!------------------------------------------------------------------------------>
+				<div class="row">
+					<div class="col-xl-12">
+						<div class="breadcrumb-holder">
+							<h1 class="main-title float-left">교무처</h1>
+							<ol class="breadcrumb float-right">
+								<li class="breadcrumb-item">Home</li>
+								<li class="breadcrumb-item">직원</li>
+								<li class="breadcrumb-item active">학생정보</li>
+							</ol>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+				
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<div class="card mb-3">
+							<div class="card-header mycolor3" style="padding:10px">
+								<h3><i class="fa fa-table"></i> 학생정보 : 입력</h3>
+							</div>
+								
+							<div class="card-body" style="padding:10px">
+
+								<form name="form1" method="post" action="" enctype="multipart/form-data"">
+
+								<table class="table table-bordered mytable-centermiddle" style="width:100%;">
+									<tr>
+										<td class="mycolor2" style="vertical-align:middle;width:60px">상태</td>
+										<td>
+											<div class="form-inline">
+												<select name="state" class="form-control form-control-sm" style="width:80px">
+													<option value='재학' selected>재학</option>
+													<option value='휴학'>휴학</option>
+													<option value='자퇴'>자퇴</option>
+												</select>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="mycolor2">학과</td>
+										<td>
+											<div class="form-inline">
+												<select name="depart_id" class="form-control form-control-sm">
+													<option value="0" selected></option>
+													<option value='1'>컴퓨터소프트에어학과</option>
+													<option value='2'>전자과</option>
+													<option value='3'>영어과</option>
+													<option value='4'>교무처</option>
+												</select>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="mycolor2">학년/반</td>
+										<td>
+											<div class="form-inline">
+												<select name="grade" class="form-control form-control-sm" style="width:80px">
+													<option value='1'>1학년</option>
+													<option value='2'>2학년</option>
+													<option value='3'>3학년</option>
+												</select>
+												&nbsp;
+												<select name="class" class="form-control form-control-sm" style="width:80px">
+													<option value='A'>A 반</option>
+													<option value='B'>B 반</option>
+												</select>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="mycolor2">학번</td>
+										<td>
+											<div class="form-inline">
+												<input type="text" name="schoolno" value="" class="form-control form-control-sm" required>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="mycolor2">이름</td>
+										<td>
+											<div class="form-inline">
+												<input type="text" name="name" value="" class="form-control form-control-sm" required>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="mycolor2">핸드폰</td>
+										<td>
+											<div class="form-inline">
+												<input type="text" name="phone1" size="3" value="010" class="form-control form-control-sm" style="width:50px">-
+												<input type="text" name="phone2" size="4" value=""	class="form-control form-control-sm" style="width:50px">-
+												<input type="text" name="phone3" size="4" value="" class="form-control form-control-sm" style="width:50px">
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="mycolor2">성별</td>
+										<td>
+											<div class="form-inline">
+												<input type="radio" name="sex" value="0" checked> &nbsp; 남자 &nbsp;&nbsp;
+												<input type="radio" name="sex" value="1"> &nbsp; 여자
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="mycolor2">E-Mail</td>
+										<td>
+											<input type="text" name="email" value="" class="form-control form-control-sm">
+										</td>
+									</tr>
+									<tr>
+										<td class="mycolor2">암호</td>
+										<td>
+											<div class="form-inline">
+												<input type="text" name="pwd" value="" class="form-control form-control-sm">
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="mycolor2">사진</td>
+										<td style="text-align:left">
+											<div class="form-inline mymargin5">
+												<input type="file" name="pic" value="" class="form-control form-control-sm">
+											</div>
+											<img src="pic/st/hgd.bmp" class="img-thumbnail" width="120" height="160" border="1">
+										</td>
+									</tr>
+
+
+								</table>
+
+								<div align="center">
+									<input type="submit" value="저장" class="btn btn-sm mycolor1">&nbsp;
+									<input type="button" value="이전화면" class="btn btn-sm mycolor1" onclick="history.back();">
+								</div>
+
+								</form>
+
+
+							</div>		<!-- card body end -->
+						</div>		<!-- card end -->
+					</div>
+						
+				</div>	<!-- row end -->
+<!------------------------------------------------------------------------------>
+<!-- 내용 끝 -->
+<!------------------------------------------------------------------------------>
+			</div>
+		</div>
+	</div>
+
+	<!-- 하단 정보 -->
+	<footer class="footer">
+		<span class="text-right">	Copyright <a target="_blank" href="#">Induk University</a></span>
+		<span class="float-right">Programmed by <a target="_blank" href="#"><b>Gamejigi</b></a></span>
+	</footer>
+
+</div>
+
+<!-- js 선언부 ----------------------------------------------------------------->
+<script src="my/js/jquery.min.js"></script>
+<script src="my/js/moment.min.js"></script>
+
+<script src="my/js/popper.min.js"></script>
+<script src="my/js/bootstrap.min.js"></script>
+
+<script src="my/js/detect.js"></script>
+<script src="my/js/fastclick.js"></script>
+<script src="my/js/jquery.blockUI.js"></script>
+<script src="my/js/jquery.nicescroll.js"></script>
+
+<script src="my/js/pikeadmin.js"></script>
+
+<script src="my/js/jquery.dataTables.min.js"></script>
+<script src="my/js/dataTables.bootstrap4.min.js"></script>
+
+</body>
+</html>

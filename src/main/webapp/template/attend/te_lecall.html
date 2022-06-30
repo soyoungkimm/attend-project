@@ -1,0 +1,487 @@
+<!-------------------------------------------------------------------------------->
+<!-- 프로그램 : 인덕대학교 컴퓨터소프트웨어학과 전자출석 Demo                              -->
+<!--                                                                                                                  -->
+<!-- 소속 : 인덕대학교  컴퓨터소프트웨어학과  창업동아리 겜지기                              -->
+<!-- 교수 : 윤형태 ( 2019.05 - 2022.06 )                                                                  -->
+<!-------------------------------------------------------------------------------->
+
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<title>인덕대학교 전자출석 Demo (겜지기)</title>
+
+	<link rel="shortcut icon" href="my/images/favicon.ico">
+
+	<!-- css 선언부 ---------------------------------------------------------------->
+	<link href="my/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="my/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="my/css/style.css" rel="stylesheet" type="text/css" />		
+
+	<link href="my/css/dataTables.bootstrap4.min.css" rel="stylesheet">	<!-- datatable.net -->
+
+	<link href="my/css/my.css" rel="stylesheet" type="text/css">
+		
+</head>
+
+<body class="adminbody">
+
+<div id="main">
+
+	<!--상단 메뉴 시작 -->
+	<div class="headerbar">
+
+        <div class="headerbar-left">
+			<a href="index.html" class="logo"><img src="my/images/induk_logo.png"> <span>전자출석 Demo</span></a>
+        </div>
+
+        <nav class="navbar-custom">
+			<ul class="list-inline float-right mb-0">
+				<li class="list-inline-item dropdown notif">
+					<a class="nav-link dropdown-toggle nav-user" data-toggle="dropdown" href="#" role="button" ariaaspopup="false" aria-expanded="false">
+						<img src="my/images/avatars/admin.png" alt="Profile image" class="avatar-rounded">
+					</a>
+					<div class="dropdown-menu dropdown-menu-right profile-dropdown">
+						<div class="dropdown-item noti-title">
+							<h5 class="text-overflow"><small>Hello, admin</small> </h5>
+						</div>
+						<a href="#" class="dropdown-item notify-item">
+							<i class="fa fa-power-off"></i> <span>Logout</span>
+						</a>
+					</div>
+				</li>
+			</ul>
+
+			<ul class="list-inline menu-left mb-0">
+				<li class="float-left">
+					<button class="button-menu-mobile open-left">
+						<i class="fa fa-fw fa-bars"></i>
+					</button>
+				</li>                        
+			</ul>
+        </nav>
+
+	</div>
+	<!--상단 메뉴 끝 -->
+	
+	<!-- 좌측 Sidebar 메뉴 시작-->
+	<div class="left main-sidebar">
+		<div class="sidebar-inner leftscroll">
+			<div id="sidebar-menu">
+				<ul>
+
+					<li class="submenu">
+						<a href="#"><i class="fa fa-fw fa-table"></i> <span> 직원(학사행정) </span> <span class="menu-arrow"></span></a>
+						<ul class="list-unstyled">
+							<li><a href="ad_main.html" style="padding:5px 0 5px 40px;">직원 메인</a></li>
+							<li><a href="ad_control.html" style="padding:5px 0 5px 40px;">제어판</a></li>
+							<li><a href="ad_notice.html" style="padding:5px 0 5px 40px;">공지사항</a></li>
+							<li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
+							<li><a href="ad_student.html" style="padding:5px 0 5px 40px;">학생정보</a></li>
+							<li><a href="ad_teacher.html" style="padding:5px 0 5px 40px;">교수정보</a></li>
+							<li><a href="ad_assist.html" style="padding:5px 0 5px 40px;">조교정보</a></li>
+							<li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
+							<li><a href="ad_depart.html" style="padding:5px 0 5px 40px;">학과/부서</a></li>
+							<li><a href="ad_room.html" style="padding:5px 0 5px 40px;">강의실</a></li>
+							<li><a href="ad_building.html " style="padding:5px 0 5px 40px;">건물</a></li>
+							<li><a href="ad_holiday.html" style="padding:5px 0 5px 40px;">휴일</a></li>
+						</ul>
+					</li>
+					<li class="submenu">
+						<a href="#"><i class="fa fa-fw fa-table"></i> <span> 직원(전자출석) </span> <span class="menu-arrow"></span></a>
+						<ul class="list-unstyled">
+							<li><a href="ad_timeall.html" style="padding:5px 0 5px 40px;">학과별 시간표</a></li>
+							<li><a href="ad_timeteacher.html" style="padding:5px 0 5px 40px;">교수별 강의현황</a></li>
+							<li><a href="ad_lecmove.html" style="padding:5px 0 5px 40px;">휴보강</a></li>
+						</ul>
+					</li>
+					<li class="submenu">
+						<a href="#"><i class="fa fa-fw fa-male"></i> <span>조교</span> <span class="menu-arrow"></span></a>
+						<ul class="list-unstyled">
+							<li><a href="as_main.html" style="padding:5px 0 5px 40px;">조교 메인</a></li>
+							<li><a href="as_sub.html" style="padding:5px 0 5px 40px;">학년별 교과목</a></li>
+							<li><a href="as_lec.html" style="padding:5px 0 5px 40px;">반별 교과목</a></li>
+							<li><a href="as_time.html" style="padding:5px 0 5px 40px;">시간표 작성</a></li>
+							<li><a href="as_timeall.html" style="padding:5px 0 5px 40px;">학과별 시간표</a></li>
+							<li><a href="as_lecall.html" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
+							<li><a href="as_lecmove.html" style="padding:5px 0 5px 40px;">휴보강</a></li>
+						</ul>
+					</li>
+					<li class="submenu">
+						<a href="#" class="active"><i class="fa fa-fw fa-user"></i> <span> 교수 </span> <span class="menu-arrow"></span></a>
+						<ul class="list-unstyled">
+							<li><a href="te_main.html" style="padding:5px 0 5px 40px;">교수 메인</a></li>
+							<li><a href="te_time.html" style="padding:5px 0 5px 40px;">시간표</a></li>
+							<li><a href="te_lec.html" style="padding:5px 0 5px 40px;">일별 출석부</a></li>
+							<li class="active"><a href="te_lecall.html" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
+							<li><a href="te_lecmove.html" style="padding:5px 0 5px 40px;">휴보강</a></li>
+							<li><a href="te_lecqa.html" style="padding:5px 0 5px 40px;">교과목 문의</a></li>
+						</ul>
+					</li>
+					<li class="submenu">
+						<a href="#"><i class="fa fa-fw fa-table"></i> <span> 학생 </span> <span class="menu-arrow"></span></a>
+						<ul class="list-unstyled">
+							<li><a href="st_main.html" style="padding:5px 0 5px 40px;">학생 메인</a></li>
+							<li><a href="st_time.html" style="padding:5px 0 5px 40px;">시간표</a></li>
+							<li><a href="st_lecall.html" style="padding:5px 0 5px 40px;">출석부</a></li>
+							<li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
+							<li><a href="st_lec.html" style="padding:5px 0 5px 40px;">수강신청</a></li>
+							<li><a href="st_lecsj.html" style="padding:5px 0 5px 40px;">수강과목</a></li>
+							<li><a href="st_lecqa.html" style="padding:5px 0 5px 40px;">교과목 문의</a></li>
+						</ul>
+					</li>
+
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+	<!-- 좌측 Sidebar 메뉴 끝-->
+
+    <div class="content-page">
+	    <div class="content">
+			<div class="container-fluid">
+<!------------------------------------------------------------------------------>
+<!-- 내용 시작 -->
+<!------------------------------------------------------------------------------>
+				<div class="row">
+					<div class="col-xl-12">
+						<div class="breadcrumb-holder">
+							<h1 class="main-title float-left">컴퓨터소프트웨어학과</h1>
+							<ol class="breadcrumb float-right">
+								<li class="breadcrumb-item">Home</li>
+								<li class="breadcrumb-item">교수</li>
+								<li class="breadcrumb-item active">과목별 출석부</li>
+							</ol>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+				
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<div class="card mb-3">
+							<div class="card-header mycolor3" style="padding:10px">
+								<div class="row">
+									<div class="col" align="left">
+										<h3><i class="fa fa-table"></i> 과목별 출석부</h3>
+									</div>
+									<div class="col" align="right">
+										<h3>교수님1</h3>
+									</div>
+								</div>
+							</div>
+							<div class="card-body" style="padding:10px">
+
+								<script>
+									function find_text()
+									{
+										form1.action="<i class="text-warning fa fa-question fa-1x"></i><i class="text-warning fa fa-question fa-1x"></i><i class="text-warning fa fa-question fa-1x"></i>.html<i class="text-warning fa fa-question fa-1x"></i>text1=" + form1.text1.value+"&text2=" + form1.text2.value";
+										form1.submit();
+									}
+								</script>
+
+								<form name="form1" action="" method="post">
+								<div class="row" style="margin-bottom:3px">
+									<div class="col" align="left">
+										<div class="form-inline">
+
+											<div class="input-group input-group-sm">
+												<div class="input-group-prepend">
+													<span class="input-group-text">년도</span>
+												</div>
+												<div class="input-group-append">
+													<select name="sel1" class="form-control form-control-sm" >
+														<option value="2019" selected>2019</option>
+														<option value='2018'>2018</option>
+														<option value='2017'>2017</option>
+														<option value='2016'>2016</option>
+														<option value='2015'>2015</option>
+													</select>
+													&nbsp;
+													<select name="sel3" class="form-control form-control-sm" >
+														<option value='1'>1학기</option>
+														<option value='2'>2학기</option>
+													</select>
+												</div>
+											</div>
+											&nbsp;
+											<div class="input-group input-group-sm">
+												<div class="input-group-prepend">
+													<span class="input-group-text">학년</span>
+												</div>
+												<div class="input-group-append">
+													<select name="sel2" class="form-control form-control-sm" >
+														<option value='1'>1학년</option>
+														<option value='2'>2학년</option>
+														<option value='3'>3학년</option>
+														<option value='4'>4학년</option>
+													</select>
+													&nbsp;
+													<select name="sel4" class="form-control form-control-sm" >
+														<option value='0'>전체</option>
+														<option value='A'>A</option>
+														<option value='B'>B</option>
+													</select>
+												</div>
+											</div>
+											&nbsp;
+											<div class="input-group input-group-sm">
+												<div class="input-group-prepend">
+													<span class="input-group-text">과목</span>
+												</div>
+												<div class="input-group-append">
+													<select name="sel4" class="form-control form-control-sm" >
+														<option value='1'>PHP</option>
+														<option value='2'>데이터베이스실무1</option>
+														<option value='3'>데이터베이스실무2</option>
+													</select>
+												</div>
+												&nbsp
+												<input type="button" value= "검색" onchange="javascript:find_text();" class="btn btn-sm btn-primary">
+											</div>
+
+										</div>
+									</div>
+								</div>
+								</form>
+
+								<script>
+									function choose1(rowno,colno)
+									{
+										pos1=rowno+"^"+colno;
+										pos2=rowno+","+colno;
+										document.getElementById( pos1 ).innerHTML="<div style='font-size:10px;'><i class='fa fa-circle-o fa-1x' onclick='choose3("+pos2+",0);' style='cursor:pointer'></i><br><i class='text-primary fa fa-times-circle-o fa-1x' onclick='choose3("+pos2+",1);' style='cursor:pointer'></i><br><i class='text-danger fa fa-close fa-1x' onclick='choose3("+pos2+",2);' style='cursor:pointer'></font>";
+									}
+									
+									function choose3(rowno,colno, v)
+									{
+										pos1=rowno+"^"+colno;
+										pos2=rowno+","+colno;
+										if (v==0)			s="<i class='fa fa-circle-o fa-1x' onclick='choose1("+pos2+");' style='cursor:pointer'></i>";
+										else if (v==1)	s="<i class='text-primary fa fa-times-circle-o fa-1x' onclick='choose1("+pos2+");' style='cursor:pointer'></i>";
+										else				s="<i class='text-danger fa fa-close fa-1x' onclick='choose1("+pos2+");' style='cursor:pointer'></i>";
+										document.getElementById( pos1 ).innerHTML=s;
+									}
+								</script>
+
+								<table class="table table-bordered table-sm table-hover table-responsive-sm mytable" style="width:100%;font-size:8pt;">
+								<thead>
+									<tr class="mycolor1">
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th>주</th>
+										<th colspan="2">1</th>
+										<th colspan="2">2</th>
+										<th colspan="2">3</th>
+										<th colspan="2">4</th>
+										<th colspan="2">5</th>
+										<th colspan="2">6</th>
+										<th colspan="2">7</th>
+										<th colspan="2">8</th>
+										<th colspan="2">9</th>
+										<th colspan="2">10</th>
+										<th colspan="2">11</th>
+										<th colspan="2">12</th>
+										<th colspan="2">13</th>
+										<th colspan="2">14</th>
+										<th colspan="2">15</th>
+									</tr>
+									<tr class="mycolor1" style="line-height:0.7rem">
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th style="vertical-align:middle">월일</th>
+										<th colspan="2">3<br>05</th>
+										<th colspan="2">3<br>12</th>
+										<th colspan="2">3<br>19</th>
+										<th colspan="2">3<br>26</th>
+										<th colspan="2">4<br>02</th>
+										<th colspan="2">4<br>09</th>
+										<th colspan="2">4<br>16</th>
+										<th colspan="2">4<br>23</th>
+										<th colspan="2">4<br>30</th>
+										<th colspan="2">5<br>02</th>
+										<th colspan="2">5<br>09</th>
+										<th colspan="2">5<br>16</th>
+										<th colspan="2">5<br>23</th>
+										<th colspan="2">5<br>30</th>
+										<th colspan="2">6<br>06</th>
+									</tr>
+									<tr class="mycolor1" style="line-height:0.7rem;">
+										<th>&nbsp;</th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th style="vertical-align:middle">보강</th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th>4<br>23</th>
+										<th>4<br>23</th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th>6<br>06</th>
+										<th>6<br>06</th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+									</tr>
+									<tr class="mycolor1">
+										<th>학과</th>
+										<th>학년</th>
+										<th>학번</th>
+										<th>학적</th>
+										<th>이름</th>
+										<th>지각</th>
+										<th>결석</th>
+										<th>점수</th>
+										<th>3</th>
+										<th>4</th>
+										<th>3</th>
+										<th>4</th>
+										<th>3</th>
+										<th>4</th>
+										<th>3</th>
+										<th>4</th>
+										<th>3</th>
+										<th>4</th>
+										<th>3</th>
+										<th>4</th>
+										<th>3</th>
+										<th>4</th>
+										<th>3</th>
+										<th>4</th>
+										<th>3</th>
+										<th>4</th>
+										<th>3</th>
+										<th>4</th>
+										<th>3</th>
+										<th>4</th>
+										<th>3</th>
+										<th>4</th>
+										<th>3</th>
+										<th>4</th>
+										<th>3</th>
+										<th>4</th>
+										<th>3</th>
+										<th>4</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="mycolor3">컴소과</td>
+										<td class="mycolor3">2</td>
+										<td class="mycolor3">201912001</td>
+										<td class="mycolor3">제적</td>
+										<td class="mycolor3">홍길동1</td>
+										<td class="mycolor4"><font color="blue"><b>1</b></font></td>
+										<td class="mycolor4"><font color="red"><b>2</b></font></td>
+										<td class="mycolor4"><b>18</b></td>
+										<td id="1^1"><i class="fa fa-circle-o fa-1x" onclick="choose1(1,1);" style="cursor:pointer"></i></td>
+										<td id="1^2"><i class="fa fa-circle-o fa-1x" onclick="choose1(1,2);" style="cursor:pointer"></i>  </td>
+										<td id="1^3"><i class="fa fa-circle-o fa-1x" onclick="choose1(1,3);" style="cursor:pointer"></i></td>
+										<td id="1^4"><i class="text-danger fa fa-close fa-1x" onclick="choose1(1,4);" style="cursor:pointer"></i></td>
+										<td id="1^5"><i class="fa fa-circle-o fa-1x" onclick="choose1(1,5);" style="cursor:pointer"></i></td>
+										<td id="1^6"><i class="text-primary fa fa-times-circle-o fa-1x" onclick="choose1(1,6);" style="cursor:pointer"></i></td>
+										<td id="1^7"><i class="fa fa-circle-o fa-1x" onclick="choose1(1,7);" style="cursor:pointer"></i></td>
+										<td id="1^8"><i class="fa fa-circle-o fa-1x" onclick="choose1(1,8);" style="cursor:pointer"></i></td>
+										<td id="1^9"><i class="fa fa-circle-o fa-1x" onclick="choose1(1,9);" style="cursor:pointer"></i></td>
+										<td id="1^10"><i class="fa fa-circle-o fa-1x" onclick="choose1(1,10);" style="cursor:pointer"></i></td>
+										<td id="1^11"><i class="fa fa-circle-o fa-1x" onclick="choose1(1,11);" style="cursor:pointer"></i></td>
+										<td id="1^12"><i class="fa fa-circle-o fa-1x" onclick="choose1(1,12);" style="cursor:pointer"></i></td>
+										<td id="1^13"><i class="fa fa-circle-o fa-1x" onclick="choose1(1,13);" style="cursor:pointer"></i></td>
+										<td id="1^14"><i class="fa fa-circle-o fa-1x" onclick="choose1(1,14);" style="cursor:pointer"></i></td>
+										<td id="1^15"><i class="fa fa-circle-o fa-1x" onclick="choose1(1,15);" style="cursor:pointer"></i></td>
+										<td id="1^16"><i class="fa fa-circle-o fa-1x" onclick="choose1(1,16);" style="cursor:pointer"></i></td>
+										<td id="1^17"><i class="fa fa-circle-o fa-1x" onclick="choose1(1,17);" style="cursor:pointer"></i></td>
+										<td id="1^18"><i class="fa fa-circle-o fa-1x" onclick="choose1(1,18);" style="cursor:pointer"></i></td>
+										<td><font color="green"><b>보</b></font></td>
+										<td><font color="green"><b>보</b></font></td>
+										<td><i class="text-warning fa fa-question fa-1x"></i></td>
+										<td><i class="text-warning fa fa-question fa-1x"></i></td>
+										<td><i class="text-warning fa fa-question fa-1x"></i></td>
+										<td><i class="text-warning fa fa-question fa-1x"></i></td>
+										<td><i class="text-warning fa fa-question fa-1x"></i></td>
+										<td><i class="text-warning fa fa-question fa-1x"></i></td>
+										<td><i class="text-warning fa fa-question fa-1x"></i></td>
+										<td><i class="text-warning fa fa-question fa-1x"></i></td>
+										<td><i class="text-warning fa fa-question fa-1x"></i></td>
+										<td><i class="text-warning fa fa-question fa-1x"></i></td>
+									</tr>
+								</tbody>
+								</table>
+
+							</div>		<!-- card body end -->
+						</div>		<!-- card end -->
+					</div>
+						
+				</div>	<!-- row end -->
+<!------------------------------------------------------------------------------>
+<!-- 내용 끝 -->
+<!------------------------------------------------------------------------------>
+			</div>
+		</div>
+	</div>
+
+	<!-- 하단 정보 -->
+	<footer class="footer">
+		<span class="text-right">	Copyright <a target="_blank" href="#">Induk University</a></span>
+		<span class="float-right">Programmed by <a target="_blank" href="#"><b>Gamejigi</b></a></span>
+	</footer>
+
+</div>
+
+<!-- js 선언부 ----------------------------------------------------------------->
+<script src="my/js/jquery.min.js"></script>
+<script src="my/js/moment.min.js"></script>
+
+<script src="my/js/popper.min.js"></script>
+<script src="my/js/bootstrap.min.js"></script>
+
+<script src="my/js/detect.js"></script>
+<script src="my/js/fastclick.js"></script>
+<script src="my/js/jquery.blockUI.js"></script>
+<script src="my/js/jquery.nicescroll.js"></script>
+
+<script src="my/js/pikeadmin.js"></script>
+
+<script src="my/js/jquery.dataTables.min.js"></script>
+<script src="my/js/dataTables.bootstrap4.min.js"></script>
+
+</body>
+</html>
