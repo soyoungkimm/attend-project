@@ -164,3 +164,6 @@ gradle-app.setting
 .classpath
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,intellij+iml,java,gradle
+
+# 추가 : DB connect 파일
+src/main/java/com/gamejigi/attend/model/dao/DAOImplMySQL.java
