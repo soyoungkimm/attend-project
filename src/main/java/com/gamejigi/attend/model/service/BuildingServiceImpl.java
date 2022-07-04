@@ -1,6 +1,5 @@
 package com.gamejigi.attend.model.service;
 
-import com.gamejigi.attend.model.dao.BuildingDAO;
 import com.gamejigi.attend.model.dao.BuildingDAOImpl;
 import com.gamejigi.attend.model.dto.BuildingDTO;
 import com.gamejigi.attend.util.Pagination;

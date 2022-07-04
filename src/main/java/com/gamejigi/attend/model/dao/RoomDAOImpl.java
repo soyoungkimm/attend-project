@@ -1,71 +1,72 @@
 package com.gamejigi.attend.model.dao;
 
+
 import com.gamejigi.attend.model.dto.BuildingDTO;
+import com.gamejigi.attend.model.dto.RoomDTO;
 import com.gamejigi.attend.util.Pagination;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuildingDAOImpl extends DAOImplMySQL implements BuildingDAO{
+public class RoomDAOImpl extends DAOImplMySQL implements RoomDAO{
 
     private Connection conn;
     private Statement stmt;
     private PreparedStatement pstmt;
     private ResultSet rs;
 
-    public BuildingDAOImpl(){
+    public RoomDAOImpl(){
         conn=getConnection();
     }
 
     @Override
-    public List<BuildingDTO> readList() {
-        ArrayList<BuildingDTO> buildingList  = null;
+    public List<RoomDTO> readList() {
+        ArrayList<RoomDTO> roomList  = null;
 
-        String query = "select * from building";
+        String query = "select * from room";
         try {
             stmt = conn.createStatement();
             if((rs = stmt.executeQuery(query)) != null) {
-                buildingList = new ArrayList<BuildingDTO>();
+                roomList = new ArrayList<RoomDTO>();
                 while (rs.next()) {
-                    BuildingDTO building = new BuildingDTO();
-                    building = setBuilding(rs);
-                    buildingList.add(building);
+                    RoomDTO roomDTO = new RoomDTO();
+                    roomDTO = setRoom(rs);
+                    roomList.add(roomDTO);
                 }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return buildingList;
+        return roomList;
     }
 
     @Override
-    public List<BuildingDTO> readListUsePagination(Pagination pagination) {
-
-        ArrayList<BuildingDTO> buildingList  = null;
-        String query = "select * from building limit ?, ?";
+    public List<RoomDTO> readListUsePagination(Pagination pagination) {
+        ArrayList<RoomDTO> roomList  = null;
+        String query = "select * from room limit ?, ?";
         try {
             pstmt = conn.prepareStatement(query);
             pstmt.setInt(1, pagination.getFirstRow() - 1);
             pstmt.setInt(2, pagination.getPerPageRows());
             rs = pstmt.executeQuery();
             // execute(sql)는 모든 질의에 사용가능, executeQuery(sql)는 select에만, executeUpdate()는 insert, update, delete에 사용 가능
-            buildingList = new ArrayList<BuildingDTO>();
+            roomList = new ArrayList<RoomDTO>();
             while (rs.next()) {
-                BuildingDTO buildingDTO = new BuildingDTO();
-                buildingDTO = setBuilding(rs);
-                buildingList.add(buildingDTO);
+                RoomDTO roomDTO = new RoomDTO();
+                roomDTO = setRoom(rs);
+                roomList.add(roomDTO);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return buildingList;
+        return roomList;
     }
 
     @Override
-    public List<BuildingDTO> readListUsePaginationAndSearch(Pagination pagination, String search) {
-        ArrayList<BuildingDTO> buildingList = null;
-        String query = "select * from building where name like ? limit ?, ?";
+    public List<RoomDTO> readListUsePaginationAndSearch(Pagination pagination, String search) {
+        ArrayList<RoomDTO> roomList = null;
+        String query = "select * from room where name like ? limit ?, ?";
 
         try{
             pstmt = conn.prepareStatement(query);
@@ -74,40 +75,44 @@ public class BuildingDAOImpl extends DAOImplMySQL implements BuildingDAO{
             pstmt.setInt(3, pagination.getPerPageRows());
 
             if((rs = pstmt.executeQuery()) != null){
-                buildingList = new ArrayList<BuildingDTO>();
+                roomList = new ArrayList<RoomDTO>();
                 while(rs.next()){
-                    BuildingDTO buildingDTO = new BuildingDTO();
-                    buildingDTO = setBuilding(rs);
-                    buildingList.add(buildingDTO);
+                    RoomDTO roomDTO = new RoomDTO();
+                    roomDTO = setRoom(rs);
+                    roomList.add(roomDTO);
                 }
             }
         }catch (SQLException throwables){
             throwables.printStackTrace();
 
         }
-        return buildingList;
+        return roomList;
     }
 
     @Override
-    public int create(BuildingDTO buildingDTO) {
-        String query = "insert into building(name,floor) values(?,?)";
+    public int create(RoomDTO roomDTO) {
+        String query = "insert into room(building_id,depart_id,floor,ho,name,kind,area) values(?,?,?,?,?,?,?)";
         int rows = 0;
         try{
             pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, buildingDTO.getName());
-            pstmt.setInt(2, buildingDTO.getFloor());
+            pstmt.setInt(1, roomDTO.getBuilding_id());
+            pstmt.setInt(2, roomDTO.getDepart_id());
+            pstmt.setInt(3, roomDTO.getFloor());
+            pstmt.setInt(4, roomDTO.getHo());
+            pstmt.setString(5, roomDTO.getName());
+            pstmt.setInt(6, roomDTO.getKind());
+            pstmt.setInt(7, roomDTO.getArea());
             rows = pstmt.executeUpdate(); //정상: 1이상, 0이하: 에러
         }catch (SQLException throwables) {
             throwables.printStackTrace();
-
         }
         return rows;
     }
 
     @Override
-    public BuildingDTO findById(int id) {
-        BuildingDTO buildingDTO = new BuildingDTO();
-        String query = "select * from building where id=?";
+    public RoomDTO findById(int id) {
+        RoomDTO roomDTO = new RoomDTO();
+        String query = "select * from room where id=?";
 
         try{
             pstmt = conn.prepareStatement(query);
@@ -116,23 +121,22 @@ public class BuildingDAOImpl extends DAOImplMySQL implements BuildingDAO{
             rs = pstmt.executeQuery();
 
             while(rs.next()) {
-                buildingDTO = setBuilding(rs);
+                roomDTO = setRoom(rs);
             }
         }catch (SQLException throwables) {
             throwables.printStackTrace();
-
         }
-        return buildingDTO;
+        return roomDTO;
     }
 
     @Override
     public int delete(int id) {
         int rows = 0;
-        String query = "delete from building where id=?";
+        String query = "delete from room where id=?";
         try {
             pstmt = conn.prepareStatement(query);
             pstmt.setInt(1, id);
-            rows = pstmt.executeUpdate();
+            rows=pstmt.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -140,14 +144,19 @@ public class BuildingDAOImpl extends DAOImplMySQL implements BuildingDAO{
     }
 
     @Override
-    public int update(BuildingDTO buildingDTO) {
+    public int update(RoomDTO roomDTO) {
         int rows= 0;
-        String querry = "update building set name=?, floor=? where id=?";
+        String querry = "update room set building_id=?, depart_id=?, floor=?, ho=?, name=?, kind=?, area=? where id=?";
         try {
             pstmt = conn.prepareStatement(querry);
-            pstmt.setString(1, buildingDTO.getName());
-            pstmt.setInt(2, buildingDTO.getFloor());
-            pstmt.setInt(3, buildingDTO.getId());
+            pstmt.setInt(1, roomDTO.getBuilding_id());
+            pstmt.setInt(2, roomDTO.getDepart_id());
+            pstmt.setInt(3, roomDTO.getFloor());
+            pstmt.setInt(4, roomDTO.getHo());
+            pstmt.setString(5, roomDTO.getName());
+            pstmt.setInt(6, roomDTO.getKind());
+            pstmt.setInt(7, roomDTO.getArea());
+            pstmt.setInt(8, roomDTO.getId());
             rows = pstmt.executeUpdate();
 
         } catch (SQLException throwables) {
@@ -159,7 +168,7 @@ public class BuildingDAOImpl extends DAOImplMySQL implements BuildingDAO{
     @Override
     public int readTotalRowNumUseSearch(String search) {
         int totalNum = 0;
-        String query = "select count(*) as num from building where name like ? ";
+        String query = "select count(*) as num from room where name like ? ";
         try {
             pstmt = conn.prepareStatement(query);
             pstmt.setString(1, "%" + search + "%");
@@ -177,7 +186,7 @@ public class BuildingDAOImpl extends DAOImplMySQL implements BuildingDAO{
     @Override
     public int readTotalRowNum() {
         int totalNum = 0;
-        String query = "select count(*) as num from building";
+        String query = "select count(*) as num from room";
         try {
             stmt = conn.createStatement();
             rs = stmt.executeQuery(query);
@@ -190,12 +199,18 @@ public class BuildingDAOImpl extends DAOImplMySQL implements BuildingDAO{
         return totalNum;
     }
 
-    private BuildingDTO setBuilding(ResultSet rs) throws SQLException {
+    private RoomDTO setRoom(ResultSet rs) throws SQLException {
 
-        BuildingDTO buildingDTO = new BuildingDTO();
-        buildingDTO.setId(rs.getInt(1));
-        buildingDTO.setName(rs.getString(2));
-        buildingDTO.setFloor(rs.getInt(3));
-        return buildingDTO;
+        RoomDTO roomDTO = new RoomDTO();
+        roomDTO.setId(rs.getInt(1));
+        roomDTO.setBuilding_id(rs.getInt(2));
+        roomDTO.setDepart_id(rs.getInt(3));
+        roomDTO.setFloor(rs.getInt(4));
+        roomDTO.setHo(rs.getInt(5));
+        roomDTO.setName(rs.getString(6));
+        roomDTO.setKind(rs.getInt(7));
+        roomDTO.setArea(rs.getInt(8));
+
+        return roomDTO;
     }
 }

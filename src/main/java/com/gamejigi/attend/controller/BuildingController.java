@@ -44,9 +44,7 @@ public class BuildingController extends HttpServlet {
 
             //검색
             String search = req.getParameter("s"); // 검색어
-            if (search==null){
-                search="";
-            }
+            search = (search != null)? search : "";
             //페이지네이션
             String pageNo = req.getParameter("p"); // 현재 페이지 번호
             int curPageNo = (pageNo != null)? Integer.parseInt(pageNo) : 1;
@@ -97,6 +95,26 @@ public class BuildingController extends HttpServlet {
         //삭제
         else if(action.equals("delete.do")){
             int row_num = buildingService.deleteBuilding(Integer.parseInt(req.getParameter("id")));
+
+            //검색
+            String search = req.getParameter("s"); // 검색어
+            search = (search != null)? search : "";
+            //페이지네이션
+            String pageNo = req.getParameter("p"); // 현재 페이지 번호
+            int curPageNo = (pageNo != null)? Integer.parseInt(pageNo) : 1;
+            int perPageRows = 4; // 한 페이지에 나타날 데이터 행의 개수
+            int perPagination = 5; // 한 화면에 나타날 페이지 번호 개수
+            int totalRows = buildingService.getBuildingTotalNum(search);
+            Pagination pagination = new Pagination(curPageNo, perPageRows, perPagination, totalRows);
+
+            //건물리스트 저장
+            ArrayList<BuildingDTO> buildingList;
+            buildingList = (ArrayList<BuildingDTO>) buildingService.getBuildingList(pagination, search);
+
+            // 포워딩
+            req.setAttribute("search", search);
+            req.setAttribute("pagination", pagination);
+            req.setAttribute("buildingList", buildingList);
 
             if(row_num > 0) {
                 req.getRequestDispatcher("/WEB-INF/views/building/list.jsp").forward(req, resp);
