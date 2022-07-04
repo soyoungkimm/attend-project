@@ -104,6 +104,37 @@ public class DepartDAOImpl extends DAOImplMySQL implements DepartDAO {
     }
 
     @Override
+    public List<DepartDTO> readList() {
+        String query = "SELECT * FROM depart;";
+        List<DepartDTO> departList = null;
+
+        try {
+            PreparedStatement psm = conn.prepareStatement(query);
+            ResultSet rs = psm.executeQuery();
+
+            if (rs != null) {
+                departList = new ArrayList<DepartDTO>();
+
+                while (rs.next()) {
+                    DepartDTO depart = new DepartDTO();
+                    depart.setId(rs.getInt(1));
+                    depart.setName(rs.getString(2));
+                    depart.setClassNum(rs.getInt(3));
+                    depart.setGradeSystem(rs.getInt(4));
+                }
+            }
+
+            rs.close();
+            psm.close();
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return departList;
+    }
+
+    @Override
     public int countByName(String name) {
         String query = "SELECT COUNT(*) FROM depart WHERE name LIKE ?;";
         String query2 = "SELECT COUNT(*) FROM depart;";
