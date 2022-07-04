@@ -121,6 +121,7 @@ public class DepartDAOImpl extends DAOImplMySQL implements DepartDAO {
                     depart.setName(rs.getString(2));
                     depart.setClassNum(rs.getInt(3));
                     depart.setGradeSystem(rs.getInt(4));
+                    departList.add(depart);
                 }
             }
 
