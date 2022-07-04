@@ -167,3 +167,6 @@ gradle-app.setting
 
 # 추가 : DB connect 파일
 src/main/java/com/gamejigi/attend/model/dao/DAOImplMySQL.java
+
+# 추가: intellij 설정파일
+.idea/
