@@ -26,7 +26,6 @@ dependencies {
     implementation 'mysql:mysql-connector-java:8.0.29'
     // https://mvnrepository.com/artifact/javax.servlet/jstl
     implementation 'javax.servlet:jstl:1.2'
-
 }
 
 test {

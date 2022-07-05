@@ -1,13 +1,9 @@
 package com.gamejigi.attend.model.service;
 
-import com.gamejigi.attend.model.dao.NoticeDAO;
 import com.gamejigi.attend.model.dao.NoticeDAOImpl;
 import com.gamejigi.attend.model.dto.NoticeDTO;
 import com.gamejigi.attend.util.Pagination;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class NoticeServiceImpl implements NoticeService {
