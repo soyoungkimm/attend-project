@@ -11,4 +11,5 @@ public interface DepartService {
     int countByName(String name);
     int update(DepartDTO depart);
     int delete(int id);
+    List<DepartDTO> getDepartList();
 }

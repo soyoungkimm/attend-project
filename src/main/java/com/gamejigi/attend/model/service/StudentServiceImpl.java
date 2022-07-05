@@ -24,13 +24,10 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Boolean createStudent(StudentDTO studentDTO, Part filePart, String absolutePath) {
-        Boolean result = false;
+        Boolean result = true;
 
         // 파일 업로드
-        if(filePart == null) {
-            studentDTO.setPic("null");
-        }
-        else {
+        if(filePart.getSize() != 0) {
             String fileName = fileService.makeFileName(filePart);
             result = fileService.uploadImage(filePart, absolutePath, fileName);
             studentDTO.setPic(fileName);
@@ -73,12 +70,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Boolean updateStudent(StudentDTO studentDTO, Part filePart, String absolutePath) {
-        Boolean result = false;
+        Boolean result = true;
 
-        if(filePart == null) {
-            studentDTO.setPic("null");
-        }
-        else {
+        if(filePart.getSize() != 0) {
             // 이미지 이름 set
             String fileName = fileService.makeFileName(filePart);
 

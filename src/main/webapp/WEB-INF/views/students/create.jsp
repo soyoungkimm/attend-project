@@ -57,9 +57,8 @@
                             <td>
                                 <div class="form-inline">
                                     <select name="depart_id" class="form-control form-control-sm">
-                                        <option value="0" selected></option>
-                                        <c:forEach var="depart" items="${departList}">
-                                            <option value='${depart.depart_id}'>${depart.name}</option>
+                                        <c:forEach var="depart" items="${departList}" varStatus="status">
+                                            <option value='${depart.id}' <c:if test="${status.first}">selected</c:if>>${depart.name}</option>
                                         </c:forEach>
                                     </select>
                                 </div>

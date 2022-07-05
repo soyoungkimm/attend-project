@@ -1,6 +1,8 @@
 package com.gamejigi.attend.controller;
 
+import com.gamejigi.attend.model.dto.DepartDTO;
 import com.gamejigi.attend.model.dto.StudentDTO;
+import com.gamejigi.attend.model.service.DepartServiceImpl;
 import com.gamejigi.attend.model.service.StudentServiceImpl;
 import com.gamejigi.attend.util.Pagination;
 
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 public class StudentController extends HttpServlet {
 
     StudentServiceImpl studentService = new StudentServiceImpl();
+    DepartServiceImpl departService = new DepartServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -75,6 +78,11 @@ public class StudentController extends HttpServlet {
         }
         // 새로 만들기 폼
         else if (action.equals("create.do")) {
+            // 학과 리스트 구해오기
+            ArrayList<DepartDTO> departList = new ArrayList<DepartDTO>();
+            departList = (ArrayList<DepartDTO>)departService.getDepartList();
+
+            req.setAttribute("departList", departList);
             req.getRequestDispatcher("/WEB-INF/views/students/create.jsp").forward(req, resp);
         }
         // DB에 새로 생성
@@ -82,7 +90,7 @@ public class StudentController extends HttpServlet {
 
             // dto 설정
             StudentDTO studentDTO = new StudentDTO();
-            studentDTO.setDepart_id(Integer.parseInt("1"));//임시
+            studentDTO.setDepart_id(Integer.parseInt(req.getParameter("depart_id")));
             studentDTO.setGrade(Integer.parseInt(req.getParameter("grade")));
             studentDTO.setBan(req.getParameter("class"));
             studentDTO.setSchoolno(req.getParameter("schoolno"));
@@ -129,7 +137,12 @@ public class StudentController extends HttpServlet {
             StudentDTO studentDTO = new StudentDTO();
             studentDTO = studentService.getStudent(Long.parseLong(req.getParameter("id")));
 
+            // 학과 리스트 구해오기
+            ArrayList<DepartDTO> departList = new ArrayList<DepartDTO>();
+            departList = (ArrayList<DepartDTO>)departService.getDepartList();
+
             if(studentDTO != null) {
+                req.setAttribute("departList", departList);
                 req.setAttribute("student", studentDTO);
                 req.getRequestDispatcher("/WEB-INF/views/students/edit.jsp").forward(req, resp);
             }
@@ -138,7 +151,7 @@ public class StudentController extends HttpServlet {
         else if (action.equals("edit-action.do")) {
             StudentDTO studentDTO = new StudentDTO();
             studentDTO.setId(Long.parseLong(req.getParameter("id")));
-            studentDTO.setDepart_id(Integer.parseInt("1")); //임시
+            studentDTO.setDepart_id(Integer.parseInt(req.getParameter("depart_id")));
             studentDTO.setGrade(Integer.parseInt(req.getParameter("grade")));
             studentDTO.setBan(req.getParameter("class"));
             studentDTO.setSchoolno(req.getParameter("schoolno"));

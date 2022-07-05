@@ -43,4 +43,9 @@ public class DepartServiceImpl implements DepartService {
     public int delete(int id) {
         return dao.delete(id);
     }
+
+    @Override
+    public List<DepartDTO> getDepartList() {
+        return dao.readList();
+    }
 }

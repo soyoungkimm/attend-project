@@ -81,7 +81,7 @@
                                 <td>${student.ban}</td>
                                 <td>${student.schoolno}</td>
                                 <td><a href="detail.do?id=${student.id}">${student.name}</a></td>
-                                <td>${fn:substring(student.phone,0,3)}-${fn:substring(student.phone,4,8)}-${fn:substring(student.phone,9,13)}</td>
+                                <td>${fn:substring(student.phone,0,3)}-${fn:substring(student.phone,3,7)}-${fn:substring(student.phone,7,11)}</td>
                                 <td>${student.gender eq 0? "남자" : "여자"}</td>
                                 <td><c:if test="${student.state eq 0}">재학</c:if><c:if test="${student.state eq 1}">휴학</c:if><c:if test="${student.state eq 2}">자퇴</c:if></td>
                                 <td>
