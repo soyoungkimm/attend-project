@@ -3,7 +3,6 @@ package com.gamejigi.attend.model.dao;
 import com.gamejigi.attend.model.dto.NoticeDTO;
 import com.gamejigi.attend.util.Pagination;
 
-import javax.servlet.http.HttpServletRequest;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +50,6 @@ public class NoticeDAOImpl extends DAOImplMySQL implements NoticeDAO {
             pstmt.setInt(1, pagination.getFirstRow() - 1);
             pstmt.setInt(2, pagination.getPerPageRows());
             rs = pstmt.executeQuery();
-            // execute(sql)는 모든 질의에 사용가능, executeQuery(sql)는 select에만, executeUpdate()는 insert, update, delete에 사용 가능
             noticeList = new ArrayList<NoticeDTO>();
             while (rs.next()) {
                 NoticeDTO noticeDTO = new NoticeDTO();
