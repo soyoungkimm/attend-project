@@ -1,9 +1,9 @@
 package com.gamejigi.attend.controller;
 
 import com.gamejigi.attend.model.dto.DepartDTO;
-import com.gamejigi.attend.model.dto.TeacherDTO;
+import com.gamejigi.attend.model.dto.StaffDTO;
 import com.gamejigi.attend.model.service.DepartServiceImpl;
-import com.gamejigi.attend.model.service.TeacherServiceImpl;
+import com.gamejigi.attend.model.service.StaffServiceImpl;
 import com.gamejigi.attend.util.Pagination;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -14,8 +14,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.annotation.MultipartConfig;
 
-@WebServlet(name = "teacher", urlPatterns = {"/teacher/list.do", "/teacher/create.do", "/teacher/create-action.do",
-        "/teacher/detail.do", "/teacher/delete.do", "/teacher/edit.do", "/teacher/edit-action.do"})
+@WebServlet(name = "staff", urlPatterns = {"/staff/list.do", "/staff/create.do", "/staff/create-action.do",
+        "/staff/detail.do", "/staff/delete.do", "/staff/edit.do", "/staff/edit-action.do"})
 
 @MultipartConfig(
         fileSizeThreshold = 1024*1024,
@@ -23,9 +23,9 @@ import javax.servlet.annotation.MultipartConfig;
         maxRequestSize = 1024*1024*50*5 // 50메가 5개까지
 )
 
-public class TeacherController extends HttpServlet {
+public class StaffController extends HttpServlet {
 
-    TeacherServiceImpl teacherService = new TeacherServiceImpl();
+    StaffServiceImpl staffService = new StaffServiceImpl();
     DepartServiceImpl departService = new DepartServiceImpl();
 
     @Override
@@ -48,7 +48,7 @@ public class TeacherController extends HttpServlet {
         String contextPath = req.getContextPath();
         String command = uri.substring(contextPath.length() + 1);
         String action = command.substring(command.lastIndexOf("/") + 1);
-        String absolutePath = req.getServletContext().getRealPath("/image/teacher");
+        String absolutePath = req.getServletContext().getRealPath("/image/staff");
 
         // 리스트
         if (action.equals("list.do")) {
@@ -62,18 +62,18 @@ public class TeacherController extends HttpServlet {
             int curPageNo = (pageNo != null) ? Integer.parseInt(pageNo) : 1;
             int perPageRows = 4; // 한 페이지에 나타날 데이터 행의 개수
             int perPagination = 5; // 한 화면에 나타날 페이지 번호 개수
-            int totalRows = teacherService.getTeacherTotalNum(search); // 행의 총 개수
+            int totalRows = staffService.getStaffTotalNum(search); // 행의 총 개수
             Pagination pagination = new Pagination(curPageNo, perPageRows, perPagination, totalRows);
 
             // 교수 리스트 저장
-            ArrayList<TeacherDTO> teacherList;
-            teacherList = (ArrayList<TeacherDTO>) teacherService.getTeacherList(pagination, search);
+            ArrayList<StaffDTO> staffList;
+            staffList = (ArrayList<StaffDTO>) staffService.getStaffList(pagination, search);
 
             // 포워딩
             req.setAttribute("search", search);
             req.setAttribute("pagination", pagination);
-            req.setAttribute("teacherList", teacherList);
-            req.getRequestDispatcher("/WEB-INF/views/teacher/list.jsp").forward(req, resp);
+            req.setAttribute("staffList", staffList);
+            req.getRequestDispatcher("/WEB-INF/views/staff/list.jsp").forward(req, resp);
 
         }
 
@@ -85,91 +85,89 @@ public class TeacherController extends HttpServlet {
 
             req.setAttribute("departList", departList);
 
-            req.getRequestDispatcher("/WEB-INF/views/teacher/create.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/views/staff/create.jsp").forward(req, resp);
         }
         //DB 생성
         else if (action.equals("create-action.do")) {
 
-            TeacherDTO teacherDTO = new TeacherDTO();
-            teacherDTO.setDepart_id(Integer.parseInt(req.getParameter("depart_id")));
-            teacherDTO.setKind(Integer.parseInt(req.getParameter("kind")));
-            teacherDTO.setUid(req.getParameter("uid"));
-            teacherDTO.setPwd(req.getParameter("pwd"));
-            teacherDTO.setName(req.getParameter("name"));
+            StaffDTO staffDTO = new StaffDTO();
+            staffDTO.setDepart_id(Integer.parseInt(req.getParameter("depart_id")));
+            staffDTO.setUid(req.getParameter("uid"));
+            staffDTO.setPwd(req.getParameter("pwd"));
+            staffDTO.setName(req.getParameter("name"));
             String tel = req.getParameter("tel1") + req.getParameter("tel2") + req.getParameter("tel3");
-            teacherDTO.setTel(tel);
+            staffDTO.setTel(tel);
             String phone = req.getParameter("phone1") + req.getParameter("phone2") + req.getParameter("phone3");
-            teacherDTO.setPhone(phone);
-            teacherDTO.setEmail(req.getParameter("email"));
+            staffDTO.setPhone(phone);
+            staffDTO.setEmail(req.getParameter("email"));
             Part part = req.getPart("pic");
 
-            Boolean isSuccess = teacherService.createTeacher(teacherDTO, part, absolutePath);
+            Boolean isSuccess = staffService.createStaff(staffDTO, part, absolutePath);
 
             if(isSuccess) {
                 req.setAttribute("absolutePath", absolutePath);
-                req.setAttribute("teacher", teacherDTO);
-                req.getRequestDispatcher("/WEB-INF/views/teacher/detail.jsp").forward(req, resp);
+                req.setAttribute("staff", staffDTO);
+                req.getRequestDispatcher("/WEB-INF/views/staff/detail.jsp").forward(req, resp);
             }
 
         }
         //상세
         else if (action.equals("detail.do")) {
-            TeacherDTO teacherDTO;
-            teacherDTO = teacherService.getTeacher(Integer.parseInt(req.getParameter("id")));
-            if (teacherDTO != null) {
-                req.setAttribute("teacher", teacherDTO);
-                req.getRequestDispatcher("/WEB-INF/views/teacher/detail.jsp").forward(req, resp);
+            StaffDTO staffDTO;
+            staffDTO = staffService.getStaff(Integer.parseInt(req.getParameter("id")));
+            if (staffDTO != null) {
+                req.setAttribute("staff", staffDTO);
+                req.getRequestDispatcher("/WEB-INF/views/staff/detail.jsp").forward(req, resp);
             }
 
         }
 
         // 삭제
         else if (action.equals("delete.do")) {
-            int row_num = teacherService.deleteTeacher(Integer.parseInt(req.getParameter("id")), absolutePath);
+            int row_num = staffService.deleteStaff(Integer.parseInt(req.getParameter("id")), absolutePath);
 
             if(row_num == 0) {
-                req.getRequestDispatcher("/teacher/list.do").forward(req, resp);
+                req.getRequestDispatcher("/staff/list.do").forward(req, resp);
             }
         }
 
         // 수정하기 폼
         else if (action.equals("edit.do")) {
-            TeacherDTO teacherDTO;
-            teacherDTO = teacherService.getTeacher(Integer.parseInt(req.getParameter("id")));
+            StaffDTO staffDTO;
+            staffDTO = staffService.getStaff(Integer.parseInt(req.getParameter("id")));
 
             // 학과 리스트 구해오기
             ArrayList<DepartDTO> departList = new ArrayList<DepartDTO>();
             departList = (ArrayList<DepartDTO>)departService.getDepartList();
 
-            if(teacherDTO != null) {
+            if(staffDTO != null) {
                 req.setAttribute("departList", departList);
-                req.setAttribute("teacher", teacherDTO);
-                req.getRequestDispatcher("/WEB-INF/views/teacher/edit.jsp").forward(req, resp);
+                req.setAttribute("staff", staffDTO);
+                req.getRequestDispatcher("/WEB-INF/views/staff/edit.jsp").forward(req, resp);
             }
         }
         // 수정
         else if (action.equals("edit-action.do")) {
 
-            TeacherDTO teacherDTO = new TeacherDTO();
-            teacherDTO.setId(Integer.parseInt(req.getParameter("id")));
-            teacherDTO.setDepart_id(Integer.parseInt(req.getParameter("depart_id")));
-            teacherDTO.setKind(Integer.parseInt(req.getParameter("kind")));
-            teacherDTO.setUid(req.getParameter("uid"));
-            teacherDTO.setPwd(req.getParameter("pwd"));
-            teacherDTO.setName(req.getParameter("name"));
+            StaffDTO staffDTO = new StaffDTO();
+            staffDTO.setId(Integer.parseInt(req.getParameter("id")));
+            staffDTO.setDepart_id(Integer.parseInt(req.getParameter("depart_id")));
+            staffDTO.setUid(req.getParameter("uid"));
+            staffDTO.setPwd(req.getParameter("pwd"));
+            staffDTO.setName(req.getParameter("name"));
             String tel = req.getParameter("tel1") + req.getParameter("tel2") + req.getParameter("tel3");
-            teacherDTO.setTel(tel);
+            staffDTO.setTel(tel);
             String phone = req.getParameter("phone1") + req.getParameter("phone2") + req.getParameter("phone3");
-            teacherDTO.setPhone(phone);
-            teacherDTO.setEmail(req.getParameter("email"));
+            staffDTO.setPhone(phone);
+            staffDTO.setEmail(req.getParameter("email"));
             Part part = req.getPart("pic");
 
-            Boolean isSuccess = teacherService.updateTeacher(teacherDTO, part, absolutePath);
+            Boolean isSuccess = staffService.updateStaff(staffDTO, part, absolutePath);
 
             if(isSuccess) {
                 req.setAttribute("absolutePath", absolutePath);
-                req.setAttribute("teacher", teacherDTO);
-                req.getRequestDispatcher("/WEB-INF/views/teacher/detail.jsp").forward(req, resp);
+                req.setAttribute("staff", staffDTO);
+                req.getRequestDispatcher("/WEB-INF/views/staff/detail.jsp").forward(req, resp);
             }
         }
 

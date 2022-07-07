@@ -100,9 +100,9 @@
                                         <td class="mycolor2">전화</td>
                                         <td>
                                             <div class="form-inline">
-                                                <input type="text" name="tel1" size="2" value="" class="form-control form-control-sm" style="width:50px">-
-                                                <input type="text" name="tel2" size="4" value=""	class="form-control form-control-sm" style="width:50px">-
-                                                <input type="text" name="tel3" size="4" value="" class="form-control form-control-sm" style="width:50px">
+                                                <input type="text" name="tel1" size="2" maxlength="2" value="" class="form-control form-control-sm" style="width:50px">-
+                                                <input type="text" name="tel2" size="4" maxlength="4" value=""	class="form-control form-control-sm" style="width:50px">-
+                                                <input type="text" name="tel3" size="4" maxlength="4" value="" class="form-control form-control-sm" style="width:50px">
                                             </div>
                                         </td>
                                     </tr>
@@ -110,9 +110,9 @@
                                         <td class="mycolor2">핸드폰</td>
                                         <td>
                                             <div class="form-inline">
-                                                <input type="text" name="phone1" size="3" value="010" class="form-control form-control-sm" style="width:50px">-
-                                                <input type="text" name="phone2" size="4" value=""	class="form-control form-control-sm" style="width:50px">-
-                                                <input type="text" name="phone3" size="4" value="" class="form-control form-control-sm" style="width:50px">
+                                                <input type="text" name="phone1" size="3" maxlength="3" value="010" class="form-control form-control-sm" style="width:50px">-
+                                                <input type="text" name="phone2" size="4" maxlength="4" value=""	class="form-control form-control-sm" style="width:50px">-
+                                                <input type="text" name="phone3" size="4" maxlength="4" value="" class="form-control form-control-sm" style="width:50px">
                                             </div>
                                         </td>
                                     </tr>
