@@ -40,7 +40,7 @@
                                     }
                                 </script>
 
-                                <form name="form1" method="post" action="create-action.do">
+                                <form name="create_form" method="post" action="create-action.do">
 
                                     <table class="table table-bordered mytable-centermiddle" style="width:100%;">
                                         <tr>

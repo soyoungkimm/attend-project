@@ -38,7 +38,7 @@
                     }
                 </script>
 
-                <form name="form1" method="post" action="">
+                <form name="detail_form" method="post" action="">
 
                     <table class="table table-bordered mytable-centermiddle" style="width:100%;">
                         <tr>

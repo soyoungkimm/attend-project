@@ -34,19 +34,7 @@
             </div>
 
             <div class="card-body" style="padding:10px">
-
-                <script>
-                    function find_text()
-                    {
-                        if (!form1.text1.value)
-                            form1.action="/member/lists/page";
-                        else
-                            form1.action="/member/lists/text1/" + form1.text1.value+"/page";
-                        form1.submit();
-                    }
-                </script>
-
-                <form name="form1" method="post" action="">
+                <form name="search_form" method="get" action="list.do">
                     <div class="row" style="margin-bottom:5px">
                         <div class="col-auto" align="left">
                             <div class="form-inline">
@@ -57,7 +45,7 @@
                                     <input type="text" name="s" size="10" value="${search}" class="form-control"
                                            onKeydown="if (event.keyCode == 13) document.search_form.submit()" >
                                     <div class="input-group-append">
-                                        <button class="btn btn-sm mycolor1" type="button" onClick="find_text();">검색</button>
+                                        <button type="submit"class="btn btn-sm mycolor1" type="button">검색</button>
                                     </div>
                                 </div>
                             </div>

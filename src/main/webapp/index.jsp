@@ -10,5 +10,7 @@
 <br/>
 <a href="/room/list.do">Room</a>
 <a href="/building/list.do">Building</a>
+<a href="/subject/list.do">subject</a>
+<a href="/holidays/list.do">holidays</a>
 </body>
 </html>

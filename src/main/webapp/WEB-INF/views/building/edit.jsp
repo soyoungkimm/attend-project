@@ -40,7 +40,7 @@
                     }
                 </script>
 
-                <form name="form1" method="post" action="edit-action.do">
+                <form name="edit_form" method="post" action="edit-action.do">
 
                     <input type="hidden" name="id" value="${building.id}"/>
 

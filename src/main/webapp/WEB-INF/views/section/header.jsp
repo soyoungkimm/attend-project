@@ -94,8 +94,8 @@
                             <li><a href="ad_assist.html" style="padding:5px 0 5px 40px;">조교정보</a></li>
                             <li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
                             <li><a href="ad_depart.html" style="padding:5px 0 5px 40px;">학과/부서</a></li>
-                            <li><a href="ad_room.html" style="padding:5px 0 5px 40px;">강의실</a></li>
-                            <li><a href="ad_building.html " style="padding:5px 0 5px 40px;">건물</a></li>
+                            <li><a href="/room/list.do" style="padding:5px 0 5px 40px;">강의실</a></li>
+                            <li><a href="/building/list.do " style="padding:5px 0 5px 40px;">건물</a></li>
                             <li><a href="/holidays/list.do" style="padding:5px 0 5px 40px;">휴일</a></li>
                         </ul>
                     </li>
@@ -111,7 +111,7 @@
                         <a href="#"><i class="fa fa-fw fa-male"></i> <span>조교</span> <span class="menu-arrow"></span></a>
                         <ul class="list-unstyled">
                             <li><a href="as_main.html" style="padding:5px 0 5px 40px;">조교 메인</a></li>
-                            <li><a href="as_sub.html" style="padding:5px 0 5px 40px;">학년별 교과목</a></li>
+                            <li><a href="/subject/list.do" style="padding:5px 0 5px 40px;">학년별 교과목</a></li>
                             <li><a href="as_lec.html" style="padding:5px 0 5px 40px;">반별 교과목</a></li>
                             <li><a href="as_time.html" style="padding:5px 0 5px 40px;">시간표 작성</a></li>
                             <li><a href="as_timeall.html" style="padding:5px 0 5px 40px;">학과별 시간표</a></li>

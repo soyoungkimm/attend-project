@@ -29,8 +29,7 @@
 
             <div class="card-body" style="padding:10px">
 
-                <form name="form1" method="post" action="">
-
+                <form name="detail_form" method="post" action="">
                     <table class="table table-bordered mytable-centermiddle" style="width:100%;">
                         <tr>
                             <td class="mycolor2" width="80">건물명</td>
