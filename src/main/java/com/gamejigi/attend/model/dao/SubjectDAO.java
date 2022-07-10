@@ -10,6 +10,7 @@ public interface SubjectDAO {
     int delete(SubjectDTO subjectDTO);
     int update(SubjectDTO subjectDTO);
     SubjectDTO findById(SubjectDTO subjectDTO);
+    List<SubjectDTO> findByDepartIdAndYearAndTerm(int depart_id, int year, int term);
     List<SubjectDTO> readList();
     List<SubjectDTO> readListUsePaginationAndSearch(Pagination pagination, String search1, String search2);
     int readTotalRowNumUseSearch(String search1,String search2);

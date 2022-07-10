@@ -103,6 +103,26 @@ public class SubjectDAOImpl extends DAOImplMySQL implements SubjectDAO{
         return subjectDTO;
     }
     @Override
+    public List<SubjectDTO> findByDepartIdAndYearAndTerm (int depart_id, int year, int term) {
+        List<SubjectDTO> list = new ArrayList<>();
+        String query = "select * from subject where depart_id=? and yyyy=? and term=?";
+        try{
+            pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, depart_id);
+            pstmt.setInt(2, year);
+            pstmt.setInt(3, term);
+
+            rs = pstmt.executeQuery();
+
+            while(rs.next()) {
+                list.add(setSubject(rs));
+            }
+        }catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return list;
+    }
+    @Override
     public List<SubjectDTO> readList() {
         ArrayList<SubjectDTO> subjectList= null;
         String query = "select * from subject";

@@ -130,6 +130,26 @@ public class RoomDAOImpl extends DAOImplMySQL implements RoomDAO{
     }
 
     @Override
+    public List<RoomDTO> findByDepartId(int depart_id) {
+        List<RoomDTO> rooms = new ArrayList<RoomDTO>();
+        String query = "select * from room where depart_id=?";
+
+        try{
+            pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, depart_id);
+
+            rs = pstmt.executeQuery();
+
+            while(rs.next()) {
+                rooms.add(setRoom(rs));
+            }
+        }catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return rooms;
+    }
+
+    @Override
     public int delete(int id) {
         int rows = 0;
         String query = "delete from room where id=?";

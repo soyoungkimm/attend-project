@@ -12,5 +12,9 @@
 <a href="/building/list.do">Building</a>
 <a href="/subject/list.do">subject</a>
 <a href="/holidays/list.do">holidays</a>
+<a href="/subject/list.do">subject</a>
+<a href="/holidays/list.do">holidays</a>
+<a href="/depart/list.do">Depart</a>
+<a href="/time/time.do">Time</a>
 </body>
 </html>

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="../../section/header.jsp" %>
+<%@ include file="../section/header.jsp" %>
 <!------------------------------------------------------------------------------>
 <!-- 내용 시작 -->
 <!------------------------------------------------------------------------------>
@@ -88,13 +88,9 @@
 				</table>
 
 				<nav>
-					<%
-						pageContext.getRequest().setAttribute("pagePre", (int)pageContext.getRequest().getAttribute("page") - 1);
-						pageContext.getRequest().setAttribute("pageNext", (int)pageContext.getRequest().getAttribute("page") + 1);
-					%>
 					<ul class='pagination pagination-sm justify-content-center'>
-						<li class='page-item'><a class="page-link" href="/depart/list.do?text=${text1}&page=${pageBegin}">◀</a></li>
-						<li class='page-item'><a class="page-link" href="/depart/list.do?text=${text1}&page=${pagePre}">◁</a></li>
+						<li class='page-item'><a class="page-link" href="/depart/list.do?text=${text1}&page=${pageBegin-1}">◀</a></li>
+						<li class='page-item'><a class="page-link" href="/depart/list.do?text=${text1}&page=${page-1}">◁</a></li>
 						<c:forEach var="pageIndex" items="${pageList}">
 							<c:if test="${pageIndex != page}">
 								<li class='page-item'>
@@ -109,8 +105,8 @@
 								</li>
 							</c:if>
 						</c:forEach>
-						<li class='page-item'><a class="page-link" href="/depart/list.do?text1=${text1}&page=${pageNext}">▷</a></li>
-						<li class='page-item'><a class="page-link" href="/depart/list.do?text1=${text1}&page=${pageEnd}">▶</a></li>
+						<li class='page-item'><a class="page-link" href="/depart/list.do?text1=${text1}&page=${page+1}">▷</a></li>
+						<li class='page-item'><a class="page-link" href="/depart/list.do?text1=${text1}&page=${pageEnd+1}">▶</a></li>
 					</ul>
 				</nav>
 
@@ -122,4 +118,4 @@
 <!------------------------------------------------------------------------------>
 <!-- 내용 끝 -->
 <!------------------------------------------------------------------------------>
-<%@ include file="../../section/footer.jsp" %>
+<%@ include file="../section/footer.jsp" %>

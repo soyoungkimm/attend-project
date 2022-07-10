@@ -49,28 +49,23 @@ public class DepartController extends HttpServlet {
             keyword = keyword != null ? keyword : "";
 
             String pageStr = req.getParameter("page");
-            int page = pageStr != null ? Integer.valueOf(pageStr) : 1;
+            int page = pageStr != null ? Math.max(Integer.valueOf(pageStr),1) : 1;
             int pageRows = 5;
             int pageNums = 5;
             int totalRows = ds.countByName(keyword);
 
-            System.out.println(keyword);
-            System.out.println(totalRows);
-
             int startRow = (page - 1) * pageRows + 1;
-            startRow = startRow <= totalRows ? startRow : totalRows - totalRows % pageRows + 1;
+            if (totalRows < startRow)
+                startRow = totalRows - totalRows % pageRows + 1;
             page = startRow / pageRows + 1;
             int count = pageRows + startRow - 1 <= totalRows ? pageRows : totalRows % pageRows;
-
-            System.out.println(count);
 
             List<DepartDTO> departs = new ArrayList<>();
             if (count != 0)
                 departs = ds.searchByName(keyword, startRow - 1, count);
-            int pageBegin = page - pageNums/2;
-            pageBegin = Math.max(pageBegin, 1);
-            int pageEnd = page + pageNums/2 - (pageNums+1)%2;
-            pageEnd = Math.min(pageEnd, (totalRows + pageRows - 1) / pageRows);
+            int pageBegin = page - (page - 1) % pageNums;
+            int pageEnd = pageBegin + pageNums - 1;
+            pageEnd = Math.max(1, Math.min(pageEnd, (totalRows - 1) / pageRows + 1));
             List<Integer> pageList = new ArrayList<>();
             for (int i = pageBegin; i <= pageEnd; i++) {
                 pageList.add(i);

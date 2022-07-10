@@ -11,6 +11,7 @@ public interface RoomDAO {
     List<RoomDTO> readListUsePaginationAndSearch(Pagination pagination, String search);
     int create(RoomDTO roomDTO);
     RoomDTO findById(int id);
+    List<RoomDTO> findByDepartId(int depart_id);
     int delete(int id);
     int update(RoomDTO roomDTO);
     int readTotalRowNumUseSearch(String search);
