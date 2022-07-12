@@ -12,6 +12,7 @@ public interface TeacherDAO {
     String findPicByTeacherId(int id);
     List<TeacherDTO> readListUsePagination(Pagination pagination);
     List<TeacherDTO> readListUsePaginationAndSearch(Pagination pagination, String search);
+    List<TeacherDTO> readListByDepartId(int depart_id);
     int readTotalRowNum();
     int readTotalRowNumUseSearch(String search);
     int create(TeacherDTO teacherDTO);

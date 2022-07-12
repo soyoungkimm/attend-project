@@ -247,4 +247,34 @@ public class TeacherDAOImpl extends DAOImplMySQL implements TeacherDAO {
         return rows;
     }
 
+    public List<TeacherDTO> readListByDepartId(int depart_id){
+        ArrayList<TeacherDTO> teacherList  = null;
+        String sql = "select teacher.* from teacher where depart_id=?";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, depart_id);
+
+            rs = pstmt.executeQuery();
+            teacherList = new ArrayList<TeacherDTO>();
+            while (rs.next()) {
+                TeacherDTO teacherDTO = new TeacherDTO();
+                teacherDTO.setDepart_id(rs.getInt("id"));
+                teacherDTO.setDepart_id(rs.getInt("depart_id"));
+                teacherDTO.setKind(rs.getInt("kind"));
+                teacherDTO.setUid(rs.getString("uid"));
+                teacherDTO.setPwd(rs.getString("pwd"));
+                teacherDTO.setName(rs.getString("name"));
+                teacherDTO.setTel(rs.getString("tel"));
+                teacherDTO.setPhone(rs.getString("phone"));
+                teacherDTO.setEmail(rs.getString("email"));
+                teacherDTO.setPic(rs.getString("pic"));
+                //teacherDTO = setTeacher(rs);
+                teacherList.add(teacherDTO);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return teacherList;
+    }
+
 }
