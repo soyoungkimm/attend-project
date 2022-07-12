@@ -258,7 +258,7 @@ public class TeacherDAOImpl extends DAOImplMySQL implements TeacherDAO {
             teacherList = new ArrayList<TeacherDTO>();
             while (rs.next()) {
                 TeacherDTO teacherDTO = new TeacherDTO();
-                teacherDTO.setDepart_id(rs.getInt("id"));
+                teacherDTO.setId(rs.getInt("id"));
                 teacherDTO.setDepart_id(rs.getInt("depart_id"));
                 teacherDTO.setKind(rs.getInt("kind"));
                 teacherDTO.setUid(rs.getString("uid"));
