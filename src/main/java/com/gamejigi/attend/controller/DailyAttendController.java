@@ -2,6 +2,7 @@ package com.gamejigi.attend.controller;
 
 import com.gamejigi.attend.model.dto.LectureDayDTO;
 import com.gamejigi.attend.model.dto.StudentDTO;
+import com.gamejigi.attend.model.dto.TeacherDTO;
 import com.gamejigi.attend.model.service.DailyAttendServiceImpl;
 
 import javax.servlet.ServletException;
@@ -15,15 +16,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import com.gamejigi.attend.model.service.TeacherServiceImpl;
 import org.json.JSONObject;
 
-@WebServlet(name = "daily-attend", urlPatterns = { "/daily-attend/list.do", "/daily-attend/create.do", "/daily-attend/create-action.do",
-        "/daily-attend/detail.do", "/daily-attend/delete.do", "/daily-attend/edit.do", "/daily-attend/edit-action.do",
+@WebServlet(name = "daily-attend", urlPatterns = { "/daily-attend/list.do", "/daily-attend/detail.do",
         "/daily-attend/ajax-update-attend.do", "/daily-attend/update-all-attend.do" })
 
 public class DailyAttendController extends HttpServlet {
 
     DailyAttendServiceImpl dailyAttendService = new DailyAttendServiceImpl();
+    TeacherServiceImpl teacherService = new TeacherServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -45,26 +48,26 @@ public class DailyAttendController extends HttpServlet {
         String contextPath = req.getContextPath();
         String command = uri.substring(contextPath.length() + 1);
         String action = command.substring(command.lastIndexOf("/") + 1);
-        String absolutePath = req.getServletContext().getRealPath("/image/student"); // 절대경로
 
         // 리스트
         if (action.equals("list.do")) {
-
             // 날짜
             String date = req.getParameter("date");
             String today = LocalDate.now().toString(); // 오늘 날짜
             date = (date != null)? date : today;
 
-            // 교수정보 가져오기 <-- (직원)교수 개발되면 추가하기
+            // 교수정보 가져오기
+            int teacher_id = 1; // 임시
+            TeacherDTO teacherDTO = teacherService.getTeacher(teacher_id);
 
             // 리스트 구해오기
-            int teacher_id = 1; // 임시
             List<LectureDayDTO> dailyAttendList = new ArrayList<LectureDayDTO>();
             dailyAttendList = dailyAttendService.getDailyAttendList(date, teacher_id);
 
             // 포워딩
             req.setAttribute("date", date);
             req.setAttribute("dailyAttendList", dailyAttendList);
+            req.setAttribute("teacher", teacherDTO);
             req.getRequestDispatcher("/WEB-INF/views/dailyAttends/list.jsp").forward(req, resp);
         }
         // 출첵

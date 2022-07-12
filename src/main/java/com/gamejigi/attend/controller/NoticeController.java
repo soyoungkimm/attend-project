@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebServlet(name = "notices", urlPatterns = { "/notices/list.do", "/notices/create.do", "/notices/create-action.do",
-        "/notices/detail.do", "/notices/delete.do", "/notices/edit.do", "/notices/edit-action.do" })
+@WebServlet(name = "notice", urlPatterns = { "/notice/list.do", "/notice/create.do", "/notice/create-action.do",
+        "/notice/detail.do", "/notice/delete.do", "/notice/edit.do", "/notice/edit-action.do" })
 public class NoticeController extends HttpServlet {
 
     NoticeServiceImpl noticeService = new NoticeServiceImpl();

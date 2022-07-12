@@ -17,8 +17,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-@WebServlet(name = "student", urlPatterns = { "/students/list.do", "/students/create.do", "/students/create-action.do",
-        "/students/detail.do", "/students/delete.do", "/students/edit.do", "/students/edit-action.do" })
+@WebServlet(name = "student", urlPatterns = { "/student/list.do", "/student/create.do", "/student/create-action.do",
+        "/student/detail.do", "/student/delete.do", "/student/edit.do", "/student/edit-action.do" })
 // 파일 관련 설정
 @MultipartConfig(
         maxFileSize = 1024*1024*5, // 하나 파일 사이즈 : 5mb
