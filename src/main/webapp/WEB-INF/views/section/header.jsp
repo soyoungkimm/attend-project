@@ -31,7 +31,6 @@
     <link href="${pageContext.request.contextPath}/template/attend/my/css/dataTables.bootstrap4.min.css" rel="stylesheet">	<!-- datatable.net -->
 
     <link href="${pageContext.request.contextPath}/template/attend/my/css/my.css" rel="stylesheet" type="text/css">
-
 </head>
 
 <body class="adminbody" >

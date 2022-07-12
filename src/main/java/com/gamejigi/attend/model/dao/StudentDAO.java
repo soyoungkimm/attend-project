@@ -14,4 +14,5 @@ public interface StudentDAO {
     int update(StudentDTO studentDTO);
     String findDepartNameByDepartId(int depart_id);
     String findPicByStudentId(Long id);
+    List<StudentDTO> findWithAttend(Long lectureday_id, int starth, int normhour);
 }

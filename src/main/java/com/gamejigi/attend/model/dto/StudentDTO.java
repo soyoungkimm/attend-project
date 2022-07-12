@@ -16,6 +16,11 @@ public class StudentDTO {
 
     private String depart_name;
 
+    private Integer attendState1;
+    private Integer attendState2;
+    private Integer attendState3;
+    private Integer attendState4;
+
     public Long getId() {
         return id;
     }
@@ -118,5 +123,37 @@ public class StudentDTO {
 
     public void setDepart_name(String depart_name) {
         this.depart_name = depart_name;
+    }
+
+    public Integer getAttendState1() {
+        return attendState1;
+    }
+
+    public void setAttendState1(Integer attendState1) {
+        this.attendState1 = attendState1;
+    }
+
+    public Integer getAttendState2() {
+        return attendState2;
+    }
+
+    public void setAttendState2(Integer attendState2) {
+        this.attendState2 = attendState2;
+    }
+
+    public Integer getAttendState3() {
+        return attendState3;
+    }
+
+    public void setAttendState3(Integer attendState3) {
+        this.attendState3 = attendState3;
+    }
+
+    public Integer getAttendState4() {
+        return attendState4;
+    }
+
+    public void setAttendState4(Integer attendState4) {
+        this.attendState4 = attendState4;
     }
 }
