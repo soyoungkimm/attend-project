@@ -1,5 +1,6 @@
 package com.gamejigi.attend.model.dao;
 
+import com.gamejigi.attend.model.dto.LectureDayDTO;
 import com.gamejigi.attend.model.dto.StudentDTO;
 import com.gamejigi.attend.util.Pagination;
 
@@ -176,6 +177,67 @@ public class StudentDAOImpl extends DAOImplMySQL implements StudentDAO {
             throwables.printStackTrace();
         }
         return pic;
+    }
+
+    @Override
+    public List<StudentDTO> findWithAttend(Long lectureday_id, int starth, int hour) {
+        ArrayList<StudentDTO> studentList = new ArrayList<StudentDTO>();
+        String sql = "select distinct student.id as student_id, student.name, student.schoolno, student.state, mylecture.departname, student.pic, ";
+                if(hour == 1) {
+                    sql += "mylecture.h" + starth + " as attend_state1 ";
+                }
+                else if(hour == 2) {
+                    sql += "mylecture.h" + starth + " as attend_state1, mylecture.h" + (starth + 1) + " as attend_state2 ";
+                }
+                else if(hour == 3){
+                    sql += "mylecture.h" + starth + " as attend_state1, mylecture.h" + (starth + 1) + " as attend_state2, mylecture.h" + (starth+2) + " as attend_state3 ";
+                }
+                else {
+                    sql += "mylecture.h" + starth + " as attend_state1, mylecture.h" + (starth + 1) + " as attend_state2, mylecture.h" + (starth+2) + " as attend_state3, mylecture.h" + (starth+3) + " as attend_state4 ";
+                }
+                sql += "from student " +
+                "join mylecture on mylecture.student_id=student.id " +
+                "join lectureday on lectureday.lecture_id=mylecture.lecture_id " +
+                "where lectureday.lecture_id=mylecture.lecture_id " +
+                "and lectureday.id=?";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, lectureday_id);
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+                StudentDTO studentDTO = new StudentDTO();
+                studentDTO.setId(rs.getLong("student_id"));
+                studentDTO.setName(rs.getString("name"));
+                studentDTO.setSchoolno(rs.getString("schoolno"));
+                studentDTO.setState(rs.getInt("state"));
+                studentDTO.setDepart_name(rs.getString("departname"));
+                studentDTO.setPic(rs.getString("pic"));
+                if(hour == 1) {
+                    rs.getObject("attend_state1");
+                    studentDTO.setAttendState1((Integer) rs.getObject("attend_state1"));
+                }
+                else if(hour == 2) {
+                    studentDTO.setAttendState1((Integer) rs.getObject("attend_state1"));
+                    studentDTO.setAttendState2((Integer) rs.getObject("attend_state2"));
+                }
+                else if(hour == 3){
+                    studentDTO.setAttendState1((Integer) rs.getObject("attend_state1"));
+                    studentDTO.setAttendState2((Integer) rs.getObject("attend_state2"));
+                    studentDTO.setAttendState3((Integer) rs.getObject("attend_state3"));
+                }
+                else {
+                    studentDTO.setAttendState1((Integer) rs.getObject("attend_state1"));
+                    studentDTO.setAttendState2((Integer) rs.getObject("attend_state2"));
+                    studentDTO.setAttendState3((Integer) rs.getObject("attend_state3"));
+                    studentDTO.setAttendState4((Integer) rs.getObject("attend_state4"));
+                }
+                studentList.add(studentDTO);
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return studentList;
     }
 
     private StudentDTO setStudent(ResultSet rs) throws SQLException {
