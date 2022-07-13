@@ -14,11 +14,14 @@ public interface TimetableService {
     int create(TimetableDTO timetable);
     int update(TimetableDTO timetable);
     int delete(int id);
+    int deleteAll(int staffId, int year, int term);
     int count();
     int getMaxId();
-    int saveData(List<String> list);
+
+    int saveData(List<String> list, int staffId, int year, int term);
     List<String> loadData(int staffId, int year, int term);
     List<RoomDTO> getRoomsByStaffId(int staffId);
     List<BuildingDTO> getBuildingsByRooms(List<RoomDTO> rooms);
     int getGradeSystemByStaffId(int staffId);
+    List<String> getLecturesByStaffId(int staffId);
 }

@@ -7,7 +7,7 @@
 				<div class="row">
 					<div class="col-xl-12">
 						<div class="breadcrumb-holder">
-							<h1 class="main-title float-left">컴퓨터소프트웨어학과</h1>
+							<h1 class="main-title float-left">${departName}</h1>
 							<ol class="breadcrumb float-right">
 								<li class="breadcrumb-item">Home</li>
 								<li class="breadcrumb-item">조교</li>
@@ -31,7 +31,7 @@
 							var data = ev.dataTransfer.getData("text");
 							ev.target.appendChild(document.getElementById(data));
 
-							clear_lecture();
+							unsel_lecture();
 							form1.selpos.value=data;
 							document.getElementById( data ).style.borderColor="red";
 						}
@@ -41,34 +41,49 @@
 
 					function sel_lecture(pos)		// 시간표내의 강의 선택
 					{
-						clear_lecture();
+						unsel_lecture();
 						form1.selpos.value=pos;
 						document.getElementById( pos ).style.borderColor="red";
 					}
 
+					function unsel_lecture()		// 시간표내의 강의 선택 취소
+					{
+						for (h=1;h<=10 ;h++){		// 시간(1-10)
+							for (w=1;w<=5 ;w++) {		// 요일(1-5)
+								for (g=1;g<=3 ;g++)	{		// 학년(1,2,3)
+									for (b=1;b<=2 ;b++)	{		// 반(A,B)
+										ban=(b==1) ? "A" : "B";
+										pos1=String(h)+String(w)+String(g)+ban;
+										if (h<10) pos1="0"+pos1;
+										if (typeof(document.getElementById( pos1 ).childNodes[0]) != 'undefined')
+										{
+											document.getElementById( pos1 ).style.borderColor="#cccccc";
+										}
+									}}}}
+					}
+
 					function make_lecture(h)	// 새강의 그리기
 					{
-						let str = [
-							"",
-							"lecture:id",
-							"subject:grade",
-							"lecture:class",
-							"subject:hour",
+						str = form1.sel4.value.split("^");
+						let newLecture = [
+							str[0],
+							str[1],
+							str[2],
+							str[3],
+							str[4],
 							"",
 							"",
 							h,
-							"subject:name",
-							"lecture:teacher_id",
-							"teacher:name",
+							str[8],
+							str[9],
+							str[10],
 							"",
 							""
 						];
-						str[0]=-1;
-						str[7]=h;
-						str=str.join("^");
+						newLecture=newLecture.join("^");
 
-						draw_lecture(1,str,"");
-						sel_lecture(str);
+						draw_lecture(1,newLecture,"");
+						sel_lecture(newLecture);
 					}
 
 					function postMsg(url, msg, fn) {
@@ -91,6 +106,7 @@
 							state = 0; //다시 검색하기
 						}
 						if (state == 0) { //데이터 가져오기
+							clear_lecture();
 							function fn(request) {
 								if (request.readyState == 4 && request.status == 200) {
 									timetable = request.responseText.split("/");
@@ -102,7 +118,7 @@
 								}
 							}
 							term = form1.sel1.value + "^" + form1.sel2.value;
-							postMsg("/time/search.do", "term="+term, fn);
+							postMsg("/astime/search.do", "term="+term, fn);
 							state = 1;
 						}
 					}
@@ -118,9 +134,10 @@
 							if (h<10) pos1="0"+pos1;
 							if (typeof(document.getElementById( pos1 ).childNodes[0]) != 'undefined')
 							{
-								document.getElementById( pos1 ).childNodes[0].style.borderColor="#cccccc";
+								document.getElementById( pos1 ).childNodes[0].remove();
 							}
 						}}}}
+						unsel_lecture();
 					}
 
 					function save_lecture()	// 작성한 시간표 강의내용 저장
@@ -135,8 +152,20 @@
 							if (h<10) pos="0"+pos;
 							if (typeof(document.getElementById( pos ).childNodes[0]) != 'undefined')
 							{
-								alert( document.getElementById( pos ).childNodes[0].id + " pos:"+pos );
-								save_data += document.getElementById( pos ).childNodes[0].id + "/";
+								let data = document.getElementById( pos ).childNodes[0].id;
+								data = data.split("^");
+								data[6] = h; //강의 시작시간
+								data[5] = w; //요일
+								if (data[12] == "") {
+									alert(data[8]+" 과목이 강의실 지정이 되지 않았습니다.");
+									continue;
+								}
+								if (data[3] != ban) {
+									alert(data[8]+" 강의의 반이 시간표와 다릅니다.");
+									continue;
+								}
+								data = data.join("^");
+								save_data += data + "/";
 							}
 						}}}}
 						function fn(request) {
@@ -145,7 +174,8 @@
 								load_lec();
 							}
 						}
-						postMsg("/time/save.do", "save="+save_data, fn);
+						let term = form1.sel1.value + "^" + form1.sel2.value;
+						postMsg("/astime/save.do", "save="+save_data+"&term="+term, fn);
 					}
 
 					function del_lecture() 	// 선택한 강의 삭제
@@ -181,7 +211,7 @@
 					{
 						//	0	1		2	3	4	5	6		7	8		9		10		11		12
 						//	id^	강의id^	학년^반^	시간^요일^시작교시^	시간^과목명^	교수님번호^교수님^	강의실번호^강의실
-						lec_id=str;
+						let lec_id = str;
 						str = str.split("^");
 						lec_count=str[0];
 						lec_no=str[1];
@@ -230,12 +260,34 @@
 							</c:forEach>
 						}
 						buildingIndex = form1.sel5.selectedIndex;
-						for (const r1 in form1.sel6.options) {
+						for (let r1 = 0; r1 < ${rooms.size()}; r1++) {
 							form1.sel6.options[r1].setAttribute("hidden", "");
-							for (const r2 of rooms[buildingIndex])
+							for (let r2 of rooms[buildingIndex])
 								if (r1 == r2)
 									form1.sel6.options[r1].removeAttribute("hidden");
 						}
+					}
+
+					function grade_change() {
+						let grade = form1.sel3.value;
+						let selectedIndex = 0;
+						for (let lecture of form1.sel4.options) {
+							if (grade == lecture.innerHTML[0]) {
+								lecture.removeAttribute("hidden");
+								if (selectedIndex == 0) {
+									selectedIndex = 1;
+									lecture.selected = true;
+								}
+							}
+							else
+								lecture.setAttribute("hidden", "");
+						}
+					}
+
+					window.onload = function () {
+						load_lec();
+						grade_change();
+						building_change();
 					}
 				</script>
 
@@ -260,7 +312,10 @@
 												</div>
 												<div class="input-group-append">
 													<select name="sel1" class="form-control form-control-sm" onchange="javascript:load_lec();">
-														<option value="2019" selected>2019</option>
+														<option value="2022" selected>2022</option>
+														<option value="2021">2021</option>
+														<option value="2020">2020</option>
+														<option value="2019">2019</option>
 														<option value='2018'>2018</option>
 														<option value='2017'>2017</option>
 														<option value='2016'>2016</option>
@@ -290,18 +345,21 @@
 												</div>
 												<div class="input-group-append">
 													<!-- 번호^학년^반^과목명 -->
-													<select name="sel3" class="form-control form-control-sm" >
+													<select name="sel3" class="form-control form-control-sm" onchange="grade_change()">
 														<c:forEach begin="1" end="${gradeSystem}" var="i">
-															<option value="${i}">${i}학년</option>
+															<option value="${i}"
+																<c:if test="${i==1}">
+																	selected
+																</c:if>
+															>${i}학년</option>
 														</c:forEach>
 													</select>
 													&nbsp;
 													<!-- id^강의id^학년^반^시간^요일^시작교시^시간^과목명^교수님번호^교수님^강의실번호^강의실 -->
 													<select name="sel4" class="form-control form-control-sm" >
-														<option value='1^2^A^4^0^0^0^PHP^1^교수님1^2^컴실2'>2-A (4h) : PHP</option>
-														<option value='2^2^B^4^0^0^0^PHP^1^교수님1^2^컴실2'>2-B (4h) : PHP</option>
-														<option value='3^1^A^3^0^0^0^C^2^교수님2^1^컴실1'>1-A (3h) : C</option>
-														<option value='4^1^B^3^0^0^0^C^2^교수님2^1^컴실1'>1-B (3h) : C</option>
+														<c:forEach begin="0" end="${lectures.size()}" var="index">
+															<option value="${lectures[index]}">${lectureNames[index]}</option>
+														</c:forEach>
 													</select>
 												</div>
 											</div>
@@ -847,10 +905,6 @@
 										<td><div id="1453B" class="lecbox" ondrop="drop(event,this)" ondragover="dragEnter(event)"></div></td>
 									</tr>
 								</table>
-								<script>
-									load_lec();
-									building_change();
-								</script>
 							</div>		<!-- card body end -->
 						</div>		<!-- card end -->
 					</div>

@@ -71,7 +71,7 @@ public class TimetableDAOImpl extends DAOImplMySQL implements TimetableDAO {
     @Override
     public TimetableDTO readUseId(int id) {
         TimetableDTO result = null;
-        String query = "select * from Timetable where id = ?";
+        String query = "select * from timetable where id = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, id);
@@ -89,6 +89,48 @@ public class TimetableDAOImpl extends DAOImplMySQL implements TimetableDAO {
             System.out.println(e);
         }
         return result;
+    }
+
+    @Override
+    public List<TimetableDTO> readListByStaffIdAndYearAndTerm(int staffId, int year, int term) {
+        List<TimetableDTO> list = new ArrayList<>();
+        String query =
+                "SELECT t.*, s.grade, s.hour, s.name, l.class, l.teacher_id, te.name, r.name " +
+                "FROM timetable t " +
+                "JOIN room r ON r.id = t.room_id " +
+                "JOIN lecture l ON t.lecture_id = l.id " +
+                "JOIN teacher te ON te.id = l.teacher_id " +
+                "JOIN subject s ON l.subject_id = s.id " +
+                "JOIN staff st ON s.depart_id = st.depart_id " +
+                "WHERE st.id = ? AND s.yyyy = ? AND s.term = ? " +
+                "ORDER BY t.id ASC";
+        try {
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, staffId);
+            ps.setInt(2, year);
+            ps.setInt(3, term);
+            ResultSet rs = ps.executeQuery();
+            if (rs == null) {
+                ps.close();
+                return list;
+            }
+            while (rs.next()) {
+                TimetableDTO result = resultSetToTimetable(rs);
+                result.setSubject_grade(rs.getInt(7));
+                result.setSubject_hour(rs.getInt(8));
+                result.setSubject_name(rs.getString(9));
+                result.setLecture_class(rs.getString(10));
+                result.setTeacher_id(rs.getInt(11));
+                result.setTeacher_name(rs.getString(12));
+                result.setRoom_name(rs.getString(13));
+                list.add(result);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+        return list;
     }
 
     @Override
@@ -153,6 +195,31 @@ public class TimetableDAOImpl extends DAOImplMySQL implements TimetableDAO {
     }
 
     @Override
+    public int deleteAll(int staffId, int year, int term) {
+        int rows = 0;
+        String query =
+                "DELETE t FROM timetable t " +
+                "JOIN lecture l ON t.lecture_id = l.id " +
+                "JOIN teacher te ON te.id = l.teacher_id " +
+                "JOIN subject s ON l.subject_id = s.id " +
+                "JOIN staff st ON s.depart_id = st.depart_id " +
+                "WHERE st.id = ? AND s.yyyy = ? AND s.term = ? ";
+        try {
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, staffId);
+            ps.setInt(2, year);
+            ps.setInt(3, term);
+            rows = ps.executeUpdate();
+            ps.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+        return rows;
+    }
+
+    @Override
     public int count() {
         String query = "select count(*) from timetable";
         int count = 0;
@@ -190,5 +257,43 @@ public class TimetableDAOImpl extends DAOImplMySQL implements TimetableDAO {
             System.out.println(e);
         }
         return maxId;
+    }
+
+    @Override
+    public List<TimetableDTO> getLecturesByStaffId(int staffId) {
+        List<TimetableDTO> list = new ArrayList<>();
+        String query =
+                "SELECT l.id, s.grade, s.hour, s.name, l.class, l.teacher_id, te.name " +
+                        "FROM lecture l " +
+                        "JOIN teacher te ON te.id = l.teacher_id " +
+                        "JOIN subject s ON l.subject_id = s.id " +
+                        "JOIN staff st ON s.depart_id = st.depart_id " +
+                        "WHERE st.id = ? " +
+                        "ORDER BY s.name ASC";
+        try {
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, staffId);
+            ResultSet rs = ps.executeQuery();
+            if (rs == null) {
+                ps.close();
+                return list;
+            }
+            while (rs.next()) {
+                TimetableDTO result = new TimetableDTO();
+                result.setLecture_id(rs.getInt(1));
+                result.setSubject_grade(rs.getInt(2));
+                result.setSubject_hour(rs.getInt(3));
+                result.setSubject_name(rs.getString(4));
+                result.setLecture_class(rs.getString(5));
+                result.setTeacher_id(rs.getInt(6));
+                result.setTeacher_name(rs.getString(7));
+                list.add(result);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+        return list;
     }
 }

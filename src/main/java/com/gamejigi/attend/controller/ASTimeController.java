@@ -3,7 +3,6 @@ package com.gamejigi.attend.controller;
 import com.gamejigi.attend.model.dto.*;
 import com.gamejigi.attend.model.service.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -11,8 +10,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
-@WebServlet(name = "time", urlPatterns = {"/time/time.do", "/time/timeall.do", "/time/search.do", "/time/save.do"})
-public class TimeController extends HttpServlet {
+@WebServlet(name = "time", urlPatterns = {"/astime/time.do", "/astime/timeall.do", "/astime/search.do", "/astime/save.do"})
+public class ASTimeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         process(req, resp);
@@ -37,6 +36,11 @@ public class TimeController extends HttpServlet {
             int staffId = 1; //로그인 부분 완성되면 구현
 
             //학과, 건물, 강의실 정보 가져오기
+            StaffService staffService = new StaffServiceImpl();
+            DepartService departService = new DepartServiceImpl();
+            int departId = staffService.getStaff(staffId).getDepart_id();
+            String departName = departService.findById(departId).getName();
+
             TimetableService timetableService = new TimetableServiceImpl();
             int gradeSystem = timetableService.getGradeSystemByStaffId(staffId);
             List<RoomDTO> rooms = timetableService.getRoomsByStaffId(staffId);
@@ -48,12 +52,21 @@ public class TimeController extends HttpServlet {
                     if (rooms.get(r).getBuilding_id() == buildings.get(b).getId())
                         indexList.get(b).add(r);
             }
+            List<String> lectures = timetableService.getLecturesByStaffId(staffId);
+            List<String> lectureNames = new ArrayList<>();
+            for (String lecture : lectures) {
+                String[] str = lecture.split("\\^");
+                lectureNames.add(str[2]+"-"+str[3]+" ("+str[4]+"h) : "+str[8]);
+            }
 
             req.setAttribute("gradeSystem", gradeSystem);
             req.setAttribute("rooms", rooms);
             req.setAttribute("buildings", buildings);
             req.setAttribute("indexList", indexList);
             req.setAttribute("maxId", timetableService.getMaxId());
+            req.setAttribute("departName", departName);
+            req.setAttribute("lectures", lectures);
+            req.setAttribute("lectureNames", lectureNames);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/views/time/as_time.jsp");
             requestDispatcher.forward(req, resp);
         }
@@ -83,10 +96,17 @@ public class TimeController extends HttpServlet {
         else if (action.equals("save.do")) {
             String saveStr = req.getParameter("save");
             String[] saveArr = saveStr.split("/");
+            String termStr = req.getParameter("term");
+            String[] termArr = termStr.split("\\^");
+            int year = Integer.parseInt(termArr[0]);
+            int term = Integer.parseInt(termArr[1]);
+
+            //조교ID를 가져온다.
+            int staffId = 1; //로그인 부분 완성되면 구현
 
             //저장하기
             TimetableService timetableService = new TimetableServiceImpl();
-            timetableService.saveData(Arrays.asList(saveArr));
+            timetableService.saveData(Arrays.asList(saveArr), staffId, year, term);
 
             //저장 완료 전송
             resp.setContentType("text/plain");

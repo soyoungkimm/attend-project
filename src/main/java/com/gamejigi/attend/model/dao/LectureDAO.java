@@ -13,5 +13,4 @@ public interface LectureDAO {
     int update(LectureDTO lectureDTO);
     int delete(int id);
     int readTotalRowNumUseSearch(String yyyy, String term, String grade);
-
 }
