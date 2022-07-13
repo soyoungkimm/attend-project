@@ -16,5 +16,6 @@
 <a href="/holidays/list.do">holidays</a>
 <a href="/depart/list.do">Depart</a>
 <a href="/astime/time.do">(조교) 시간표 작성</a>
+<a href="/astime/timeall.do">(조교) 학과별 시간표</a>
 </body>
 </html>

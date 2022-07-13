@@ -1,5 +1,6 @@
 package com.gamejigi.attend.controller;
 
+import com.gamejigi.attend.model.dao.DepartDAO;
 import com.gamejigi.attend.model.dto.*;
 import com.gamejigi.attend.model.service.*;
 
@@ -63,7 +64,6 @@ public class ASTimeController extends HttpServlet {
             req.setAttribute("rooms", rooms);
             req.setAttribute("buildings", buildings);
             req.setAttribute("indexList", indexList);
-            req.setAttribute("maxId", timetableService.getMaxId());
             req.setAttribute("departName", departName);
             req.setAttribute("lectures", lectures);
             req.setAttribute("lectureNames", lectureNames);
@@ -71,6 +71,16 @@ public class ASTimeController extends HttpServlet {
             requestDispatcher.forward(req, resp);
         }
         else if (action.equals("timeall.do")) {
+            //학과 id를 가져온다. 로그인 구현하고 구현
+            int departId = 1;
+
+            //학과정보 가져오기
+            DepartService departService = new DepartServiceImpl();
+            String departName = departService.findById(departId).getName();
+            List<DepartDTO> departLists = departService.getDepartList();
+
+            req.setAttribute("departName", departName);
+            req.setAttribute("departLists", departLists);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/views/time/as_timeall.jsp");
             requestDispatcher.forward(req, resp);
         }
@@ -79,13 +89,11 @@ public class ASTimeController extends HttpServlet {
             String[] termArr = termStr.split("\\^");
             int year = Integer.parseInt(termArr[0]);
             int term = Integer.parseInt(termArr[1]);
-
-            //조교ID를 가져온다.
-            int staffId = 1; //로그인 부분 완성되면 구현
+            int departId = Integer.parseInt(req.getParameter("departId"));
 
             //시간표 가져오기
             TimetableService timetableService = new TimetableServiceImpl();
-            List<String> timetable = timetableService.loadData(staffId, year, term);
+            List<String> timetable = timetableService.loadData(departId, year, term);
 
             //시간표 전송
             resp.setContentType("text/plain");

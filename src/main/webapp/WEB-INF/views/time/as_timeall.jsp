@@ -7,7 +7,7 @@
 				<div class="row">
 					<div class="col-xl-12">
 						<div class="breadcrumb-holder">
-							<h1 class="main-title float-left">컴퓨터소프트웨어학과</h1>
+							<h1 class="main-title float-left">${departName}</h1>
 							<ol class="breadcrumb float-right">
 								<li class="breadcrumb-item">Home</li>
 								<li class="breadcrumb-item">조교</li>
@@ -20,20 +20,95 @@
 
 				<!--- 시간표 관련 JS  ---------------------------------------------->
 				<script>
-					function load_lec()			// 해당학기 시간표읽어 모두 표시
-					{	
-						//   0     1    2          3        4       5          6        7
-						// 학년^반^요일^시작교시^시간^과목명^교수님^강의실
-						var timetable = [
-							'2^A^1^1^4^PHP^교수님1^컴실2',
-							'2^B^2^1^4^PHP^교수님1^컴실2',
-							'1^A^3^2^3^C^교수님2^컴실1',
-							'1^B^4^6^3^C^교수님2^컴실1'	];
+					function draw_lecture(str)	// 시간표에 강의 그리기
+					{
+						//	0	1		2	3	4	5	6		7	8		9		10		11		12
+						//	id^	강의id^	학년^반^	시간^요일^시작교시^	시간^과목명^	교수님번호^교수님^	강의실번호^강의실
+						let lec_id = str;
+						str = str.split("^");
+						lec_count=str[0];
+						lec_no=str[1];
+						lec_grade=str[2];
+						lec_ban=str[3];
+						lec_hour=str[4];
+						lec_week=str[5];
+						lec_start=str[6];
+						lec_hours=str[7];
+						lec_name=str[8];
+						lec_teacherno=str[9];
+						lec_teacher=str[10];
+						lec_roomno=str[11];
+						lec_room=str[12];
+						lec_caption="<div style='cursor:pointer'><font color='blue'>"+lec_name+"</font><br>"+lec_grade+"-"+lec_ban+"</font><br>"+lec_teacher+"<br><font color='red'>"+lec_room+"</font></div>";
 
-						for (i=0;i<timetable.length;i++)
-						{
-							show_lecture(1,timetable[i]);
+						pos=lec_start+lec_week+lec_grade+lec_ban;
+						pos = (lec_start<10) ? "0"+pos : pos;
+
+						hh=(25+34*( lec_hours-1) )+"px";
+
+						document.getElementById( pos ).innerHTML="<div  class='lecbox_text' style='height:"+hh+"' id='"+lec_id+"' draggable='true' ondragstart='drag(event)' onclick='sel_lecture(\""+lec_id+"\")'>"+lec_caption+"</div>";
+					}
+
+					function clear_lecture()	// 시간표내의 모든 강의 선택 삭제
+					{
+						for (h=1;h<=10 ;h++){		// 시간(1-10)
+							for (w=1;w<=5 ;w++) {		// 요일(1-5)
+								for (g=1;g<=3 ;g++)	{		// 학년(1,2,3)
+									for (b=1;b<=2 ;b++)	{		// 반(A,B)
+										ban=(b==1) ? "A" : "B";
+										pos1=String(h)+String(w)+String(g)+ban;
+										if (h<10) pos1="0"+pos1;
+										if (typeof(document.getElementById( pos1 ).childNodes[0]) != 'undefined')
+										{
+											document.getElementById( pos1 ).childNodes[0].remove();
+										}
+									}}}}
+					}
+
+					function postMsg(url, msg, fn) {
+						let request = new XMLHttpRequest();
+						request.open("POST", url, true);
+						request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+						request.send(msg);
+						request.onreadystatechange = function () {
+							fn(request)
+						};
+					}
+
+					let state = 0;
+					let term = "2022^1", depart;
+					// id^강의id^학년^반^시간^요일^시작교시^시간^과목명^교수님번호^교수님^강의실번호^강의실
+					let timetable = [];
+					function load_lec(s)			// 해당학기 시간표읽어 모두 표시
+					{
+						if (state == 1) { //이미 검색 되었음
+							if (form1.sel1.value + "^" + form1.sel2.value == term && depart == form1.sel3.value)
+								return;
+							state = 0; //다시 검색하기
 						}
+
+						if (state == 0 || s) { //데이터 가져오기
+							clear_lecture();
+							function fn(request) {
+								if (request.readyState == 4 && request.status == 200) {
+									timetable = request.responseText.split("/");
+									//그리기
+									for (const str of timetable) {
+										if (str == "") continue;
+										draw_lecture(str);
+									}
+									state = 1;
+								}
+							}
+							term = form1.sel1.value + "^" + form1.sel2.value;
+							depart = form1.sel3.value;
+							postMsg("/astime/search.do", "term="+term+"&departId="+depart, fn);
+							state = 1;
+						}
+					}
+
+					window.onload = function () {
+						load_lec();
 					}
 				</script>
 
@@ -57,15 +132,18 @@
 													<span class="input-group-text">년도</span>
 												</div>
 												<div class="input-group-append">
-													<select name="sel1" class="form-control form-control-sm">
-														<option value="2019" selected>2019</option>
+													<select name="sel1" class="form-control form-control-sm" onchange="javascript:load_lec()">
+														<option value="2022" selected>2022</option>
+														<option value="2021">2021</option>
+														<option value="2020">2020</option>
+														<option value="2019">2019</option>
 														<option value='2018'>2018</option>
 														<option value='2017'>2017</option>
 														<option value='2016'>2016</option>
 														<option value='2015'>2015</option>
 													</select>
 													&nbsp;
-													<select name="sel2" class="form-control form-control-sm">
+													<select name="sel2" class="form-control form-control-sm" onchange="javascript:load_lec()">
 														<option value='1' selected>1학기</option>
 														<option value='2'>2학기</option>
 													</select>
@@ -77,13 +155,17 @@
 													<span class="input-group-text">학과</span>
 												</div>
 												<div class="input-group-append">
-													<select name="sel3" class="form-control form-control-sm">
-														<option value='1' selected>컴퓨터소프트웨어학과</option>
-														<option value='2'>컴퓨터전자과</option>
-														<option value='3'>영어과</option>
+													<select name="sel3" id="sel3" class="form-control form-control-sm" onchange="javascript:load_lec()">
+														<c:forEach var="item" items="${departLists}">
+															<option value="${item.getId()}"
+																<c:if test="${item.getName()==departName}">
+																	selected
+																</c:if>
+															>${item.getName()}</option>
+														</c:forEach>
 													</select>
 												</div>
-												&nbsp;<input type="button" class="btn btn-sm btn-primary" value="검색" onclick="load_lec();">
+												<input type="button" id="search" class="btn btn-sm btn-primary" value="검색" onclick="javascript:load_lec(true);">
 											</div>
 
 										</div>

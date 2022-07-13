@@ -98,32 +98,33 @@
 					let term = "2022^1";
 					// id^강의id^학년^반^시간^요일^시작교시^시간^과목명^교수님번호^교수님^강의실번호^강의실
 					let timetable = [];
-					function load_lec()			// 해당학기 시간표읽어 모두 표시
+					function load_lec(s)			// 해당학기 시간표읽어 모두 표시
 					{
 						if (state == 1) { //이미 검색 되었음
 							if (form1.sel1.value + "^" + form1.sel2.value == term)
 								return;
 							state = 0; //다시 검색하기
 						}
-						if (state == 0) { //데이터 가져오기
+						if (state == 0 || s) { //데이터 가져오기
 							clear_lecture();
 							function fn(request) {
 								if (request.readyState == 4 && request.status == 200) {
 									timetable = request.responseText.split("/");
 									//그리기
 									for (const str of timetable) {
+										if (str == "") continue;
 										draw_lecture(0, str, "");
 									}
 									state = 1;
 								}
 							}
 							term = form1.sel1.value + "^" + form1.sel2.value;
-							postMsg("/astime/search.do", "term="+term, fn);
+							postMsg("/astime/search.do", "term="+term+"&departId=1", fn);
 							state = 1;
 						}
 					}
 
-					function clear_lecture()	// 시간표내의 모든 강의 선택 취소
+					function clear_lecture()	// 시간표내의 모든 강의 선택 삭제
 					{
 						for (h=1;h<=10 ;h++){		// 시간(1-10)
 						for (w=1;w<=5 ;w++) {		// 요일(1-5)
@@ -327,7 +328,7 @@
 														<option value='2'>2학기</option>
 													</select>
 												</div>
-												&nbsp;<input type="button" class="btn btn-sm btn-primary" value="검색" onclick="load_lec();">
+												&nbsp;<input type="button" class="btn btn-sm btn-primary" value="검색" onclick="load_lec(true);">
 												&nbsp;<input type="button" class="btn btn-sm btn-primary" value="저장" onclick="save_lecture();">
 											</div>
 

@@ -8,7 +8,7 @@ public interface TimetableDAO {
     List<TimetableDTO> readList();
     List<TimetableDTO> readListUseLecture(int lecture_id);
     TimetableDTO readUseId(int id);
-    List<TimetableDTO> readListByStaffIdAndYearAndTerm(int staffId, int year, int term);
+    List<TimetableDTO> readListByDepartIdAndYearAndTerm(int departId, int year, int term);
     int create(TimetableDTO timetable);
     int update(TimetableDTO timetable);
     int delete(int id);

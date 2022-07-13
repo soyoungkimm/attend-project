@@ -92,7 +92,7 @@ public class TimetableDAOImpl extends DAOImplMySQL implements TimetableDAO {
     }
 
     @Override
-    public List<TimetableDTO> readListByStaffIdAndYearAndTerm(int staffId, int year, int term) {
+    public List<TimetableDTO> readListByDepartIdAndYearAndTerm(int departId, int year, int term) {
         List<TimetableDTO> list = new ArrayList<>();
         String query =
                 "SELECT t.*, s.grade, s.hour, s.name, l.class, l.teacher_id, te.name, r.name " +
@@ -101,12 +101,12 @@ public class TimetableDAOImpl extends DAOImplMySQL implements TimetableDAO {
                 "JOIN lecture l ON t.lecture_id = l.id " +
                 "JOIN teacher te ON te.id = l.teacher_id " +
                 "JOIN subject s ON l.subject_id = s.id " +
-                "JOIN staff st ON s.depart_id = st.depart_id " +
-                "WHERE st.id = ? AND s.yyyy = ? AND s.term = ? " +
+                "JOIN depart d ON s.depart_id = d.id " +
+                "WHERE d.id = ? AND s.yyyy = ? AND s.term = ? " +
                 "ORDER BY t.id ASC";
         try {
             PreparedStatement ps = conn.prepareStatement(query);
-            ps.setInt(1, staffId);
+            ps.setInt(1, departId);
             ps.setInt(2, year);
             ps.setInt(3, term);
             ResultSet rs = ps.executeQuery();

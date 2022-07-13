@@ -73,8 +73,8 @@ public class TimetableServiceImpl implements TimetableService {
     }
 
     @Override
-    public List<String> loadData(int staffId, int year, int term) {
-        List<TimetableDTO> result = timetableDAO.readListByStaffIdAndYearAndTerm(staffId, year, term);
+    public List<String> loadData(int departId, int year, int term) {
+        List<TimetableDTO> result = timetableDAO.readListByDepartIdAndYearAndTerm(departId, year, term);
 
         //문자열로 바꾸기
         List<String> resultStr = new ArrayList<>();

@@ -19,7 +19,7 @@ public interface TimetableService {
     int getMaxId();
 
     int saveData(List<String> list, int staffId, int year, int term);
-    List<String> loadData(int staffId, int year, int term);
+    List<String> loadData(int departId, int year, int term);
     List<RoomDTO> getRoomsByStaffId(int staffId);
     List<BuildingDTO> getBuildingsByRooms(List<RoomDTO> rooms);
     int getGradeSystemByStaffId(int staffId);
