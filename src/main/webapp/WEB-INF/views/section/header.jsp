@@ -124,7 +124,7 @@
                             <li><a href="te_main.html" style="padding:5px 0 5px 40px;">교수 메인</a></li>
                             <li><a href="/time/te_time.html" style="padding:5px 0 5px 40px;">시간표</a></li>
                             <li><a href="${pageContext.request.contextPath}/daily-attend/list.do" style="padding:5px 0 5px 40px;">일별 출석부</a></li>
-                            <li><a href="te_lecall.html" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
+                            <li><a href="${pageContext.request.contextPath}/subject-attend/list.do" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
                             <li><a href="te_lecmove.html" style="padding:5px 0 5px 40px;">휴보강</a></li>
                             <li><a href="te_lecqa.html" style="padding:5px 0 5px 40px;">교과목 문의</a></li>
                         </ul>

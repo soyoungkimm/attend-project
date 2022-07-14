@@ -1,12 +1,8 @@
 package com.gamejigi.attend.model.dao;
 
 import com.gamejigi.attend.model.dto.LectureDayDTO;
-import com.gamejigi.attend.model.dto.NoticeDTO;
-import com.gamejigi.attend.util.Pagination;
-
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class LectureDayDAOImpl extends DAOImplMySQL implements LectureDayDAO{
@@ -142,5 +138,85 @@ public class LectureDayDAOImpl extends DAOImplMySQL implements LectureDayDAO{
             throwables.printStackTrace();
         }
         return result;
+    }
+
+    @Override
+    public LectureDayDTO findNormstartAndNormhourAndNormdate(int lecture_id) {
+        LectureDayDTO lectureDayDTO = new LectureDayDTO();
+        String sql = "select DISTINCT min(normdate) as startdate, normstart, normhour from lectureday\n" +
+                "where lecture_id=?";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, lecture_id);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                lectureDayDTO.setNormstart(rs.getInt("normstart"));
+                lectureDayDTO.setNormhour(rs.getInt("normhour"));
+                lectureDayDTO.setNormdate(rs.getString("startdate"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return lectureDayDTO;
+    }
+
+    @Override
+    public int findHourByLectureId(int lecture_id) {
+        int hour = 0;
+        String sql = "select DISTINCT normhour from lectureday " +
+                "where lecture_id=?";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, lecture_id);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                hour = rs.getInt(1);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return hour;
+    }
+
+    @Override
+    public List<LectureDayDTO> readRestList(int lecture_id) {
+        List<LectureDayDTO> restList = new ArrayList<>();
+        String sql = "select restdate, starth from lectureday where normstate=3 and lecture_id=?";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, lecture_id);
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+                LectureDayDTO lectureDayDTO = new LectureDayDTO();
+                lectureDayDTO.setRestdate(rs.getString("restdate"));
+                lectureDayDTO.setStarth(rs.getInt("starth"));
+                restList.add(lectureDayDTO);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return restList;
+    }
+
+    @Override
+    public List<LectureDayDTO> findRestStarthAndHour(int lecture_id) {
+        List<LectureDayDTO> restList = new ArrayList<>();
+        String sql = "select normhour, starth from lectureday where normstate=3 and lecture_id=?";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, lecture_id);
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+                LectureDayDTO lectureDayDTO = new LectureDayDTO();
+                lectureDayDTO.setNormhour(rs.getInt("normhour"));
+                lectureDayDTO.setStarth(rs.getInt("starth"));
+                restList.add(lectureDayDTO);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return restList;
     }
 }

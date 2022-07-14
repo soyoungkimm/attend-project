@@ -1,6 +1,7 @@
 package com.gamejigi.attend.model.dao;
 
 import com.gamejigi.attend.model.dto.LectureDTO;
+import com.gamejigi.attend.model.dto.SubjectDTO;
 import com.gamejigi.attend.util.Pagination;
 
 import java.sql.*;
@@ -205,6 +206,7 @@ public class LectureDAOImpl extends DAOImplMySQL implements LectureDAO{
         return totalNum;
     }
 
+
     private LectureDTO setLectureDTO(ResultSet rs) throws SQLException {
 
         LectureDTO lectureDTO = new LectureDTO();
@@ -218,8 +220,62 @@ public class LectureDAOImpl extends DAOImplMySQL implements LectureDAO{
         lectureDTO.setName(rs.getString("name"));
         lectureDTO.setDepart_id(rs.getInt("depart_id"));
 
-
         return lectureDTO;
+    }
 
+
+    @Override
+    public List<SubjectDTO> findSubjectByTeacherId(int teacher_id) {
+        List<SubjectDTO> subjectList = new ArrayList<>();
+        String query = "select distinct subject.id, subject.name " +
+                "from lecture " +
+                "join subject on lecture.subject_id=subject.id " +
+                "join teacher on lecture.teacher_id=teacher.id " +
+                "where lecture.teacher_id=?";
+        try{
+            pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, teacher_id);
+            if((rs = pstmt.executeQuery()) != null){
+                while(rs.next()){
+                    SubjectDTO subjectDTO = new SubjectDTO();
+                    subjectDTO.setName(rs.getString("name"));
+                    subjectDTO.setId(rs.getInt("id"));
+                    subjectList.add(subjectDTO);
+                }
+            }
+        }catch (SQLException throwables){
+            throwables.printStackTrace();
+        }
+        return subjectList;
+    }
+
+
+    @Override
+    public int findIdByTeacherIdAndSearchText(String year, int term, int grade, String ban, int subject, int teacher_id) {
+        int result = 0;
+        String sql = "select lecture.id from lecture " +
+                "join subject on lecture.subject_id=subject.id " +
+                "where subject.id=? and " +
+                "subject.term=? and " +
+                "subject.grade=? and " +
+                "subject.yyyy=? and " +
+                "lecture.class=? and " +
+                "lecture.teacher_id=?";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, subject);
+            pstmt.setInt(2, term);
+            pstmt.setInt(3, grade);
+            pstmt.setString(4, year);
+            pstmt.setString(5, ban);
+            pstmt.setInt(6, teacher_id);
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+                result = rs.getInt(1);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return result;
     }
 }
