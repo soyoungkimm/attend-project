@@ -35,5 +35,7 @@
 <script src="${pageContext.request.contextPath}/template/attend/my/js/jquery.dataTables.min.js"></script>
 <script src="${pageContext.request.contextPath}/template/attend/my/js/dataTables.bootstrap4.min.js"></script>
 
+<script src="${pageContext.request.contextPath}/template/attend/my/js/my.js"></script>
+
 </body>
 </html>

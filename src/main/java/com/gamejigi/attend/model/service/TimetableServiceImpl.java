@@ -167,4 +167,26 @@ public class TimetableServiceImpl implements TimetableService {
 
         return resultStr;
     }
+
+    public List<String> loadDataUseTeId(int departId, int year, int term , int teacherId) {
+        List<TimetableDTO> result = timetableDAO.readListByDepartIdAndYearAndTermAndTeacherId(departId, year, term, teacherId);
+
+        //문자열로 바꾸기
+        List<String> resultStr = new ArrayList<>();
+        for (TimetableDTO time : result) {
+            String[] arr = {
+                    ""+time.getSubject_grade(),
+                    ""+time.getLecture_class(),
+                    ""+time.getWeekday(),
+                    ""+time.getIstart(),
+                    ""+time.getIhour(),
+                    ""+time.getSubject_name(),
+                    ""+time.getTeacher_name(),
+                    ""+time.getRoom_name()
+            };
+            resultStr.add(String.join("^", arr));
+        }
+
+        return resultStr;
+    }
 }

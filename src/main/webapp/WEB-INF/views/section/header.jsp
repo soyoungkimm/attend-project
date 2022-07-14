@@ -122,7 +122,7 @@
                         <a href="#"><i class="fa fa-fw fa-user"></i> <span> 교수 </span> <span class="menu-arrow"></span></a>
                         <ul class="list-unstyled">
                             <li><a href="te_main.html" style="padding:5px 0 5px 40px;">교수 메인</a></li>
-                            <li><a href="te_time.html" style="padding:5px 0 5px 40px;">시간표</a></li>
+                            <li><a href="/time/te_time.html" style="padding:5px 0 5px 40px;">시간표</a></li>
                             <li><a href="${pageContext.request.contextPath}/daily-attend/list.do" style="padding:5px 0 5px 40px;">일별 출석부</a></li>
                             <li><a href="te_lecall.html" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
                             <li><a href="te_lecmove.html" style="padding:5px 0 5px 40px;">휴보강</a></li>

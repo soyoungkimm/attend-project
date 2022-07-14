@@ -25,6 +25,11 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public List<RoomDTO> readList() {
+        return roomDAO.readList();
+    }
+
+    @Override
     public List<RoomDTO> getRoomList(Pagination pagination, String search) {
         return roomDAO.readListUsePaginationAndSearch(pagination,search);
     }

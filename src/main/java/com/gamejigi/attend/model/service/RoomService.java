@@ -6,6 +6,7 @@ import com.gamejigi.attend.util.Pagination;
 import java.util.List;
 
 public interface RoomService {
+    List<RoomDTO> readList();
     List<RoomDTO> getRoomList(Pagination pagination, String search);
     int createRoom(RoomDTO roomDTO);
     RoomDTO getRoom(int id);

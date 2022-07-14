@@ -296,4 +296,45 @@ public class TimetableDAOImpl extends DAOImplMySQL implements TimetableDAO {
         }
         return list;
     }
+
+    public List<TimetableDTO> readListByDepartIdAndYearAndTermAndTeacherId(int departId, int year, int term, int teacherId) {
+        List<TimetableDTO> list = new ArrayList<>();
+        String query =
+                "SELECT t.*, s.grade, s.hour, s.name, l.class, l.teacher_id, te.name, r.name " +
+                        "FROM timetable t " +
+                        "JOIN room r ON r.id = t.room_id " +
+                        "JOIN lecture l ON t.lecture_id = l.id " +
+                        "JOIN teacher te ON te.id = l.teacher_id " +
+                        "JOIN subject s ON l.subject_id = s.id " +
+                        "JOIN depart d ON s.depart_id = d.id " +
+                        "WHERE d.id = ? AND s.yyyy = ? AND s.term = ? AND l.teacher_id = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, departId);
+            ps.setInt(2, year);
+            ps.setInt(3, term);
+            ps.setInt(4,teacherId);
+            ResultSet rs = ps.executeQuery();
+            if (rs == null) {
+                ps.close();
+                return list;
+            }
+            while (rs.next()) {
+                TimetableDTO result = resultSetToTimetable(rs);
+                result.setSubject_grade(rs.getInt(7));
+                result.setSubject_hour(rs.getInt(8));
+                result.setSubject_name(rs.getString(9));
+                result.setLecture_class(rs.getString(10));
+                result.setTeacher_id(rs.getInt(11));
+                result.setTeacher_name(rs.getString(12));
+                result.setRoom_name(rs.getString(13));
+                list.add(result);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+        return list;
+    }
 }
