@@ -9,12 +9,12 @@ import com.gamejigi.attend.util.Pagination;
 import java.util.List;
 
 public interface LectureService {
-    List<LectureDTO> getLectureList(Pagination pagination, String yyyy, String term, String grade);
+    List<LectureDTO> getLectureList(Pagination pagination, int depart_id, String yyyy, String term, String grade);
     List<TeacherDTO> getTeacherListByDepartID(int depart_id);
     List<SubjectDTO> getSubjectList(int depart_id, int year, int term);
     int createLecture(LectureDTO lectureDTO);
     LectureDTO getLecture(int id);
     int deleteLecture(int id);
-    int getLectureTotalNum(String yyyy, String term, String grade);
+    int getLectureTotalNum(int depart_id, String yyyy, String term, String grade);
     int updateLecture(LectureDTO lectureDTO);
 }

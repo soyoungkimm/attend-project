@@ -4,31 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script>
-    //  function setTeacher(){
-    //     //임시, 새창에서 depart_id 값을 받아왔을 때 실행
-    //     //$(document).on('click','#aa',function(){
-    //         let depart_id= 1;
-    //         //document.getElementById('inputStoreName').value;
-    //         $.ajax({
-    //             url: '../lectures/getTeacherOptions.do',
-    //             type: "POST",
-    //             dataType: 'text',
-    //             data: {
-    //                 depart_id: depart_id
-    //             },
-    //             success: function (data) {
-    //                 let options;
-    //                 //alert("data: "+data);
-    //
-    //                 $('#teacher_sel').empty();
-    //                 $('#teacher_sel').html(data);
-    //             },
-    //             error: function (request, status, error) {
-    //                 alert("교수 목록을 불러올 수 없습니다");
-    //             }
-    //         });
-    //    // });
-    // }
 
 </script>
     <!------------------------------------------------------------------------------>

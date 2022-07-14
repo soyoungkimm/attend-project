@@ -37,10 +37,26 @@
 							form1.action="../lectures/list.do?y=" + form1.sel1.value + "&t=" + form1.sel2.value + "&g=" + form1.sel3.value;
 							form1.submit();
 						}
-						function update_teacher(pos)
+						function update_teacher(id)
 						{
-							form2.teacherno.value=eval("form2.teacher"+pos).value;
-							form2.submit();
+							let val = eval("form2.teacher"+id).value;
+
+							$.ajax({
+								url: '../lectures/edit-teacher.do',
+								type: "POST",
+								dataType: 'text',
+								data: {
+									id: id,
+									teacher : val
+								},
+								success: function () {
+									alert("수정되었습니다");
+
+								},
+								error: function (request, status, error) {
+									alert("수정할 수 없습니다");
+								}
+							});
 						}
 					</script>
 
@@ -95,110 +111,107 @@
 					</div>
 					</form>
 
-					<form name="form2" method="post" action="lecture_update.html">
+					<table class="table table-bordered table-hover table-responsive-sm mytable" style="width:100%">
+						<thead>
+							<tr class="mycolor1">
+								<th>과목코드</th>
+								<th>과목명</th>
+								<th>학점</th>
+								<th>시간</th>
+								<th>반</th>
+								<th width="120">담당교수</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="lectureList" items="${lectureList}">
+							<tr>
+								<input type="hidden" name="id" value="${lectureList.id}">
+								<input type="hidden" name="subject" value="${lectureList.subject_id}">
+								<td><a href="detail.do?id=${lectureList.id}">${lectureList.code}</a></td>
+								<td>${lectureList.name}</td>
+								<td>${lectureList.point}</td>
+								<td>${lectureList.hour}</td>
+								<td>${lectureList.classs}</td>
+								<td>
+									<div class="form-inline justify-content-center">
+										<select name="teacher${lectureList.id}" class="form-control form-control-sm teacherSel" onchange="update_teacher(${lectureList.id});">
+											<c:forEach var="teacherList" items="${teacherList}">
+												<c:choose>
+													<c:when test="${lectureList.teacher_id == teacherList.id}">
+														<option value='${teacherList.id}' selected>${teacherList.name}</option>
+													</c:when>
 
-						<input type="hidden" name="teacherno" value="">
+													<c:otherwise>
+													<option value='${teacherList.id}'>${teacherList.name}</option>
+													</c:otherwise>
+												</c:choose>
+											</c:forEach>
+										</select>
+									</div>
+								</td>
+							</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+					<c:if test="${fn:length(teacherList) != 0}">
+						<nav>
+							<ul class="pagination pagination-sm justify-content-center">
+									<%-- 블록 왼쪽 이동 --%>
+								<c:choose>
+									<c:when test="${pagination.curBlock > 1 }">
+										<li class="page-item"><a class="page-link" href="list.do?p=${pagination.beginPageNo- 1}&y=${yyyy}&t=${term}&g=${grade}">◀</a></li>
+									</c:when>
+									<c:otherwise>
+										<li class="page-item"><a class="page-link" href="">◀</a></li>
+									</c:otherwise>
+								</c:choose>
 
-						<table class="table table-bordered table-hover table-responsive-sm mytable" style="width:100%">
-							<thead>
-								<tr class="mycolor1">
-									<th>과목코드</th>
-									<th>과목명</th>
-									<th>학점</th>
-									<th>시간</th>
-									<th>반</th>
-									<th width="120">담당교수</th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach var="lectureList" items="${lectureList}">
-								<tr>
-									<td><a href="detail.do?id=${lectureList.id}">${lectureList.code}</a></td>
-									<td>${lectureList.name}</td>
-									<td>${lectureList.point}</td>
-									<td>${lectureList.hour}</td>
-									<td>${lectureList.classs}</td>
-									<td>
-										<div class="form-inline justify-content-center">
-											<select name="teacher1" class="form-control form-control-sm" onchange="update_teacher(this.value);">
-												<c:forEach var="teacherList" items="${teacherList}">
-													<c:choose>
-														<c:when test="${lectureList.teacher_id == teacherList.id}">
-															<option value='${teacherList.id}' selected>${teacherList.name}</option>
-														</c:when>
+									<%-- 페이지 왼쪽 이동 --%>
+								<c:choose>
+									<c:when test="${pagination.curPageNo > 1 }">
+										<li class="page-item"><a class="page-link" href="list.do?p=${pagination.curPageNo - 1}&y=${yyyy}&t=${term}&g=${grade}">◁</a></li>
+									</c:when>
+									<c:otherwise>
+										<li class="page-item"><a class="page-link" href="">◁</a></li>
+									</c:otherwise>
+								</c:choose>
 
-														<c:otherwise>
-														<option value='${teacherList.id}'>${teacherList.name}</option>
-														</c:otherwise>
-													</c:choose>
-												</c:forEach>
-											</select>
-										</div>
-									</td>
-								</tr>
+									<%-- 페이지 번호 --%>
+
+								<c:forEach var="pageNo" begin="${pagination.beginPageNo}" end="${pagination.endPageNo}">
+									<c:choose>
+										<c:when test="${pageNo == pagination.curPageNo }">
+											<li class="page-item active"><span class="page-link" style="background-color:steelblue">${pageNo}</span></li>
+										</c:when>
+										<c:otherwise>
+											<li class="page-item"><a class="page-link" href="list.do?p=${pageNo}&y=${yyyy}&t=${term}&g=${grade}">${pageNo}</a></li>
+										</c:otherwise>
+									</c:choose>
 								</c:forEach>
-							</tbody>
-						</table>
-						<c:if test="${fn:length(teacherList) != 0}">
-							<nav>
-								<ul class="pagination pagination-sm justify-content-center">
-										<%-- 블록 왼쪽 이동 --%>
-									<c:choose>
-										<c:when test="${pagination.curBlock > 1 }">
-											<li class="page-item"><a class="page-link" href="list.do?p=${pagination.beginPageNo- 1}&y=${yyyy}&t=${term}&g=${grade}">◀</a></li>
-										</c:when>
-										<c:otherwise>
-											<li class="page-item"><a class="page-link" href="">◀</a></li>
-										</c:otherwise>
-									</c:choose>
-
-										<%-- 페이지 왼쪽 이동 --%>
-									<c:choose>
-										<c:when test="${pagination.curPageNo > 1 }">
-											<li class="page-item"><a class="page-link" href="list.do?p=${pagination.curPageNo - 1}&y=${yyyy}&t=${term}&g=${grade}">◁</a></li>
-										</c:when>
-										<c:otherwise>
-											<li class="page-item"><a class="page-link" href="">◁</a></li>
-										</c:otherwise>
-									</c:choose>
-
-										<%-- 페이지 번호 --%>
-
-									<c:forEach var="pageNo" begin="${pagination.beginPageNo}" end="${pagination.endPageNo}">
-										<c:choose>
-											<c:when test="${pageNo == pagination.curPageNo }">
-												<li class="page-item active"><span class="page-link" style="background-color:steelblue">${pageNo}</span></li>
-											</c:when>
-											<c:otherwise>
-												<li class="page-item"><a class="page-link" href="list.do?p=${pageNo}&y=${yyyy}&t=${term}&g=${grade}">${pageNo}</a></li>
-											</c:otherwise>
-										</c:choose>
-									</c:forEach>
 
 
-										<%-- 페이지 오른쪽 이동 --%>
-									<c:choose>
-										<c:when test="${pagination.curPageNo < pagination.totalPages }">
-											<li class="page-item"><a class="page-link" href="list.do?p=${pagination.curPageNo + 1}&y=${yyyy}&t=${term}&g=${grade}">▷</a></li>
-										</c:when>
-										<c:otherwise>
-											<li class="page-item"><a class="page-link" href="">▷</a></li>
-										</c:otherwise>
-									</c:choose>
+									<%-- 페이지 오른쪽 이동 --%>
+								<c:choose>
+									<c:when test="${pagination.curPageNo < pagination.totalPages }">
+										<li class="page-item"><a class="page-link" href="list.do?p=${pagination.curPageNo + 1}&y=${yyyy}&t=${term}&g=${grade}">▷</a></li>
+									</c:when>
+									<c:otherwise>
+										<li class="page-item"><a class="page-link" href="">▷</a></li>
+									</c:otherwise>
+								</c:choose>
 
-										<%-- 블록 오른쪽 이동 --%>
-									<c:choose>
-										<c:when test="${pagination.curBlock < pagination.totalBlocks }">
-											<li class="page-item"><a class="page-link" href="list.do?p=${pagination.endPageNo + 1}&y=${yyyy}&t=${term}&g=${grade}">▶</a></li>
-										</c:when>
-										<c:otherwise>
-											<li class="page-item"><a class="page-link" href="">▶</a></li>
-										</c:otherwise>
-									</c:choose>
-								</ul>
-							</nav>
-						</c:if>
-					</form>
+									<%-- 블록 오른쪽 이동 --%>
+								<c:choose>
+									<c:when test="${pagination.curBlock < pagination.totalBlocks }">
+										<li class="page-item"><a class="page-link" href="list.do?p=${pagination.endPageNo + 1}&y=${yyyy}&t=${term}&g=${grade}">▶</a></li>
+									</c:when>
+									<c:otherwise>
+										<li class="page-item"><a class="page-link" href="">▶</a></li>
+									</c:otherwise>
+								</c:choose>
+							</ul>
+						</nav>
+					</c:if>
 				<!------------------------------------------------------------>
 				</div>		<!-- card body end -->
 			</div>		<!-- card end -->

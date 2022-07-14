@@ -25,8 +25,8 @@ public class LectureServiceImpl implements LectureService{
 
 
     @Override
-    public List<LectureDTO> getLectureList(Pagination pagination, String yyyy, String term, String grade) {
-        return lectureDAO.readListUsePaginationAndSearch(pagination, yyyy, term, grade);
+    public List<LectureDTO> getLectureList(Pagination pagination, int depart_id, String yyyy, String term, String grade) {
+        return lectureDAO.readListUsePaginationAndSearch(pagination, depart_id, yyyy, term, grade);
     }
 
     @Override
@@ -55,8 +55,8 @@ public class LectureServiceImpl implements LectureService{
     }
 
     @Override
-    public int getLectureTotalNum(String yyyy, String term, String grade) {
-        int var = lectureDAO.readTotalRowNumUseSearch(yyyy, term, grade);
+    public int getLectureTotalNum(int depart_id, String yyyy, String term, String grade) {
+        int var = lectureDAO.readTotalRowNumUseSearch(depart_id, yyyy, term, grade);
         return var;
     }
 

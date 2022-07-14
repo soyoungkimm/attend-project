@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 @WebServlet(name="lectures", urlPatterns = {"/lectures/","/lectures/list.do", "/lectures/create.do","/lectures/create-action.do",
-            "/lectures/detail.do", "/lectures/delete.do", "/lectures/edit.do", "/lectures/edit-action.do", "/lectures/getTeacherOptions.do"})
+            "/lectures/detail.do", "/lectures/delete.do", "/lectures/edit.do", "/lectures/edit-action.do", "/lectures/edit-teacher.do"})
 public class LectureController extends HttpServlet {
 
     LectureServiceImpl lectureService = new LectureServiceImpl();
@@ -60,12 +60,12 @@ public class LectureController extends HttpServlet {
             int curPageNo = (pageNo != null)? Integer.parseInt(pageNo) : 1;
             int perPageRows = 4; // 한 페이지에 나타날 데이터 행의 개수
             int perPagination = 5; // 한 화면에 나타날 페이지 번호 개수
-            int totalRows = lectureService.getLectureTotalNum(yyyy, term, grade);
+            int totalRows = lectureService.getLectureTotalNum(1, yyyy, term, grade);
             Pagination pagination = new Pagination(curPageNo, perPageRows, perPagination, totalRows);
 
             //lecture리스트 저장
             ArrayList<LectureDTO> lectureList = new ArrayList<LectureDTO>();
-            lectureList = (ArrayList<LectureDTO>) lectureService.getLectureList(pagination, yyyy, term, grade);
+            lectureList = (ArrayList<LectureDTO>) lectureService.getLectureList(pagination, 1, yyyy, term, grade);
 
             ArrayList<TeacherDTO> teacherList = new ArrayList<TeacherDTO>();
             //@임시 - depart_id: 로그인된 id로 변경예정
@@ -79,7 +79,7 @@ public class LectureController extends HttpServlet {
             req.setAttribute("lectureList", lectureList);
             req.setAttribute("teacherList", teacherList);
             req.getRequestDispatcher("/WEB-INF/views/lectures/list.jsp").forward(req, resp);
-        //@@@ Set Lecture 함수 readList에 맞게 바꾸기@@@
+
         }
         //lecture 생성 폼
         else if(action.equals("create.do")){
@@ -171,18 +171,19 @@ public class LectureController extends HttpServlet {
             }
 
         }
-        else if(action.equals("getTeacherOptions.do")){
+        else if(action.equals("edit-teacher.do")){
 
-            resp.setContentType("text/html;charset=UTF-8");
-            PrintWriter out = resp.getWriter();
-            out.print("<option value='1'>윤형태</option><option value='2'>한성현</option><option value='5'>고수정</option><option value='9'>유응구</option><option value='10'>교수1</option><option value='11'>교수2</option>");
-            out.close();
+            LectureDTO lectureDTO = new LectureDTO();
+            lectureDTO = lectureService.getLecture(Integer.parseInt(req.getParameter("id")));
+            lectureDTO.setTeacher_id( Integer.parseInt(req.getParameter("teacher")) );
+            int id = (int)lectureService.updateLecture(lectureDTO);
 
-//            resp.setContentType("application/json");
-//            PrintWriter out = resp.getWriter();
-//            out.print("{\"sucMessage\": \"LBV Teil wurde in der Datenbank gespeichert.\"}");
-//            out.flush();
-
+//            if(id > 0) {
+//                resp.setContentType("text/html;charset=UTF-8");
+//                PrintWriter out = resp.getWriter();
+//                out.print("수정되었습니다.");
+//                out.close();
+//            }
         }
 
     }

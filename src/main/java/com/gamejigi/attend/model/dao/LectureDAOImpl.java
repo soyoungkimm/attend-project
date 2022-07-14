@@ -98,18 +98,19 @@ public class LectureDAOImpl extends DAOImplMySQL implements LectureDAO{
     }
 
     @Override
-    public List<LectureDTO> readListUsePaginationAndSearch(Pagination pagination, String yyyy, String term, String grade) {
+    public List<LectureDTO> readListUsePaginationAndSearch(Pagination pagination, int depart_id, String yyyy, String term, String grade) {
 
         ArrayList<LectureDTO> lectureList = null;
-        String query = "select lecture.id as lecture_id, lecture.*, subject.* from lecture left join subject on subject.id = lecture.subject_id where yyyy=? and term=? and grade=? limit ?, ?";
+        String query = "select lecture.id as lecture_id, lecture.*, subject.* from lecture left join subject on subject.id = lecture.subject_id where depart_id=? and yyyy=? and term=? and grade=? limit ?, ?";
 
         try{
             pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, yyyy);
-            pstmt.setString(2, term);
-            pstmt.setString(3, grade);
-            pstmt.setInt(4, pagination.getFirstRow() - 1);
-            pstmt.setInt(5, pagination.getPerPageRows());
+            pstmt.setInt(1, depart_id);
+            pstmt.setString(2, yyyy);
+            pstmt.setString(3, term);
+            pstmt.setString(4, grade);
+            pstmt.setInt(5, pagination.getFirstRow() - 1);
+            pstmt.setInt(6, pagination.getPerPageRows());
 
             if((rs = pstmt.executeQuery()) != null){
                 lectureList = new ArrayList<LectureDTO>();
@@ -181,15 +182,16 @@ public class LectureDAOImpl extends DAOImplMySQL implements LectureDAO{
 
 
     @Override
-    public int readTotalRowNumUseSearch(String yyyy, String term, String grade) {
+    public int readTotalRowNumUseSearch(int depart_id, String yyyy, String term, String grade) {
 
         int totalNum = 0;
-        String query = "select count(*) as num from lecture left join subject on subject.id = lecture.subject_id where subject.yyyy=? and subject.term=? and subject.grade=? ";
+        String query = "select count(*) as num from lecture left join subject on subject.id = lecture.subject_id where subject.depart_id=? and subject.yyyy=? and subject.term=? and subject.grade=? ";
         try {
             pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, yyyy);
-            pstmt.setString(2, term);
-            pstmt.setString(3, grade);
+            pstmt.setInt(1, depart_id);
+            pstmt.setString(2, yyyy);
+            pstmt.setString(3, term);
+            pstmt.setString(4, grade);
 
             rs = pstmt.executeQuery();
 
