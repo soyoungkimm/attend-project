@@ -1,6 +1,8 @@
 package com.gamejigi.attend.model.dao;
 
 import com.gamejigi.attend.model.dto.*;
+import com.gamejigi.attend.model.dto.MyLectureDTO2;
+import com.gamejigi.attend.model.dto.SubjectAttendDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -77,11 +79,6 @@ public class MyLectureDAOImpl extends DAOImplMySQL implements MyLectureDAO {
 
         return row_num;
     }
-
-
-
-
-
 
 
 
@@ -173,12 +170,6 @@ public class MyLectureDAOImpl extends DAOImplMySQL implements MyLectureDAO {
         }
         return mylectureList;
     }
-
-
-
-
-
-
 
 
 

@@ -4,6 +4,7 @@ import com.gamejigi.attend.model.dao.*;
 import com.gamejigi.attend.model.dto.LectureDayDTO;
 import com.gamejigi.attend.model.dto.MyLectureDTO2;
 import com.gamejigi.attend.model.dto.StudentDTO;
+import com.gamejigi.attend.model.dto.SubjectAttendDTO;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -106,7 +106,7 @@ public class SubjectAttendController extends HttpServlet {
             }
 
             // 날짜 가져오기
-            List<String> dateList = lecture_id == 0 ? null : subjectAttendService.getDateList(normdate);
+            List<String> dateList = lecture_id == 0 || normdate == null ? null : subjectAttendService.getDateList(normdate);
 
             // 보강 날짜 가져오기
             List<LectureDayDTO> restList = lecture_id == 0 ? null : subjectAttendService.getRestList(lecture_id);

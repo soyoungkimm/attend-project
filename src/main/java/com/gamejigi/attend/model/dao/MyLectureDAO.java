@@ -3,6 +3,7 @@ package com.gamejigi.attend.model.dao;
 import com.gamejigi.attend.model.dto.MyLectureDTO2;
 import com.gamejigi.attend.model.dto.StLecDTO;
 import com.gamejigi.attend.model.dto.SubjectAttendDTO;
+
 import java.util.List;
 
 public interface MyLectureDAO {

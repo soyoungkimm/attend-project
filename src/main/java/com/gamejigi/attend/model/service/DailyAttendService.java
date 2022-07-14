@@ -1,8 +1,6 @@
 package com.gamejigi.attend.model.service;
 
 import com.gamejigi.attend.model.dto.*;
-import com.gamejigi.attend.util.Pagination;
-
 import java.util.HashMap;
 import java.util.List;
 
