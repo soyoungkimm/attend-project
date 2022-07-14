@@ -18,9 +18,7 @@ public class LectureDayDTO {
 
 
     // lecture
-    //private int subjectId;
     private String subjectName;
-    //private int teacherId;
     private String teacherName;
     private String ban;
 
@@ -32,7 +30,6 @@ public class LectureDayDTO {
     private int studentNum;
 
     // depart
-    //private int depart_id;
     private String departName;
 
     public Long getId() {

@@ -12,4 +12,8 @@ public interface LectureDayDAO {
     LectureDayDTO findById(Long id);
     int[] findStarthAndNormOrResthour(Long id);
     int findLectureIdById(int lectureday_id);
+    LectureDayDTO findNormstartAndNormhourAndNormdate(int lecture_id);
+    int findHourByLectureId(int lecture_id);
+    List<LectureDayDTO> readRestList(int lecture_id);
+    List<LectureDayDTO> findRestStarthAndHour(int lecture_id);
 }
