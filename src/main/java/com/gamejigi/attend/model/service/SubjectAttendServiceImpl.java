@@ -4,7 +4,7 @@ import com.gamejigi.attend.model.dao.LectureDAOImpl;
 import com.gamejigi.attend.model.dao.LectureDayDAOImpl;
 import com.gamejigi.attend.model.dao.MyLectureDAOImpl;
 import com.gamejigi.attend.model.dto.LectureDayDTO;
-import com.gamejigi.attend.model.dto.MyLectureDTO;
+import com.gamejigi.attend.model.dto.MyLectureDTO2;
 import com.gamejigi.attend.model.dto.SubjectAttendDTO;
 import com.gamejigi.attend.model.dto.SubjectDTO;
 
@@ -75,7 +75,7 @@ public class SubjectAttendServiceImpl implements SubjectAttendService{
     }
 
     @Override
-    public MyLectureDTO getLateAbsentScore(int lecture_id, int student_id) {
+    public MyLectureDTO2 getLateAbsentScore(int lecture_id, int student_id) {
         return mylectureDAO.findLateAbsentScore(lecture_id,student_id);
     }
 

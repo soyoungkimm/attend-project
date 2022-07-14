@@ -106,7 +106,7 @@ public class SubjectAttendController extends HttpServlet {
             }
 
             // 날짜 가져오기
-            List<String> dateList = lecture_id == 0 ? null : subjectAttendService.getDateList(normdate);
+            List<String> dateList = lecture_id == 0 || normdate == null ? null : subjectAttendService.getDateList(normdate);
 
             // 보강 날짜 가져오기
             List<LectureDayDTO> restList = lecture_id == 0 ? null : subjectAttendService.getRestList(lecture_id);
@@ -139,7 +139,7 @@ public class SubjectAttendController extends HttpServlet {
             dailyAttendService.updateAttend(lecture_id, student_id, h, v);
 
             // 전체 출결 상황 가져오기
-            MyLectureDTO myLectureDTO = subjectAttendService.getLateAbsentScore(lecture_id, student_id);
+            MyLectureDTO2 myLectureDTO = subjectAttendService.getLateAbsentScore(lecture_id, student_id);
             map.put("late", myLectureDTO.getIlate());
             map.put("absent", myLectureDTO.getIxhour());
             map.put("score", myLectureDTO.getIattend());

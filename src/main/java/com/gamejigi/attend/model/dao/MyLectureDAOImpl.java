@@ -1,8 +1,7 @@
 package com.gamejigi.attend.model.dao;
 
-import com.gamejigi.attend.model.dto.MyLectureDTO;
+import com.gamejigi.attend.model.dto.MyLectureDTO2;
 import com.gamejigi.attend.model.dto.SubjectAttendDTO;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -105,15 +104,15 @@ public class MyLectureDAOImpl extends DAOImplMySQL implements MyLectureDAO{
 
 
     @Override
-    public List<MyLectureDTO> readMyLectureList(int lecture_id) {
-        ArrayList<MyLectureDTO> myLectureList = new ArrayList<>();
+    public List<MyLectureDTO2> readMyLectureList(int lecture_id) {
+        ArrayList<MyLectureDTO2> myLectureList = new ArrayList<>();
         String sql = "select * from mylecture where lecture_id=?";
         try {
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, lecture_id);
             rs = pstmt.executeQuery();
             while (rs.next()) {
-                MyLectureDTO myLectureDTO = new MyLectureDTO();
+                MyLectureDTO2 myLectureDTO = new MyLectureDTO2();
                 myLectureDTO = setMyLecture(rs);
                 myLectureList.add(myLectureDTO);
             }
@@ -125,8 +124,8 @@ public class MyLectureDAOImpl extends DAOImplMySQL implements MyLectureDAO{
 
 
     @Override
-    public MyLectureDTO findByLectureIdAndStudentId(int lecture_id, int student_id) {
-        MyLectureDTO myLectureDTO = new MyLectureDTO();
+    public MyLectureDTO2 findByLectureIdAndStudentId(int lecture_id, int student_id) {
+        MyLectureDTO2 myLectureDTO = new MyLectureDTO2();
         String sql = "select * from mylecture where lecture_id=? and student_id=?";
         try {
             pstmt = conn.prepareStatement(sql);
@@ -143,7 +142,7 @@ public class MyLectureDAOImpl extends DAOImplMySQL implements MyLectureDAO{
     }
 
     @Override
-    public int updateLateAndAbsentAndAttendScore(MyLectureDTO myLectureDTO) {
+    public int updateLateAndAbsentAndAttendScore(MyLectureDTO2 myLectureDTO) {
         int row_num = 0;
         String sql = "update mylecture set ilate=?, ixhour=?, iattend=? where id=?";
         try {
@@ -160,8 +159,8 @@ public class MyLectureDAOImpl extends DAOImplMySQL implements MyLectureDAO{
     }
 
     @Override
-    public MyLectureDTO findLateAbsentScore(int lecture_id, int student_id) {
-        MyLectureDTO myLectureDTO = new MyLectureDTO();
+    public MyLectureDTO2 findLateAbsentScore(int lecture_id, int student_id) {
+        MyLectureDTO2 myLectureDTO = new MyLectureDTO2();
         String sql = "select ilate, ixhour, iattend from mylecture where lecture_id=? and student_id=?";
         try {
             pstmt = conn.prepareStatement(sql);
@@ -179,8 +178,8 @@ public class MyLectureDAOImpl extends DAOImplMySQL implements MyLectureDAO{
         return myLectureDTO;
     }
 
-    public MyLectureDTO setMyLecture(ResultSet rs) throws SQLException{
-        MyLectureDTO myLectureDTO = new MyLectureDTO();
+    public MyLectureDTO2 setMyLecture(ResultSet rs) throws SQLException{
+        MyLectureDTO2 myLectureDTO = new MyLectureDTO2();
         myLectureDTO.setId((Integer)rs.getObject("id"));
         myLectureDTO.setH1((Integer)rs.getObject("h1"));
         myLectureDTO.setH2((Integer)rs.getObject("h2"));

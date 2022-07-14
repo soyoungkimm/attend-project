@@ -1,6 +1,6 @@
 package com.gamejigi.attend.model.dto;
 
-public class MyLectureDTO {
+public class MyLectureDTO2 {
     private int id;
     private int studentId;
     private int lectureId;

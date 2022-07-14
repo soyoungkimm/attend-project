@@ -1,7 +1,7 @@
 package com.gamejigi.attend.model.service;
 
 import com.gamejigi.attend.model.dto.LectureDayDTO;
-import com.gamejigi.attend.model.dto.MyLectureDTO;
+import com.gamejigi.attend.model.dto.MyLectureDTO2;
 import com.gamejigi.attend.model.dto.SubjectAttendDTO;
 import com.gamejigi.attend.model.dto.SubjectDTO;
 
@@ -14,6 +14,6 @@ public interface SubjectAttendService {
     int getLectureId(String year, int term, int grade, String ban, int subject, int teacher_id);
     List<String> getDateList(String startDate);
     List<LectureDayDTO> getRestList(int lecture_id);
-    MyLectureDTO getLateAbsentScore(int lecture_id, int student_id);
+    MyLectureDTO2 getLateAbsentScore(int lecture_id, int student_id);
     void setRestLecture(List<SubjectAttendDTO> subjectAttendList, int lecture_id);
 }

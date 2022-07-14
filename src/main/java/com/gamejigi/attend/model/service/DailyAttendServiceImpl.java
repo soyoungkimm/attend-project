@@ -2,7 +2,7 @@ package com.gamejigi.attend.model.service;
 
 import com.gamejigi.attend.model.dao.*;
 import com.gamejigi.attend.model.dto.LectureDayDTO;
-import com.gamejigi.attend.model.dto.MyLectureDTO;
+import com.gamejigi.attend.model.dto.MyLectureDTO2;
 import com.gamejigi.attend.model.dto.StudentDTO;
 import com.gamejigi.attend.model.dto.SubjectAttendDTO;
 
@@ -105,7 +105,7 @@ public class DailyAttendServiceImpl implements DailyAttendService{
         int result = mylectureDAO.updateAttend(lecture_id,student_id, h, v);
 
         // 출석점수, 지각횟수, 결석 시간 update
-        MyLectureDTO myLectureDTO = mylectureDAO.findByLectureIdAndStudentId(lecture_id,student_id);
+        MyLectureDTO2 myLectureDTO = mylectureDAO.findByLectureIdAndStudentId(lecture_id,student_id);
         this.setLateAndAbsentAndAttendScore(myLectureDTO, lecture_id);
         mylectureDAO.updateLateAndAbsentAndAttendScore(myLectureDTO);
 
@@ -119,8 +119,8 @@ public class DailyAttendServiceImpl implements DailyAttendService{
         int result = mylectureDAO.updateAllAttend(lecture_id, dataList[0], dataList[1]);
 
         // 출석점수, 지각횟수, 결석 시간 update
-        List<MyLectureDTO> myLectureDTOList = mylectureDAO.readMyLectureList(lecture_id);
-        for (MyLectureDTO myLectureDTO : myLectureDTOList) {
+        List<MyLectureDTO2> myLectureDTOList = mylectureDAO.readMyLectureList(lecture_id);
+        for (MyLectureDTO2 myLectureDTO : myLectureDTOList) {
             this.setLateAndAbsentAndAttendScore(myLectureDTO, lecture_id);
             mylectureDAO.updateLateAndAbsentAndAttendScore(myLectureDTO);
         }
@@ -129,7 +129,7 @@ public class DailyAttendServiceImpl implements DailyAttendService{
     }
 
     @Override
-    public void setLateAndAbsentAndAttendScore(MyLectureDTO myLectureDTO, int lecture_id) {
+    public void setLateAndAbsentAndAttendScore(MyLectureDTO2 myLectureDTO, int lecture_id) {
         int late = 0;
         int absent = 0;
 
