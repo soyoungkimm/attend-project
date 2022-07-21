@@ -174,7 +174,7 @@
                         date_ = new Date();
                         year = date_.getFullYear();
                         month = date_.getMonth();
-                        if (month < 8)
+                        if (month < 8 && month > 1)
                         {
                             term_ = 1;
                         }

@@ -91,17 +91,13 @@ public class StLecController extends HttpServlet {
         else if (action.equals("create-action.do")) {
 
             StLecDTO stLecDTO = new StLecDTO();
-            LectureDTO lectureDTO;
-            SubjectDTO subjectDTO;
 
             int num = Integer.parseInt(req.getParameter("num"));
             String[] row;
-            int dupCount = 0;
 
 
             if (num!=0)
             {
-                int result = 0;
 
                 for (int n=0; n<num; n++)
                 {
@@ -118,6 +114,7 @@ public class StLecController extends HttpServlet {
                         stLecDTO.setLecture_id(Integer.parseInt(value[11]));                // lecture_id
                         stLecDTO.setDepart_name(value[0]);                                  // depart_name
                         stLecDTO.setGrade(Integer.parseInt(value[1]));                      // grade
+                        stLecDTO.setPoint(Integer.parseInt(value[7]));                      // point
 
                         int a = stLecService.getTerm(Integer.parseInt(value[11]));
                         stLecDTO.setTerm(a);                                                // term

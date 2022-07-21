@@ -85,7 +85,7 @@ public class MyLectureDAOImpl extends DAOImplMySQL implements MyLectureDAO {
     @Override
     public int createMyLecture(StLecDTO stLecDTO) {
         int rows = 0;
-        String sql = "insert into mylecture(student_id, lecture_id, departname, grade, term, retake) values(?, ?, ?, ?, ?, ?)";
+        String sql = "insert into mylecture(student_id, lecture_id, departname, grade, term, ipoint, retake) values(?, ?, ?, ?, ?, ?, ?)";
         try {
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, stLecDTO.getStudent_id());
@@ -93,7 +93,8 @@ public class MyLectureDAOImpl extends DAOImplMySQL implements MyLectureDAO {
             pstmt.setString(3, stLecDTO.getDepart_name());
             pstmt.setInt(4, stLecDTO.getGrade());
             pstmt.setInt(5, stLecDTO.getTerm());
-            pstmt.setInt(6, stLecDTO.getRetake());
+            pstmt.setInt(6, stLecDTO.getPoint());
+            pstmt.setInt(7, stLecDTO.getRetake());
             rows = pstmt.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -273,6 +274,32 @@ public class MyLectureDAOImpl extends DAOImplMySQL implements MyLectureDAO {
         return myLectureDTO;
     }
 
+    @Override
+    public List<StudentAttendDTO> readStudentAttendList2(int student_id, int term) {
+        ArrayList<StudentAttendDTO> subjectAttendList = new ArrayList<>();
+        String sql = "SELECT DISTINCT mylecture.*, lecture.class, lectureday.normhour, subject.name as subject_name " +
+                "FROM mylecture, lecture, lectureday, subject " +
+                "WHERE mylecture.lecture_id=lecture.id " +
+                "AND lectureday.lecture_id=lecture.id " +
+                "AND subject.id=lecture.subject_id " +
+                "AND student_id = ? AND mylecture.term = ?";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, student_id);
+            pstmt.setInt(2, term);
+
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                StudentAttendDTO studentAttendDTO;
+                studentAttendDTO = setStudentAttend(rs);
+                subjectAttendList.add(studentAttendDTO);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return subjectAttendList;
+    }
+
     public MyLectureDTO2 setMyLecture(ResultSet rs) throws SQLException{
         MyLectureDTO2 myLectureDTO = new MyLectureDTO2();
         myLectureDTO.setId((Integer)rs.getObject("id"));
@@ -347,6 +374,29 @@ public class MyLectureDAOImpl extends DAOImplMySQL implements MyLectureDAO {
         subjectAttendDTO.setAbsent(rs.getInt("ixhour"));
 
         return subjectAttendDTO;
+    }
+
+    public StudentAttendDTO setStudentAttend(ResultSet rs) throws SQLException{
+        StudentAttendDTO studentAttendDTO = new StudentAttendDTO();
+        Integer[] h = new Integer[45];
+
+        int count = 23;
+        for (int i = 0; i < 45; i++) {
+            h[i] = (Integer)rs.getObject(count);
+            count++;
+        }
+        studentAttendDTO.setH(h);
+        studentAttendDTO.setSubject_name(rs.getString("subject_name"));
+        studentAttendDTO.setGrade(rs.getInt("grade"));
+        studentAttendDTO.setPoint(rs.getInt("ipoint"));
+        studentAttendDTO.setClass_name(rs.getString("class"));
+        studentAttendDTO.setNormhour(rs.getInt("normhour"));
+        studentAttendDTO.setScore(rs.getInt("iattend"));
+        studentAttendDTO.setLate(rs.getInt("ilate"));
+        studentAttendDTO.setAbsent(rs.getInt("ixhour"));
+        studentAttendDTO.setLecture_id(rs.getInt("lecture_id"));
+
+        return studentAttendDTO;
     }
 
 }
