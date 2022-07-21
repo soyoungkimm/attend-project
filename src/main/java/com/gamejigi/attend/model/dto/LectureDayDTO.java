@@ -32,6 +32,9 @@ public class LectureDayDTO {
     // depart
     private String departName;
 
+    //subject
+    private String grade;
+
     public Long getId() {
         return id;
     }
@@ -222,5 +225,13 @@ public class LectureDayDTO {
 
     public void setDepartName(String depart_name) {
         this.departName = depart_name;
+    }
+
+    public String getGrade(){
+        return grade;
+    }
+
+    public void setGrade(String grade){
+        this.grade = grade;
     }
 }

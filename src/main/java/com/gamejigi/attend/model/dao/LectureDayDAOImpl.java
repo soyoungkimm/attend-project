@@ -1,6 +1,8 @@
 package com.gamejigi.attend.model.dao;
 
 import com.gamejigi.attend.model.dto.LectureDayDTO;
+import com.gamejigi.attend.util.Pagination;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,6 +99,8 @@ public class LectureDayDAOImpl extends DAOImplMySQL implements LectureDayDAO{
                 lectureDayDTO.setTeacherName(rs.getString("teacher_name"));
                 lectureDayDTO.setBuildingName(rs.getString("building_name"));
                 lectureDayDTO.setStarth(rs.getInt("starth"));
+                lectureDayDTO.setState(rs.getInt("state"));
+
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -218,5 +222,89 @@ public class LectureDayDAOImpl extends DAOImplMySQL implements LectureDayDAO{
             throwables.printStackTrace();
         }
         return restList;
+    }
+
+    @Override
+    public List<LectureDayDTO> readRestListUsePaginationAndDepartId(Pagination pagination, int depart_id) {
+        List<LectureDayDTO> restList = new ArrayList<>();
+        String sql = "select lectureday.id as lectureday_id, lectureday.*, lecture.class, subject.*, room.name as room_name, building.name as building_name, depart.name as depart_name ,teacher.name as teacher_name"+
+                " from lectureday left join lecture on lectureday.lecture_id = lecture.id "+
+                " left join subject on lecture.subject_id = subject.id "+
+                " left join room on lectureday.room_id = room.id "+
+                " left join building on room.building_id = building.id "+
+                " left join depart on subject.depart_id = depart.id "+
+                " left join teacher on lecture.teacher_id = teacher.id"+
+                " where (normstate=3 OR reststate=3) and subject.depart_id=?"+
+                " order by state asc, restdate asc limit ?, ?";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, depart_id);
+            pstmt.setInt(2, pagination.getFirstRow() - 1);
+            pstmt.setInt(3, pagination.getPerPageRows());
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+                LectureDayDTO lectureDayDTO = new LectureDayDTO();
+                lectureDayDTO.setId(rs.getLong("lectureday_id"));
+                lectureDayDTO.setSubjectName(rs.getString("name"));
+                lectureDayDTO.setRoomName(rs.getString("room_name"));
+                lectureDayDTO.setBuildingName(rs.getString("building_name"));
+                lectureDayDTO.setDepartName(rs.getString("depart_name"));
+                lectureDayDTO.setTeacherName(rs.getString("teacher_name"));
+                lectureDayDTO.setGrade(rs.getString("grade"));
+                lectureDayDTO.setBan(rs.getString("class"));
+                lectureDayDTO.setNormdate(rs.getString("normdate"));
+                lectureDayDTO.setNormstart(rs.getInt("normstart"));
+                lectureDayDTO.setNormhour(rs.getInt("normhour"));
+                lectureDayDTO.setRestdate(rs.getString("restdate"));
+                lectureDayDTO.setReststart(rs.getInt("reststart"));
+                lectureDayDTO.setResthour(rs.getInt("resthour"));
+                lectureDayDTO.setState(rs.getInt("state"));
+                restList.add(lectureDayDTO);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return restList;
+    }
+
+    @Override
+    public int readTotalRowNumUseDepartID(int depart_id){
+        int totalNum = 0;
+        String query = "select  count(*) as num from lectureday"+
+                " left join lecture on lectureday.lecture_id = lecture.id"+
+                "  left join subject on lecture.subject_id = subject.id"+
+                " where (normstate=3 OR reststate=3) and subject.depart_id=?";
+
+        try {
+            pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, depart_id);
+
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                totalNum = rs.getInt("num");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return totalNum;
+    }
+
+    @Override
+    public int updateStateById(Long id, int state){
+        int rows = 0;
+        String query = "update lectureday set state=? where id=?";
+
+        try {
+            pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, state);
+            pstmt.setLong(2, id);
+
+            rows = pstmt.executeUpdate(); // 1이상이면 정상, 0이하면 오류
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return rows;
+
     }
 }
