@@ -103,7 +103,7 @@
                         <ul class="list-unstyled">
                             <li><a href="../adTimes/timeAll.do" style="padding:5px 0 5px 40px;">학과별 시간표</a></li>
                             <li><a href="ad_timeteacher.html" style="padding:5px 0 5px 40px;">교수별 강의현황</a></li>
-                            <li><a href="ad_lecmove.html" style="padding:5px 0 5px 40px;">휴보강</a></li>
+                            <li><a href="/lecMove/list.do" style="padding:5px 0 5px 40px;">휴보강</a></li>
                         </ul>
                     </li>
                     <li class="submenu">

@@ -307,4 +307,71 @@ public class LectureDayDAOImpl extends DAOImplMySQL implements LectureDayDAO{
         return rows;
 
     }
+
+    @Override
+    public List<LectureDayDTO> readListUsePaginationAndYearAndTerm(Pagination pagination, String year, String term) {
+        ArrayList<LectureDayDTO> lecMoveList = new ArrayList<>();
+        String query = "select lectureday.id as lectureday_id, lectureday.*, lecture.class, subject.*, room.name as room_name, building.name as building_name, depart.name as depart_name ,teacher.name as teacher_name"+
+                " from lectureday " +
+                " join lecture on lectureday.lecture_id = lecture.id "+
+                " join subject on lecture.subject_id = subject.id "+
+                " join room on lectureday.room_id = room.id "+
+                " join building on room.building_id = building.id "+
+                " join depart on subject.depart_id = depart.id "+
+                " join teacher on lecture.teacher_id = teacher.id"+
+                " where (normstate=3 OR reststate=3) and state = 2 and subject.yyyy = ? and subject.term = ? " +
+                " order by restdate asc limit ?, ?";
+        try {
+            pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1,Integer.parseInt(year));
+            pstmt.setInt(2,Integer.parseInt(term));
+            pstmt.setInt(3, pagination.getFirstRow() - 1);
+            pstmt.setInt(4, pagination.getPerPageRows());
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+                LectureDayDTO lectureDayDTO = new LectureDayDTO();
+                lectureDayDTO.setId(rs.getLong("lectureday_id"));
+                lectureDayDTO.setSubjectName(rs.getString("name"));
+                lectureDayDTO.setRoomName(rs.getString("room_name"));
+                lectureDayDTO.setBuildingName(rs.getString("building_name"));
+                lectureDayDTO.setDepartName(rs.getString("depart_name"));
+                lectureDayDTO.setTeacherName(rs.getString("teacher_name"));
+                lectureDayDTO.setGrade(rs.getString("grade"));
+                lectureDayDTO.setBan(rs.getString("class"));
+                lectureDayDTO.setNormdate(rs.getString("normdate"));
+                lectureDayDTO.setNormstart(rs.getInt("normstart"));
+                lectureDayDTO.setNormhour(rs.getInt("normhour"));
+                lectureDayDTO.setRestdate(rs.getString("restdate"));
+                lectureDayDTO.setReststart(rs.getInt("reststart"));
+                lectureDayDTO.setResthour(rs.getInt("resthour"));
+                lectureDayDTO.setState(rs.getInt("state"));
+                lecMoveList.add(lectureDayDTO);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return lecMoveList;
+    }
+
+    @Override
+    public int readTotalNumUseYearAndTerm(String year, String term) {
+        int totalNum = 0;
+        String query = "select  count(*) as num from lectureday"+
+                " join lecture on lectureday.lecture_id = lecture.id"+
+                " join subject on lecture.subject_id = subject.id"+
+                " where (normstate=3 OR reststate=3) and state=2 and subject.yyyy = ? and subject.term = ?";
+
+        try {
+            pstmt = conn.prepareStatement(query);
+            pstmt.setString(1,year);
+            pstmt.setString(2,term);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                totalNum = rs.getInt("num");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return totalNum;
+    }
 }

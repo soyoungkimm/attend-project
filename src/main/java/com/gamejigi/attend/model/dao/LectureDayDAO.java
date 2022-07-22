@@ -18,4 +18,7 @@ public interface LectureDayDAO {
     List<LectureDayDTO> readRestListUsePaginationAndDepartId(Pagination pagination, int depart_id);
     int readTotalRowNumUseDepartID(int depart_id);
     int updateStateById(Long id, int state);
+
+    List<LectureDayDTO> readListUsePaginationAndYearAndTerm(Pagination pagination, String year , String term);
+    int readTotalNumUseYearAndTerm(String year, String term);
 }
