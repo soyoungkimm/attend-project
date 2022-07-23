@@ -16,4 +16,5 @@ public interface RoomDAO {
     int update(RoomDTO roomDTO);
     int readTotalRowNumUseSearch(String search);
     int readTotalRowNum();
+    RoomDTO findByLectureId(int lectureId);
 }

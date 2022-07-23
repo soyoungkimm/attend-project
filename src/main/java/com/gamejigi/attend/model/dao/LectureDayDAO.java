@@ -14,6 +14,10 @@ public interface LectureDayDAO {
     int findHourByLectureId(int lecture_id);
     List<LectureDayDTO> readRestList(int lecture_id);
     List<LectureDayDTO> findRestStarthAndHour(int lecture_id);
+    List<LectureDayDTO> readListUsePaginationByTeacher(Pagination pagination, int id);
+    int getTotalRowsByTeacher(int id);
+    int getTotalRows();
+    void updateForLecMove(LectureDayDTO lectureDay);
 
     List<LectureDayDTO> readRestListUsePaginationAndDepartId(Pagination pagination, int depart_id);
     int readTotalRowNumUseDepartID(int depart_id);

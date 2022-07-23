@@ -15,4 +15,6 @@ public interface BuildingDAO {
     int update(BuildingDTO buildingDTO);
     int readTotalRowNumUseSearch(String search);
     int readTotalRowNum();
+    String getBuildingNameByRoomName(String roomName);
+    List<BuildingDTO> readListByDepart(int depart);
 }

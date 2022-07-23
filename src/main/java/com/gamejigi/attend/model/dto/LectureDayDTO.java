@@ -22,6 +22,9 @@ public class LectureDayDTO {
     private String teacherName;
     private String ban;
 
+    // subject
+    private String grade;
+
     // room
     private String roomName;
     private String buildingName;
@@ -31,9 +34,6 @@ public class LectureDayDTO {
 
     // depart
     private String departName;
-
-    //subject
-    private String grade;
 
     public Long getId() {
         return id;
@@ -211,14 +211,6 @@ public class LectureDayDTO {
         this.studentNum = studentNum;
     }
 
-//    public int getDepart_id() {
-//        return depart_id;
-//    }
-//
-//    public void setDepart_id(int depart_id) {
-//        this.depart_id = depart_id;
-//    }
-
     public String getDepartName() {
         return departName;
     }
@@ -227,11 +219,11 @@ public class LectureDayDTO {
         this.departName = depart_name;
     }
 
-    public String getGrade(){
+    public String getGrade() {
         return grade;
     }
 
-    public void setGrade(String grade){
+    public void setGrade(String grade) {
         this.grade = grade;
     }
 }

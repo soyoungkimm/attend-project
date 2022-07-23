@@ -219,6 +219,28 @@ public class RoomDAOImpl extends DAOImplMySQL implements RoomDAO{
         return totalNum;
     }
 
+    @Override
+    public RoomDTO findByLectureId(int lectureId) {
+        RoomDTO result = null;
+        String query = "select r.* from room r " +
+                "join timetable t on t.room_id = r.id " +
+                "where t.lecture_id=?";
+
+        try{
+            pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, lectureId);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                result = setRoom(rs);
+            }
+        }catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return result;
+    }
+
     private RoomDTO setRoom(ResultSet rs) throws SQLException {
 
         RoomDTO roomDTO = new RoomDTO();

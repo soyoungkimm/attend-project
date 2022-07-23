@@ -190,6 +190,50 @@ public class BuildingDAOImpl extends DAOImplMySQL implements BuildingDAO{
         return totalNum;
     }
 
+    @Override
+    public String getBuildingNameByRoomName(String roomName) {
+        String buildingName = "";
+        String query = "" +
+                "select b.name " +
+                "from building b " +
+                "join room r on r.building_id = b.id " +
+                "where r.name LIKE '%"+roomName+"%'";
+        try {
+            stmt = conn.createStatement();
+
+            rs = stmt.executeQuery(query);
+            if (rs.next()) {
+                buildingName = rs.getString("name");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return buildingName;
+    }
+
+    @Override
+    public List<BuildingDTO> readListByDepart(int depart) {
+        List<BuildingDTO> buildingList = new ArrayList<>();
+        String query = "" +
+                "select b.* from building b " +
+                "join (select distinct building_id from room " +
+                "where depart_id = "+depart+") r " +
+                "on r.building_id = b.id " +
+                "order by b.name asc";
+        try {
+            stmt = conn.createStatement();
+            if((rs = stmt.executeQuery(query)) != null) {
+                while (rs.next()) {
+                    BuildingDTO building = setBuilding(rs);
+                    buildingList.add(building);
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return buildingList;
+    }
+
     private BuildingDTO setBuilding(ResultSet rs) throws SQLException {
 
         BuildingDTO buildingDTO = new BuildingDTO();

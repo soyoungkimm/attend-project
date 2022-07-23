@@ -168,6 +168,7 @@ public class TimetableServiceImpl implements TimetableService {
         return resultStr;
     }
 
+    @Override
     public List<String> loadDataUseTeId(int departId, int year, int term , int teacherId) {
         List<TimetableDTO> result = timetableDAO.readListByDepartIdAndYearAndTermAndTeacherId(departId, year, term, teacherId);
 
