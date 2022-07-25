@@ -16,4 +16,5 @@ public interface LectureDAO {
     int readTotalRowNumUseSearch(int depart_id, String yyyy, String term, String grade);
     List<SubjectDTO> findSubjectByTeacherId(int teacher_id);
     int findIdByTeacherIdAndSearchText(String year, int term, int grade, String ban, int subject, int teacher_id);
+    int findIdByStaffIdAndSearchText(String year, int term, int grade, String ban, int subject, int staff_id);
 }
