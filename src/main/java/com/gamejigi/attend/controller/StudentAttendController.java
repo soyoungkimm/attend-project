@@ -15,8 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-@WebServlet(name = "student-attend", urlPatterns = { "/student-attend/list.do", "/student-attend/detail.do",
-        "/student-attend/ajax-update-attend.do", "/student-attend/update-all-attend.do" })
+@WebServlet(name = "student-attend", urlPatterns = { "/student-attend/list.do" })
 
 public class StudentAttendController extends HttpServlet {
 
