@@ -278,4 +278,34 @@ public class LectureDAOImpl extends DAOImplMySQL implements LectureDAO{
         }
         return result;
     }
+
+    @Override
+    public int findIdByStaffIdAndSearchText(String year, int term, int grade, String ban, int subject, int staff_id) {
+        int result = 0;
+        String sql = "select lecture.id from lecture " +
+                "join subject on lecture.subject_id=subject.id " +
+                "join staff on staff.depart_id=subject.depart_id " +
+                "where subject.id=? and " +
+                "subject.term=? and " +
+                "subject.grade=? and " +
+                "subject.yyyy=? and " +
+                "lecture.class=? and " +
+                "staff.id=?";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, subject);
+            pstmt.setInt(2, term);
+            pstmt.setInt(3, grade);
+            pstmt.setString(4, year);
+            pstmt.setString(5, ban);
+            pstmt.setInt(6, staff_id);
+            rs = pstmt.executeQuery();
+            while(rs.next()) {
+                result = rs.getInt(1);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return result;
+    }
 }
