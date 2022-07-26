@@ -17,4 +17,5 @@ public interface TimetableDAO {
     int getMaxId();
     List<TimetableDTO> getLecturesByStaffId(int staffId);
     List<TimetableDTO> readListByDepartIdAndYearAndTermAndTeacherId(int departId, int year, int term, int teacherId);
+    List<TimetableDTO> readListByStudentId(int student_id);
 }

@@ -25,4 +25,5 @@ public interface TimetableService {
     int getGradeSystemByStaffId(int staffId);
     List<String> getLecturesByStaffId(int staffId);
     List<String> loadDataUseTeId(int departId, int year, int term, int teacherId);
+    List<String> getDataByStudentId(int student_id);
 }
