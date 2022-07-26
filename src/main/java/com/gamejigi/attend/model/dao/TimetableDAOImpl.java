@@ -337,4 +337,42 @@ public class TimetableDAOImpl extends DAOImplMySQL implements TimetableDAO {
         }
         return list;
     }
+
+    @Override
+    public List<TimetableDTO> readListByStudentId(int student_id) {
+        List<TimetableDTO> list = new ArrayList<>();
+        String query = "select timetable.*, teacher.name as teacher_name, room.name as room_name, " +
+                "lecture.class, subject.grade, subject.name as subject_name " +
+                "from timetable, lecture, teacher, subject, mylecture, room, student " +
+                "where timetable.lecture_id=lecture.id and " +
+                "lecture.teacher_id=teacher.id and " +
+                "timetable.room_id=room.id and " +
+                "lecture.subject_id=subject.id and " +
+                "lecture.id=mylecture.lecture_id and " +
+                "mylecture.student_id=student.id and " +
+                "student.id=?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setInt(1, student_id);
+            ResultSet rs = ps.executeQuery();
+            if (rs == null) {
+                ps.close();
+                return list;
+            }
+            while (rs.next()) {
+                TimetableDTO result = resultSetToTimetable(rs);
+                result.setTeacher_name(rs.getString("teacher_name"));
+                result.setRoom_name(rs.getString("room_name"));
+                result.setLecture_class(rs.getString("class"));
+                result.setSubject_grade(rs.getInt("grade"));
+                result.setSubject_name(rs.getString("subject_name"));
+                list.add(result);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+        return list;
+    }
 }
