@@ -18,5 +18,6 @@
 <a href="/astime/time.do">(조교) 시간표 작성</a>
 <a href="/astime/timeall.do">(조교) 학과별 시간표</a>
 <a href="/time/te_time.do">(교수) 시간표</a>
+<a href="/lecQa/te_list.do">테슷으</a>
 </body>
 </html>

@@ -79,7 +79,9 @@ public class MylectureDTO {
     private int hour;
     private String teacher_name;
 
-
+    private String student_name;
+    private String student_schoolno;
+    private String student_phone;
 
     public int getId() {
         return id;
@@ -680,5 +682,29 @@ public class MylectureDTO {
 
     public void setTeacher_name(String teacher_name) {
         this.teacher_name = teacher_name;
+    }
+
+    public String getStudent_name() {
+        return student_name;
+    }
+
+    public void setStudent_name(String student_name) {
+        this.student_name = student_name;
+    }
+
+    public String getStudent_schoolno() {
+        return student_schoolno;
+    }
+
+    public void setStudent_schoolno(String student_schoolno) {
+        this.student_schoolno = student_schoolno;
+    }
+
+    public String getStudent_phone() {
+        return student_phone;
+    }
+
+    public void setStudent_phone(String student_phone) {
+        this.student_phone = student_phone;
     }
 }
