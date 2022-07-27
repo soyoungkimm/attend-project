@@ -17,4 +17,5 @@ public interface StaffDAO {
     int create(StaffDTO staffDTO);
     int delete(int id);
     int update(StaffDTO staffDTO);
+    int findDepartIdById(int staff_id);
 }

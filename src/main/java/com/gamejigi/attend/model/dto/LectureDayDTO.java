@@ -24,6 +24,7 @@ public class LectureDayDTO {
 
     // subject
     private String grade;
+    private int term;
 
     // room
     private String roomName;
@@ -225,5 +226,13 @@ public class LectureDayDTO {
 
     public void setGrade(String grade) {
         this.grade = grade;
+    }
+
+    public int getTerm() {
+        return term;
+    }
+
+    public void setTerm(int term) {
+        this.term = term;
     }
 }

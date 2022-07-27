@@ -13,5 +13,5 @@ public interface StaffService {
     Boolean createStaff(StaffDTO staffDTO, Part filePart, String absolutePath);
     Boolean updateStaff(StaffDTO staffDTO, Part filePart, String absolutePath);
     int deleteStaff(int id, String absolutePath);
-
+    int getDepartId(int staff_id);
 }

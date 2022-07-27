@@ -30,7 +30,7 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
         <div class="card mb-3">
             <div class="card-header mycolor3" style="padding:10px">
-                <h3><i class="fa fa-table"></i> 공지사항 입력</h3>
+                <h3><i class="fa fa-table"></i> 공지사항 상세</h3>
             </div>
 
             <div class="card-body" style="padding:10px">

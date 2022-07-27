@@ -367,6 +367,7 @@ public class LectureDayDAOImpl extends DAOImplMySQL implements LectureDayDAO{
                 lectureDayDTO.setReststart(rs.getInt("reststart"));
                 lectureDayDTO.setResthour(rs.getInt("resthour"));
                 lectureDayDTO.setState(rs.getInt("state"));
+                lectureDayDTO.setTerm(rs.getInt("term"));
                 restList.add(lectureDayDTO);
             }
         } catch (SQLException throwables) {

@@ -99,4 +99,9 @@ public class StaffServiceImpl implements StaffService {
 
         return staffDAO.delete(id);
     }
+
+    @Override
+    public int getDepartId(int staff_id) {
+        return staffDAO.findDepartIdById(staff_id);
+    }
 }

@@ -244,5 +244,21 @@ public class StaffDAOImpl extends DAOImplMySQL implements StaffDAO {
         return rows;
     }
 
+    @Override
+    public int findDepartIdById(int staff_id) {
+        int depart_id = 0;
+        String sql = "select depart_id from staff where id=?";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, staff_id);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                depart_id = rs.getInt(1);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return depart_id;
+    }
 }
 
