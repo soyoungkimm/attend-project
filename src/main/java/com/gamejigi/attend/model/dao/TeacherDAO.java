@@ -1,5 +1,6 @@
 package com.gamejigi.attend.model.dao;
 
+import com.gamejigi.attend.model.dto.LoginDTO;
 import com.gamejigi.attend.model.dto.TeacherDTO;
 import com.gamejigi.attend.util.Pagination;
 
@@ -18,4 +19,5 @@ public interface TeacherDAO {
     int create(TeacherDTO teacherDTO);
     int delete(int id);
     int update(TeacherDTO teacherDTO);
+    LoginDTO findByUidAndPwd(String uid, String pwd);
 }

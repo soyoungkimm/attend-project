@@ -1,6 +1,7 @@
 package com.gamejigi.attend.model.service;
 
 import com.gamejigi.attend.model.dao.StaffDAOImpl;
+import com.gamejigi.attend.model.dto.LoginDTO;
 import com.gamejigi.attend.model.dto.StaffDTO;
 import com.gamejigi.attend.util.Pagination;
 
@@ -103,5 +104,10 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public int getDepartId(int staff_id) {
         return staffDAO.findDepartIdById(staff_id);
+    }
+
+    @Override
+    public LoginDTO loginCheck(String uid, String pwd) {
+        return staffDAO.findByUidAndPwd(uid, pwd);
     }
 }

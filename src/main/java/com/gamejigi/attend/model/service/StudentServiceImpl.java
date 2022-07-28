@@ -1,6 +1,7 @@
 package com.gamejigi.attend.model.service;
 
 import com.gamejigi.attend.model.dao.StudentDAOImpl;
+import com.gamejigi.attend.model.dto.LoginDTO;
 import com.gamejigi.attend.model.dto.StudentDTO;
 import com.gamejigi.attend.util.Pagination;
 
@@ -98,6 +99,11 @@ public class StudentServiceImpl implements StudentService {
         }
 
         return false;
+    }
+
+    @Override
+    public LoginDTO loginCheck(String uid, String pwd) {
+        return studentDAO.findByUidAndPwd(uid, pwd);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.gamejigi.attend.model.dao;
 
 import com.gamejigi.attend.model.dto.LectureDayDTO;
+import com.gamejigi.attend.model.dto.LoginDTO;
 import com.gamejigi.attend.model.dto.StudentDTO;
 import com.gamejigi.attend.util.Pagination;
 
@@ -240,6 +241,29 @@ public class StudentDAOImpl extends DAOImplMySQL implements StudentDAO {
         return studentList;
     }
 
+    @Override
+    public LoginDTO findByUidAndPwd(String uid, String pwd) {
+        LoginDTO loginDTO = new LoginDTO();
+        LoginDAOImpl loginDAO = new LoginDAOImpl();
+        String sql = "SELECT id, schoolno, pwd FROM student where schoolno=? and pwd=?";
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, String.valueOf(uid));
+            pstmt.setString(2, String.valueOf(pwd));
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                loginDTO = setLogin(rs);
+            }
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return loginDTO;
+    }
+
+
     private StudentDTO setStudent(ResultSet rs) throws SQLException {
 
         StudentDTO studentDTO = new StudentDTO();
@@ -261,5 +285,14 @@ public class StudentDAOImpl extends DAOImplMySQL implements StudentDAO {
         return studentDTO;
     }
 
+
+
+    private LoginDTO setLogin(ResultSet rs) throws SQLException {
+        LoginDTO loginDTO = new LoginDTO();
+        loginDTO.setId(rs.getInt(1));
+        loginDTO.setUid(rs.getString(2));
+        loginDTO.setPwd(rs.getString(3));
+        return loginDTO;
+    }
 
 }

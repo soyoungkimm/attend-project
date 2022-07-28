@@ -1,5 +1,6 @@
 package com.gamejigi.attend.model.service;
 
+import com.gamejigi.attend.model.dto.LoginDTO;
 import com.gamejigi.attend.model.dto.StudentDTO;
 import com.gamejigi.attend.util.Pagination;
 
@@ -13,4 +14,5 @@ public interface StudentService {
     int deleteStudent(Long id, String absolutePath);
     int getStudentTotalNum(String search);
     Boolean updateStudent(StudentDTO studentDTO, Part filePart, String absolutePath);
+    LoginDTO loginCheck(String uid, String pwd);
 }

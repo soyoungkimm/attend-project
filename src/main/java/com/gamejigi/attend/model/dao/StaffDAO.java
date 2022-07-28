@@ -1,5 +1,6 @@
 package com.gamejigi.attend.model.dao;
 
+import com.gamejigi.attend.model.dto.LoginDTO;
 import com.gamejigi.attend.model.dto.StaffDTO;
 import com.gamejigi.attend.util.Pagination;
 
@@ -18,4 +19,5 @@ public interface StaffDAO {
     int delete(int id);
     int update(StaffDTO staffDTO);
     int findDepartIdById(int staff_id);
+    LoginDTO findByUidAndPwd(String uid, String pwd);
 }

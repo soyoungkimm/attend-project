@@ -1,0 +1,117 @@
+<!-------------------------------------------------------------------------------->
+<!-- 프로그램 : 인덕대학교 컴퓨터소프트웨어학과 전자출석 Demo                              -->
+<!--                                                                                                                  -->
+<!-- 소속 : 인덕대학교  컴퓨터소프트웨어학과  창업동아리 겜지기                              -->
+<!-- 교수 : 윤형태 ( 2019.05 - 2022.06 )                                                                  -->
+<!-------------------------------------------------------------------------------->
+
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>인덕대학교 전자출석 Demo (겜지기)</title>
+
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/template/attend/my/images/favicon.ico">
+
+    <!-- css 선언부 ---------------------------------------------------------------->
+    <link href="${pageContext.request.contextPath}/template/attend/my/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/template/attend/my/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/template/attend/my/css/style.css" rel="stylesheet" type="text/css" />
+
+    <link href="${pageContext.request.contextPath}/template/attend/my/css/my.css" rel="stylesheet" type="text/css">
+
+    <link href="${pageContext.request.contextPath}/template/attend/my/css/login.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/template/attend/my/css/bootstrap-checkbox.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="login-menu" style="background-color:#732f3c">
+    <div class="container">
+        <nav class="nav">
+            <a class="nav-link" href="http://www.induk.ac.kr">Home</a>
+            <a class="nav-link active" href="login.jsp">Login</a>
+        </nav>
+    </div>
+</div>
+
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+
+        <div class="card">
+            <h4 class="card-header mycolor3" style="background-color:#732f3c;color:white">Login</h4>
+            <div class="card-body" style="padding:10px">
+                <div class="alert alert-primary" role="alert" align="center">
+                    <h5 class="alert-heading">&nbsp;&nbsp;&nbsp; 전자출결시스템 Demo &nbsp;&nbsp;&nbsp;</h5><br>인덕대학교
+                </div>
+
+                <form data-toggle="validator" role="form" method="post" action="login-action.do">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Login ID</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-user" aria-hidden="true"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" name="login_uid" data-error="Input valid" required>
+                                </div>
+                                <div class="help-block with-errors text-danger"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Password</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-unlock" aria-hidden="true"></i></span>
+                                    </div>
+                                    <input type="password" id="inputPassword" data-length="6" name="login_password" class="form-control" data-error="Password to short" required />
+                                </div>
+                                <div class="help-block with-errors text-danger"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="hidden" name="redirect" value="" />
+                            <input type="submit" class="btn btn-primary btn-lg btn-block" value="Login" name="submit" />
+                        </div>
+                    </div>
+                </form>
+
+                <div class="clear"></div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <span class="text-muted">Copyrightⓒ 2019 Smart Attend System. All right Reserved By Induk University Gamejigi</span>
+    </div>
+</footer>
+
+<!-- js 선언부 ----------------------------------------------------------------->
+<script src="${pageContext.request.contextPath}/template/attend/my/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/template/attend/my/js/bootstrap.min.js"></script>
+
+<script src="${pageContext.request.contextPath}/template/attend/my/js/pikeadmin.js"></script>
+
+</body>
+</html>

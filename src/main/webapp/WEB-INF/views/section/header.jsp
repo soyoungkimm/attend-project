@@ -6,6 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!-------------------------------------------------------------------------------->
 <!-- 프로그램 : 인덕대학교 컴퓨터소프트웨어학과 전자출석 Demo                              -->
 <!--                                                                                                                  -->
@@ -48,14 +51,33 @@
         <nav class="navbar-custom">
             <ul class="list-inline float-right mb-0">
                 <li class="list-inline-item dropdown notif">
-                    <a class="nav-link dropdown-toggle nav-user" data-toggle="dropdown" href="#" role="button" ariaaspopup="false" aria-expanded="false">
-                        <img src="${pageContext.request.contextPath}/template/attend/my/images/avatars/admin.png" alt="Profile image" class="avatar-rounded">
+                    <a class="nav-link dropdown-toggle nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+
+                        <c:choose>
+                            <c:when test="${sessionScope.logined.kind eq 0}">
+                                <img src="${pageContext.request.contextPath}/template/attend/my/images/avatars/admin.png" alt="Profile image" class="avatar-rounded">
+
+                            </c:when>
+                            <c:otherwise>
+                                <img src="${pageContext.request.contextPath}${sessionScope.logined.picPath}${sessionScope.logined.pic}" alt="Profile image" class="avatar-rounded">
+
+                            </c:otherwise>
+                        </c:choose>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right profile-dropdown">
                         <div class="dropdown-item noti-title">
-                            <h5 class="text-overflow"><small>Hello, admin</small> </h5>
+                            <h5 class="text-overflow"><small>Hello,
+                                <c:choose>
+                                    <c:when test="${sessionScope.logined.kind eq 0}">
+                                        admin
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${sessionScope.logined.name}
+                                    </c:otherwise>
+                                </c:choose>
+                                </small> </h5>
                         </div>
-                        <a href="#" class="dropdown-item notify-item">
+                        <a href="../login/logout.do" class="dropdown-item notify-item">
                             <i class="fa fa-power-off"></i> <span>Logout</span>
                         </a>
                     </div>

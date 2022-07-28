@@ -1,6 +1,7 @@
 package com.gamejigi.attend.model.service;
 
 import com.gamejigi.attend.model.dao.TeacherDAOImpl;
+import com.gamejigi.attend.model.dto.LoginDTO;
 import com.gamejigi.attend.model.dto.TeacherDTO;
 import com.gamejigi.attend.util.Pagination;
 
@@ -52,7 +53,7 @@ public class TeacherServiceImpl implements TeacherService {
         // db에 값 저장
         if (result) {
             int row_num = teacherDAO.create(teacherDTO);
-            if (row_num > 0) return true;
+            return row_num > 0;
         }
         return false;
     }
@@ -98,5 +99,10 @@ public class TeacherServiceImpl implements TeacherService {
         }
 
         return teacherDAO.delete(id);
+    }
+
+    @Override
+    public LoginDTO loginCheck(String uid, String pwd) {
+        return teacherDAO.findByUidAndPwd(uid, pwd);
     }
 }

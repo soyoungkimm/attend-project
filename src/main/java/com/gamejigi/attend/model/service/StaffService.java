@@ -1,5 +1,6 @@
 package com.gamejigi.attend.model.service;
 
+import com.gamejigi.attend.model.dto.LoginDTO;
 import com.gamejigi.attend.model.dto.StaffDTO;
 import com.gamejigi.attend.util.Pagination;
 
@@ -14,4 +15,5 @@ public interface StaffService {
     Boolean updateStaff(StaffDTO staffDTO, Part filePart, String absolutePath);
     int deleteStaff(int id, String absolutePath);
     int getDepartId(int staff_id);
+    LoginDTO loginCheck(String uid, String pwd);
 }
