@@ -3,10 +3,13 @@ package com.gamejigi.attend.model.dao;
 import com.gamejigi.attend.model.dto.*;
 import com.gamejigi.attend.model.dto.MyLectureDTO2;
 import com.gamejigi.attend.model.dto.SubjectAttendDTO;
+import com.gamejigi.attend.util.Pagination;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MyLectureDAOImpl extends DAOImplMySQL implements MyLectureDAO {
 
@@ -399,4 +402,146 @@ public class MyLectureDAOImpl extends DAOImplMySQL implements MyLectureDAO {
         return studentAttendDTO;
     }
 
+    @Override
+    public List<MylectureDTO> readSugangList(Pagination pagination, String grade, String term, int student_id) {
+        List<MylectureDTO> myLectureDTOList = new ArrayList<>();
+        String sql = "SELECT mylecture.*, subject.*, subject.name as subjectName, student.schoolno, student.name as studentName " +
+                " FROM mylecture" +
+                " left join lecture on mylecture.lecture_id = lecture.id" +
+                " left join subject on lecture.subject_id = subject.id" +
+                " left join student on mylecture.student_id = student.id" +
+                " WHERE mylecture.grade=? AND mylecture.term=? AND mylecture.student_id=? limit ?, ?";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, grade);
+            pstmt.setString(2, term);
+            pstmt.setInt(3, student_id);
+            pstmt.setInt(4, pagination.getFirstRow() - 1);
+            pstmt.setInt(5, pagination.getPerPageRows());
+
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                MylectureDTO myLectureDTO = new MylectureDTO();
+                myLectureDTO.setIschoice(rs.getInt("ischoice"));
+                myLectureDTO.setIsmajor(rs.getInt("ismajor"));
+                myLectureDTO.setSubject_code(rs.getString("code"));
+                myLectureDTO.setSubject_name(rs.getString("subjectName"));
+                myLectureDTO.setDepart_name(rs.getString("departname"));
+                myLectureDTO.setPoint(rs.getInt("point"));
+
+
+                myLectureDTO.setIpoint(rs.getString("ipoint"));
+                myLectureDTO.setIattend(rs.getInt("iattend"));
+                myLectureDTO.setImiddle(rs.getInt("imiddle"));
+                myLectureDTO.setIlast(rs.getInt("ilast"));
+                myLectureDTO.setInormal(rs.getInt("inormal"));
+                myLectureDTO.setIpractice(rs.getInt("ipratice"));
+                myLectureDTO.setItotal(rs.getInt("itotal"));
+                myLectureDTO.setIgrade(rs.getString("igrade"));
+                myLectureDTO.setRetake(rs.getInt("retake"));
+
+                myLectureDTOList.add(myLectureDTO);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return myLectureDTOList;
+
+    }
+
+    @Override
+    public int readTotalRowNumUseSearch(String grade, String term, int student_id){
+        int rownum = 0;
+        String sql = "select count(*) as num from mylecture where grade=? and term=? and student_id=? ";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, grade);
+            pstmt.setString(2, term);
+            pstmt.setInt(3, student_id);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                rownum = rs.getInt("num");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return rownum;
+    }
+    public int getPoint(String grade, String term, int student_id){
+
+        int point = 0;////수강학점
+
+        String sql = "select sum(subject.point) as point from mylecture "+
+                " left join lecture on mylecture.lecture_id = lecture.id"+
+                " left join subject on lecture.subject_id = subject.id"+
+                " where mylecture.grade=? and mylecture.term=? and student_id=? ";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, grade);
+            pstmt.setString(2, term);
+            pstmt.setInt(3, student_id);
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                point = rs.getInt("point");
+            }
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return point;
+    }
+
+    @Override
+    public double getIpoint(String grade, String term, int student_id){
+
+        double ipoint = 0;////수강학점
+
+        String sql = "select avg(mylecture.ipoint) as ipoint from mylecture "+
+                " left join lecture on mylecture.lecture_id = lecture.id"+
+                " left join subject on lecture.subject_id = subject.id"+
+                " where mylecture.grade=? and mylecture.term=? and student_id=? ";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, grade);
+            pstmt.setString(2, term);
+            pstmt.setInt(3, student_id);
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                ipoint = rs.getDouble("ipoint");
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return ipoint;
+    }
+
+    public int getYear(String grade ,String term, int student_id){
+        int yyyy = 0;
+
+        String sql = "select subject.yyyy from mylecture "+
+                " left join lecture on mylecture.lecture_id = lecture.id"+
+                " left join subject on lecture.subject_id = subject.id"+
+                " where mylecture.grade=? and mylecture.term=? and student_id=? limit 1";
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, grade);
+            pstmt.setString(2, term);
+            pstmt.setInt(3, student_id);
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                yyyy = rs.getInt("subject.yyyy");
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return yyyy;
+    }
 }

@@ -1,9 +1,11 @@
 package com.gamejigi.attend.controller;
 
 import com.gamejigi.attend.model.dto.DepartDTO;
+import com.gamejigi.attend.model.dto.MylectureDTO;
 import com.gamejigi.attend.model.dto.StudentDTO;
 import com.gamejigi.attend.model.service.DepartServiceImpl;
 import com.gamejigi.attend.model.service.StudentServiceImpl;
+import com.gamejigi.attend.model.service.SugangServiceImpl;
 import com.gamejigi.attend.util.Pagination;
 
 import javax.servlet.ServletException;
@@ -15,10 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 @WebServlet(name = "student", urlPatterns = { "/student/list.do", "/student/create.do", "/student/create-action.do",
-        "/student/detail.do", "/student/delete.do", "/student/edit.do", "/student/edit-action.do" })
+        "/student/detail.do", "/student/delete.do", "/student/edit.do", "/student/edit-action.do", "/student/sugang.do" })
 // 파일 관련 설정
 @MultipartConfig(
         maxFileSize = 1024*1024*5, // 하나 파일 사이즈 : 5mb
@@ -28,6 +32,7 @@ public class StudentController extends HttpServlet {
 
     StudentServiceImpl studentService = new StudentServiceImpl();
     DepartServiceImpl departService = new DepartServiceImpl();
+    SugangServiceImpl sugangService = new SugangServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -173,6 +178,39 @@ public class StudentController extends HttpServlet {
                 req.setAttribute("student", studentDTO);
                 req.getRequestDispatcher("/WEB-INF/views/students/detail.jsp").forward(req, resp);
             }
+        }else if(action.equals("sugang.do")){
+            // 검색 -임시, 로그인정보로 현재 학년, term 가져오기
+            String grade = req.getParameter("g"); // 검색어
+            grade = (grade != null)? grade : "3";
+            String term = req.getParameter("t"); // 검색어
+            term = (term != null)? term : "1";
+
+            // 페이지네이션
+            String pageNo = req.getParameter("p"); // 현재 페이지 번호
+            int curPageNo = (pageNo != null)? Integer.parseInt(pageNo) : 1;
+            int perPageRows = 2; // 한 페이지에 나타날 행의 개수
+            int perPagination = 5; // 한 화면에 나타날 페이지 번호 개수
+            int totalRows = sugangService.getSugangTotalNum(grade, term, 2); // 행의 총 개수
+            Pagination pagination = new Pagination(curPageNo, perPageRows, perPagination, totalRows);
+
+            List<MylectureDTO> studentDTOArrayList = new ArrayList<>();
+            StudentDTO studentDTO = new StudentDTO();
+            //임시 - 로그인 정보로 변경
+            studentDTOArrayList = sugangService.getSugangList(pagination, grade, term, 2);
+            studentDTO = sugangService.getStudent(Long.parseLong("2"));
+            int point = sugangService.getPoint(grade, term, 2);
+            double ipoint = sugangService.getIpoint(grade, term, 2);
+            int yyyy = sugangService.getYear(grade, term, 2);
+
+            req.setAttribute("yyyy", yyyy);
+            req.setAttribute("point", point);
+            req.setAttribute("ipoint", String.format("%.1f",ipoint));
+            req.setAttribute("grade", grade);
+            req.setAttribute("term", term);
+            req.setAttribute("sugangList", studentDTOArrayList);
+            req.setAttribute("student", studentDTO);
+            req.setAttribute("pagination", pagination);
+            req.getRequestDispatcher("/WEB-INF/views/sugang/st_lecsj.jsp").forward(req, resp);
         }
     }
 }
