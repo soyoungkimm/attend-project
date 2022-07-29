@@ -19,15 +19,16 @@ public class StLecDAOImpl extends DAOImplMySQL implements StLecDAO  {
     }
 
     @Override
-    public List<StLecDTO> readList() {
+    public List<StLecDTO> readList(int term) {
         ArrayList<StLecDTO> stLecList  = null;
         String sql = "select subject.*, lecture.id as lecture_id, lecture.teacher_id, lecture.class" +
                     ", depart.name as depart_name, teacher.name as teacher_name " +
                     "from subject, lecture, depart, teacher " +
-                    "WHERE subject.id=lecture.subject_id AND subject.depart_id=depart.id AND lecture.teacher_id=teacher.id";
+                    "WHERE subject.id=lecture.subject_id AND subject.depart_id=depart.id AND lecture.teacher_id=teacher.id AND subject.term=?";
         try {
-            stmt = conn.createStatement();
-            if((rs = stmt.executeQuery(sql)) != null) {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, term);
+            if((rs = pstmt.executeQuery()) != null) {
                 stLecList = new ArrayList<StLecDTO>();
                 while (rs.next()) {
                     StLecDTO stLec = new StLecDTO();

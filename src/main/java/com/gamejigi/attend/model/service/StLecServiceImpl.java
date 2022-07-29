@@ -19,8 +19,8 @@ public class StLecServiceImpl implements StLecService{
     }
 
     @Override
-    public List<StLecDTO> getStLecList() {
-        return stLecDAO.readList();
+    public List<StLecDTO> getStLecList(int term) {
+        return stLecDAO.readList(term);
     }
 
     public List<MylectureDTO> getMyLecList(int student_id) {

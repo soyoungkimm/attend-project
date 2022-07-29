@@ -54,12 +54,12 @@
                     <a class="nav-link dropdown-toggle nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
 
                         <c:choose>
-                            <c:when test="${sessionScope.logined.kind eq 0}">
+                            <c:when test="${logined.kind eq 0}">
                                 <img src="${pageContext.request.contextPath}/template/attend/my/images/avatars/admin.png" alt="Profile image" class="avatar-rounded">
 
                             </c:when>
                             <c:otherwise>
-                                <img src="${pageContext.request.contextPath}${sessionScope.logined.picPath}${sessionScope.logined.pic}" alt="Profile image" class="avatar-rounded">
+                                <img src="${pageContext.request.contextPath}${logined.picPath}${logined.pic}" alt="Profile image" class="avatar-rounded">
 
                             </c:otherwise>
                         </c:choose>
@@ -68,11 +68,11 @@
                         <div class="dropdown-item noti-title">
                             <h5 class="text-overflow"><small>Hello,
                                 <c:choose>
-                                    <c:when test="${sessionScope.logined.kind eq 0}">
+                                    <c:when test="${logined.kind eq 0}">
                                         admin
                                     </c:when>
                                     <c:otherwise>
-                                        ${sessionScope.logined.name}
+                                        ${logined.name}
                                     </c:otherwise>
                                 </c:choose>
                                 </small> </h5>

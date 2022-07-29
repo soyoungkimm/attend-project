@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 import javax.servlet.annotation.MultipartConfig;
@@ -34,6 +35,7 @@ public class StLecController extends HttpServlet {
     DepartServiceImpl departService = new DepartServiceImpl();
     SubjectServiceImpl subjectService = new SubjectServiceImpl();
     SubjectDAOImpl subjectDAO = new SubjectDAOImpl();
+    LocalDate now = LocalDate.now();
 
 
     @Override
@@ -61,10 +63,12 @@ public class StLecController extends HttpServlet {
         if (action.equals("list.do")) {
 
             int student_id = 1;
+            int term = (now.getMonthValue() > 1 && now.getMonthValue() < 8) ? 1 : 2;
+
 
 
             ArrayList<StLecDTO> stLecList;
-            stLecList = (ArrayList<StLecDTO>) stLecService.getStLecList();
+            stLecList = (ArrayList<StLecDTO>) stLecService.getStLecList(term);
 
             ArrayList<MylectureDTO> mylectureList;
             mylectureList = (ArrayList<MylectureDTO>) stLecService.getMyLecList(student_id);
