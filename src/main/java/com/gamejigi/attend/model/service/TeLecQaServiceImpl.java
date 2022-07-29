@@ -28,4 +28,15 @@ public class TeLecQaServiceImpl implements TeLecQaService{
     public MylectureDTO getLecQa(MylectureDTO mylectureDTO) {
         return teLecQaDAO.readLecQaUseId(mylectureDTO);
     }
+
+    @Override
+    public List<MylectureDTO> getLecQaListByTeacherId(Pagination pagination, int teacher_id){
+        return teLecQaDAO.readListUsePaginationByTeacherId(pagination, teacher_id);
+    }
+
+    @Override
+    public int getLecQaListTotalNumByTeacherId(int teacher_id){
+        return teLecQaDAO.readTotalNumByTeacherId(teacher_id);
+    }
+
 }

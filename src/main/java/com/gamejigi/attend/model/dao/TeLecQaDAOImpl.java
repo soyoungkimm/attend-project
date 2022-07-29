@@ -139,4 +139,65 @@ public class TeLecQaDAOImpl extends DAOImplMySQL implements TeLecQaDAO{
         }
         return mylecture;
     }
+
+    @Override
+    public List<MylectureDTO> readListUsePaginationByTeacherId(Pagination pagination, int teacher_id) {
+        ArrayList<MylectureDTO> mylectureList = null;
+        String query = "select  mylecture.id as mylecture_id, mylecture.*, " +
+                "subject.name as subject_name, " +
+                "student.name as student_name"+
+                " from mylecture " +
+                " join lecture on mylecture.lecture_id = lecture.id "+
+                " join subject on lecture.subject_id = subject.id "+
+                " join teacher on lecture.teacher_id = teacher.id"+
+                " join student on mylecture.lecture_id = student.id"+
+                " where (qkind = 1 or qkind = 2) and lecture.teacher_id = ?" +
+                " order by qday asc limit ?, ?";;
+        try {
+            pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, teacher_id);
+            pstmt.setInt(2, pagination.getFirstRow() - 1);
+            pstmt.setInt(3, pagination.getPerPageRows());
+            rs = pstmt.executeQuery();
+            mylectureList = new ArrayList<>();
+            while (rs.next()) {
+                MylectureDTO mylectureDTO = new MylectureDTO();
+                mylectureDTO.setId(rs.getInt("mylecture_id"));
+                mylectureDTO.setQkind(rs.getInt("qkind"));
+                mylectureDTO.setQday(rs.getString("qday"));
+                mylectureDTO.setQtitle(rs.getString("qtitle"));
+                mylectureDTO.setQask(rs.getString("qask"));
+                mylectureDTO.setQanswer(rs.getString("qanswer"));
+                mylectureDTO.setSubject_name(rs.getString("subject_name"));
+                mylectureDTO.setStudent_name(rs.getString("student_name"));
+                mylectureList.add(mylectureDTO);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return mylectureList;
+    }
+
+    @Override
+    public int readTotalNumByTeacherId(int teacher_id) {
+        int totalNum = 0;
+        String query = "select count(*) as num"+
+                " from mylecture " +
+                " join lecture on mylecture.lecture_id = lecture.id "+
+                " join subject on lecture.subject_id = subject.id "+
+                " join teacher on lecture.teacher_id = teacher.id"+
+                " join student on mylecture.lecture_id = student.id"+
+                " where (qkind = 1 or qkind = 2) and lecture.teacher_id = ?";
+        try {
+            pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, teacher_id);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                totalNum = rs.getInt("num");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return totalNum;
+    }
 }

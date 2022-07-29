@@ -483,4 +483,77 @@ public class LectureDayDAOImpl extends DAOImplMySQL implements LectureDayDAO{
         }
         return totalNum;
     }
+
+    //신청단계와 상관없이 모든 휴보강 신청건 확인
+    public List<LectureDayDTO> readListUsePaginationByTeacher2(Pagination pagination, int id) {
+        List<LectureDayDTO> result = null;
+        String sql = "select lectureday.*, lecture.class, subject.name as subject_name, " +
+                "depart.name as depart_name, room.name as room_name, teacher.name as teacher_name, " +
+                "subject.grade as subject_grade, building.name as building_name " +
+                "from lectureday " +
+                "join lecture on lectureday.lecture_id=lecture.id " +
+                "join subject on lecture.subject_id=subject.id " +
+                "join depart on subject.depart_id=depart.id " +
+                "join room on lectureday.room_id=room.id " +
+                "join building on room.building_id = building.id "+
+                "join teacher on lecture.teacher_id=teacher.id " +
+                "where (normstate=3 OR reststate=3) and lecture.teacher_id=? " +
+                "order by lectureday.restdate asc limit ?, ?";
+
+        try{
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            pstmt.setInt(2, pagination.getFirstRow() - 1);
+            pstmt.setInt(3, pagination.getPerPageRows());
+
+            if((rs = pstmt.executeQuery()) != null){
+                result = new ArrayList<>();
+                while(rs.next()){
+                    LectureDayDTO lectureDayDTO = new LectureDayDTO();
+                    lectureDayDTO.setId(rs.getLong("id"));
+                    lectureDayDTO.setNormdate(rs.getString("normdate"));
+                    lectureDayDTO.setNormstart(rs.getInt("normstart"));
+                    lectureDayDTO.setNormhour(rs.getInt("normhour"));
+                    lectureDayDTO.setNormstate(rs.getInt("normstate"));
+                    lectureDayDTO.setRestdate(rs.getString("restdate"));
+                    lectureDayDTO.setReststart(rs.getInt("reststart"));
+                    lectureDayDTO.setResthour(rs.getInt("resthour"));
+                    lectureDayDTO.setState(rs.getInt("state"));
+                    lectureDayDTO.setBan(rs.getString("class"));
+                    lectureDayDTO.setSubjectName(rs.getString("subject_name"));
+                    lectureDayDTO.setDepartName(rs.getString("depart_name"));
+                    lectureDayDTO.setRoomName(rs.getString("room_name"));
+                    lectureDayDTO.setBuildingName(rs.getString("building_name"));
+                    lectureDayDTO.setTeacherName(rs.getString("teacher_name"));
+                    lectureDayDTO.setGrade(rs.getString("subject_grade"));
+                    result.add(lectureDayDTO);
+                }
+            }
+        }catch (SQLException throwables){
+            throwables.printStackTrace();
+        }
+        return result;
+    }
+
+
+    public int getTotalRowsByTeacher2(int id) {
+        int result = 0;
+        String sql = "select COUNT(*) " +
+                "from lectureday " +
+                "join lecture on lectureday.lecture_id=lecture.id "+
+                "where (normstate=3 OR reststate=3) and lecture.teacher_id=?";
+
+        try{
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, id);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                result = rs.getInt(1);
+            }
+        }catch (SQLException throwables){
+            throwables.printStackTrace();
+        }
+        return result;
+    }
 }

@@ -10,4 +10,8 @@ public interface TeLecQaDAO {
     int update(MylectureDTO mylectureDTO);
     int readTotalNum();
     MylectureDTO readLecQaUseId(MylectureDTO mylectureDTO);
+    List<MylectureDTO> readListUsePaginationByTeacherId(Pagination pagination, int teacher_id);
+    int readTotalNumByTeacherId(int teacher_id);
+
+
 }
