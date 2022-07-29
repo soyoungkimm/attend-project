@@ -10,4 +10,8 @@ public interface TeLecQaService {
     int editLecQaList(MylectureDTO mylectureDTO);
     int getLecQaListTotalNum();
     MylectureDTO getLecQa(MylectureDTO mylectureDTO);
+    List<MylectureDTO> getLecQaListByTeacherId(Pagination pagination, int teacher_id);
+    int getLecQaListTotalNumByTeacherId(int teacher_id);
+
+
 }

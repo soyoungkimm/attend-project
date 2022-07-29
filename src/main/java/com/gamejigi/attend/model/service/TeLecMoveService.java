@@ -22,4 +22,8 @@ public interface TeLecMoveService {
     void applyLecMove(LectureDayDTO lectureDay);
 
     void cancelLecMove(int lecDayId);
+
+    List<LectureDayDTO> readListUsePaginationByTeacher2(Pagination p, int id);
+
+    int getTotalRowsByTeacher2(int id);
 }

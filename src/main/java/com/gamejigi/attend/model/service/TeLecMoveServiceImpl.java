@@ -102,4 +102,14 @@ public class TeLecMoveServiceImpl implements TeLecMoveService {
         lectureDay.setRoomId(room.getId());
         lectureDayDAO.updateForLecMove(lectureDay);
     }
+
+    @Override
+    public  List<LectureDayDTO> readListUsePaginationByTeacher2(Pagination p, int id){
+        return lectureDayDAO.readListUsePaginationByTeacher2(p, id);
+    }
+
+    @Override
+    public int getTotalRowsByTeacher2(int id){
+        return lectureDayDAO.getTotalRowsByTeacher2(id);
+    }
 }

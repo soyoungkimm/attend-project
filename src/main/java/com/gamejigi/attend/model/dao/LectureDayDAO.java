@@ -25,4 +25,7 @@ public interface LectureDayDAO {
 
     List<LectureDayDTO> readListUsePaginationAndYearAndTerm(Pagination pagination, String year , String term);
     int readTotalNumUseYearAndTerm(String year, String term);
+
+    List<LectureDayDTO> readListUsePaginationByTeacher2(Pagination pagination, int id);
+    int getTotalRowsByTeacher2(int id);
 }
