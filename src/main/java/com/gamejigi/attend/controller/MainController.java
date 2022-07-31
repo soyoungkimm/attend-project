@@ -1,6 +1,7 @@
 package com.gamejigi.attend.controller;
 
 import com.gamejigi.attend.model.dto.LectureDayDTO;
+import com.gamejigi.attend.model.dto.LoginDTO;
 import com.gamejigi.attend.model.dto.MylectureDTO;
 import com.gamejigi.attend.model.dto.NoticeDTO;
 import com.gamejigi.attend.model.service.*;
@@ -12,19 +13,23 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-@WebServlet(name = "main", urlPatterns = { "/main/ad.do", "/main/notice-pagination.do", "/main/lec-pagination.do" , "/main/teacher.do", "/main/qa-pagination.do", "/main/lec-pagination-teacher.do"})
+@WebServlet(name = "main", urlPatterns = { "/main/ad.do", "/main/notice-pagination.do", "/main/lec-pagination.do" , "/main/teacher.do", "/main/qa-pagination.do", "/main/lec-pagination-teacher.do","/main/st.do","/main/qa-pagination-student.do"})
 public class MainController extends HttpServlet {
     NoticeServiceImpl noticeService = new NoticeServiceImpl();
     ADLecMoveServiceImpl adLecMoveService = new ADLecMoveServiceImpl();
     StaffServiceImpl staffService = new StaffServiceImpl();
     TeLecMoveServiceImpl teLecMoveService = new TeLecMoveServiceImpl();
     TeLecQaServiceImpl teLecQaService = new TeLecQaServiceImpl();
+    StLecQaServiceImpl stLecQaService = new StLecQaServiceImpl();
+    LocalDate now = LocalDate.now();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,6 +42,8 @@ public class MainController extends HttpServlet {
     }
 
     public void process(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+
+        HttpSession session = req.getSession();
 
         resp.setContentType("text/html");
         resp.setCharacterEncoding("UTF-8");
@@ -201,6 +208,66 @@ public class MainController extends HttpServlet {
             HashMap<String, Object> map= new HashMap<>();
             map.put("lecList", lectureDayList);
             map.put("pagination", pagination);
+
+            // 리턴
+            JSONObject json = new JSONObject(map);
+            PrintWriter out = resp.getWriter();
+            out.print(json);
+        }
+        else if(action.equals("st.do")){
+
+            // 로그인
+            LoginDTO loginDTO = new LoginDTO();
+            Object o = session.getAttribute("logined");     // 세션 정보 저장
+            loginDTO = (LoginDTO) o;
+            int student_id = (loginDTO != null) ? loginDTO.getId() : 1;     // 세션 정보 없을때
+
+            int year = now.getYear();                                                   // 년
+            int term = (now.getMonthValue() > 1 && now.getMonthValue() < 8) ? 1 : 2;    // 학기
+
+            // 공지사항
+            int perPageRows = 4; // 한 페이지에 나타날 행의 개수
+            int perPagination = 5; // 한 화면에 나타날 페이지 번호 개수
+            int totalRows = noticeService.getNoticeTotalNum(""); // 행의 총 개수
+            Pagination pagination = new Pagination(1, perPageRows, perPagination, totalRows);
+            ArrayList<NoticeDTO> noticeList = (ArrayList<NoticeDTO>) noticeService.getNoticeList(pagination, "");
+
+            // 교과목 문의
+            int qa_perPageRows = 4; // 한 페이지에 나타날 행의 개수
+            int qa_perPagination = 5; // 한 화면에 나타날 페이지 번호 개수
+            int qa_totalRows = stLecQaService.getLecQaListTotalNum(student_id);
+            Pagination qa_pagination = new Pagination(1, qa_perPageRows, qa_perPagination, qa_totalRows);
+            ArrayList<MylectureDTO> mylectureQaList = (ArrayList<MylectureDTO>) stLecQaService.getLecQaList(pagination,student_id);
+
+            // 포워딩
+            req.setAttribute("pagination", pagination);
+            req.setAttribute("noticeList", noticeList);
+            req.setAttribute("qa_pagination", qa_pagination);
+            req.setAttribute("mylectureQaList", mylectureQaList);
+            req.getRequestDispatcher("/WEB-INF/views/main/st_main.jsp").forward(req, resp);
+        }
+        else if(action.equals("qa-pagination-student.do")){
+            
+            //로그인
+            LoginDTO loginDTO = new LoginDTO();
+            Object o = session.getAttribute("logined");     // 세션 정보 저장
+            loginDTO = (LoginDTO) o;
+            int student_id = (loginDTO != null) ? loginDTO.getId() : 1;     // 세션 정보 없을때
+
+            // 페이지네이션
+            String pageNo = req.getParameter("page");
+            int curPageNo = (pageNo != null)? Integer.parseInt(pageNo) : 1;
+            int qa_perPageRows = 4; // 한 페이지에 나타날 행의 개수
+            int qa_perPagination = 5; // 한 화면에 나타날 페이지 번호 개수
+            int qa_totalRows = stLecQaService.getLecQaListTotalNum(student_id);
+            Pagination qa_pagination = new Pagination(curPageNo, qa_perPageRows, qa_perPagination, qa_totalRows);
+
+            // 리스트 구해오기
+            ArrayList<MylectureDTO> mylectureQaList = (ArrayList<MylectureDTO>) stLecQaService.getLecQaList(qa_pagination,student_id);
+
+            HashMap<String, Object> map= new HashMap<>();
+            map.put("qaList", mylectureQaList);
+            map.put("qa_pagination", qa_pagination);
 
             // 리턴
             JSONObject json = new JSONObject(map);

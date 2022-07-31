@@ -117,7 +117,7 @@ public class LoginController extends HttpServlet {
                 loginDTO.setPicPath(picPath + "student/");
 
                 session.setAttribute("logined", loginDTO);
-                resp.sendRedirect(contextPath + "/main/ad.do");
+                resp.sendRedirect(contextPath + "/main/st.do");
             }
 
             else            // 로그인 실패

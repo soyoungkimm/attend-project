@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="breadcrumb-holder">
-                            <h1 class="main-title float-left">컴퓨터소프트웨어학과</h1>
+                            <h1 class="main-title float-left">${teacher.depart_name}</h1>
                             <ol class="breadcrumb float-right">
                                 <li class="breadcrumb-item">Home</li>
                                 <li class="breadcrumb-item">교수</li>
@@ -29,7 +29,7 @@
                                         <h3><i class="fa fa-table"></i> 교과목 문의 </h3>
                                     </div>
                                     <div class="col" align="right">
-                                        <h3>교수님1</h3>
+                                        <h3>${teacher.name}</h3>
                                     </div>
                                 </div>
                             </div>
