@@ -7,7 +7,7 @@
         <div class="row">
           <div class="col-xl-12">
             <div class="breadcrumb-holder">
-              <h1 class="main-title float-left">${departName}</h1>
+              <h1 class="main-title float-left">${teacher.depart_name}</h1>
               <ol class="breadcrumb float-right">
                 <li class="breadcrumb-item">Home</li>
                 <li class="breadcrumb-item">교수</li>
@@ -50,7 +50,7 @@
                     <h3><i class="fa fa-table"></i> 시간표</h3>
                   </div>
                   <div class="col" align="right">
-                    <h3>${teacherName}</h3>
+                    <h3>${teacher.name}</h3>
                   </div>
                 </div>
               </div>

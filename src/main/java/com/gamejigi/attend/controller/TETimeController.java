@@ -1,7 +1,6 @@
 package com.gamejigi.attend.controller;
 
-
-import com.gamejigi.attend.model.dto.DepartDTO;
+import com.gamejigi.attend.model.dto.LoginDTO;
 import com.gamejigi.attend.model.dto.TeacherDTO;
 import com.gamejigi.attend.model.service.DepartServiceImpl;
 import com.gamejigi.attend.model.service.TeacherServiceImpl;
@@ -11,7 +10,6 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -27,6 +25,9 @@ public class TETimeController extends HttpServlet{
     }
 
     private void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        HttpSession session = req.getSession();
+
         resp.setContentType("text/html");
         resp.setCharacterEncoding("UTF-8");
 
@@ -36,7 +37,12 @@ public class TETimeController extends HttpServlet{
         String action = command.substring(command.lastIndexOf('/') + 1);
 
         if(action.equals("te_time.do")){
-            int teId = 1; //로그인시 구현
+
+            LoginDTO loginDTO = new LoginDTO();
+            Object o = session.getAttribute("logined");     // 세션 정보 저장
+            loginDTO = (LoginDTO) o;
+            int teacher_id = (loginDTO != null) ? loginDTO.getId() : 1;     // 세션 정보 없을때
+
             int departId=1; //로그인시 구현
 
             LocalDate now = LocalDate.now();
@@ -53,22 +59,13 @@ public class TETimeController extends HttpServlet{
             DepartServiceImpl departService = new DepartServiceImpl();
             TeacherServiceImpl teacherService = new TeacherServiceImpl();
 
-            List<String> timeTableList = timetableService.loadDataUseTeId(departId,year,term,teId);
-            DepartDTO departDTO = departService.findById(departId);
-            TeacherDTO teacherDTO = teacherService.getTeacher(teId);
+            List<String> timeTableList = timetableService.loadDataUseTeId(departId,year,term,teacher_id);
+            TeacherDTO teacherDTO = teacherService.getTeacher(teacher_id);
 
             req.setAttribute("timeTableList",timeTableList);
-            req.setAttribute("departName",departDTO.getName());
-            req.setAttribute("teacherName",teacherDTO.getName());
+            req.setAttribute("teacher",teacherDTO);
 
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/views/time/te_time.jsp");
-            requestDispatcher.forward(req, resp);
-
-            System.out.println(year);
-            System.out.println(term);
-            for (String time : timeTableList){
-                System.out.println(time);
-            }
+            req.getRequestDispatcher("/WEB-INF/views/time/te_time.jsp").forward(req, resp);
         }
     }
 }
