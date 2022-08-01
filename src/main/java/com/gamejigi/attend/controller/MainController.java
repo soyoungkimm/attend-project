@@ -21,7 +21,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-@WebServlet(name = "main", urlPatterns = { "/main/ad.do", "/main/notice-pagination.do", "/main/lec-pagination.do" , "/main/teacher.do", "/main/qa-pagination.do", "/main/lec-pagination-teacher.do","/main/st.do","/main/qa-pagination-student.do"})
+@WebServlet(name = "main", urlPatterns = { "/main/ad.do", "/main/notice-pagination.do", "/main/lec-pagination.do" ,
+        "/main/teacher.do", "/main/qa-pagination.do", "/main/lec-pagination-teacher.do",
+        "/main/st.do","/main/qa-pagination-student.do",
+        "/main/as.do", "/main/as-notice-pagination.do", "/main/as-lec-pagination.do"})
 public class MainController extends HttpServlet {
     NoticeServiceImpl noticeService = new NoticeServiceImpl();
     ADLecMoveServiceImpl adLecMoveService = new ADLecMoveServiceImpl();
@@ -268,6 +271,33 @@ public class MainController extends HttpServlet {
             HashMap<String, Object> map= new HashMap<>();
             map.put("qaList", mylectureQaList);
             map.put("qa_pagination", qa_pagination);
+
+            // 리턴
+            JSONObject json = new JSONObject(map);
+            PrintWriter out = resp.getWriter();
+            out.print(json);
+        }
+        else if (action.equals("as.do")) {
+            req.getRequestDispatcher("/WEB-INF/views/main/as_main.jsp").forward(req, resp);
+        }
+        else if (action.equals("as-lec-pagination.do")) {
+            int staff_id = 1; // 임시
+            int depart_id = staffService.getDepartId(staff_id);
+
+            // 페이지네이션
+            String pageNo = req.getParameter("page");
+            int curPageNo = (pageNo != null)? Integer.parseInt(pageNo) : 1;
+            int lec_perPageRows = 4; // 한 페이지에 나타날 행의 개수
+            int lec_perPagination = 5; // 한 화면에 나타날 페이지 번호 개수
+            int lec_totalRows = adLecMoveService.getRestTotalNum(depart_id); // 행의 총 개수
+            Pagination pagination = new Pagination(curPageNo, lec_perPageRows, lec_perPagination, lec_totalRows);
+
+            // 리스트 구해오기
+            List<LectureDayDTO> lectureDayList = adLecMoveService.readRestListByStateAndDepartId(pagination, depart_id);
+
+            HashMap<String, Object> map= new HashMap<>();
+            map.put("lecList", lectureDayList);
+            map.put("pagination", pagination);
 
             // 리턴
             JSONObject json = new JSONObject(map);
