@@ -36,6 +36,8 @@
     <link href="${pageContext.request.contextPath}/template/attend/my/css/my.css" rel="stylesheet" type="text/css">
 </head>
 
+
+
 <body class="adminbody" >
 <%--onLoad="load_lec();"--%>
 
@@ -103,66 +105,78 @@
             <div id="sidebar-menu">
                 <ul>
 
-                    <li class="submenu">
-                        <a href="#" class="active"><i class="fa fa-fw fa-table"></i> <span> 직원(학사행정) </span> <span class="menu-arrow"></span></a>
-                        <ul class="list-unstyled">
-                            <li><a href="ad_main.html" style="padding:5px 0 5px 40px;">직원 메인</a></li>
-                            <li><a href="ad_control.html" style="padding:5px 0 5px 40px;">제어판</a></li>
-                            <li class="active"><a href="${pageContext.request.contextPath}/notice/list.do" style="padding:5px 0 5px 40px;">공지사항</a></li>
-                            <li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
-                            <li><a href="${pageContext.request.contextPath}/student/list.do" style="padding:5px 0 5px 40px;">학생정보</a></li>
-                            <li><a href="ad_teacher.html" style="padding:5px 0 5px 40px;">교수정보</a></li>
-                            <li><a href="ad_assist.html" style="padding:5px 0 5px 40px;">조교정보</a></li>
-                            <li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
-                            <li><a href="ad_depart.html" style="padding:5px 0 5px 40px;">학과/부서</a></li>
-                            <li><a href="/room/list.do" style="padding:5px 0 5px 40px;">강의실</a></li>
-                            <li><a href="/building/list.do " style="padding:5px 0 5px 40px;">건물</a></li>
-                            <li><a href="/holidays/list.do" style="padding:5px 0 5px 40px;">휴일</a></li>
-                        </ul>
-                    </li>
-                    <li class="submenu">
-                        <a href="#"><i class="fa fa-fw fa-table"></i> <span> 직원(전자출석) </span> <span class="menu-arrow"></span></a>
-                        <ul class="list-unstyled">
-                            <li><a href="../adTimes/timeAll.do" style="padding:5px 0 5px 40px;">학과별 시간표</a></li>
-                            <li><a href="ad_timeteacher.html" style="padding:5px 0 5px 40px;">교수별 강의현황</a></li>
-                            <li><a href="/lecMove/list.do" style="padding:5px 0 5px 40px;">휴보강</a></li>
-                        </ul>
-                    </li>
-                    <li class="submenu">
-                        <a href="#"><i class="fa fa-fw fa-male"></i> <span>조교</span> <span class="menu-arrow"></span></a>
-                        <ul class="list-unstyled">
-                            <li><a href="as_main.html" style="padding:5px 0 5px 40px;">조교 메인</a></li>
-                            <li><a href="/subject/list.do" style="padding:5px 0 5px 40px;">학년별 교과목</a></li>
-                            <li><a href="as_lec.html" style="padding:5px 0 5px 40px;">반별 교과목</a></li>
-                            <li><a href="as_time.html" style="padding:5px 0 5px 40px;">시간표 작성</a></li>
-                            <li><a href="as_timeall.html" style="padding:5px 0 5px 40px;">학과별 시간표</a></li>
-                            <li><a href="as_lecall.html" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
-                            <li><a href="as_lecmove.html" style="padding:5px 0 5px 40px;">휴보강</a></li>
-                        </ul>
-                    </li>
+                    <c:if test="${logined.kind eq 0}">
+                        <li class="submenu">
+                            <a href="#" id="adMenu1" class="active"><i class="fa fa-fw fa-table"></i> <span> 직원(학사행정) </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="../main/ad.do" style="padding:5px 0 5px 40px;">직원 메인</a></li>
+                                <li><a href="../control/list.do" style="padding:5px 0 5px 40px;">제어판</a></li>
+                                <li class="active"><a href="../notice/list.do" style="padding:5px 0 5px 40px;">공지사항</a></li>
+                                <li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
+                                <li><a href="../student/list.do" style="padding:5px 0 5px 40px;">학생정보</a></li>
+                                <li><a href="../teacher/list.do" style="padding:5px 0 5px 40px;">교수정보</a></li>
+                                <li><a href="../staff/list.do" style="padding:5px 0 5px 40px;">조교정보</a></li>
+                                <li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
+                                <li><a href="../depart/list.do" style="padding:5px 0 5px 40px;">학과/부서</a></li>
+                                <li><a href="../room/list.do" style="padding:5px 0 5px 40px;">강의실</a></li>
+                                <li><a href="../building/list.do" style="padding:5px 0 5px 40px;">건물</a></li>
+                                <li><a href="../holidays/list.do" style="padding:5px 0 5px 40px;">휴일</a></li>
+                            </ul>
+                        </li>
+                        <li class="submenu">
+                            <a href="#" id="asMenu2"><i class="fa fa-fw fa-table"></i> <span> 직원(전자출석) </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="../adTimes/timeAll.do" style="padding:5px 0 5px 40px;">학과별 시간표</a></li>
+                                <li><a href="../TimeTeacher/list.do" style="padding:5px 0 5px 40px;">교수별 강의현황</a></li>
+                                <li><a href="../lecMove/list.do" style="padding:5px 0 5px 40px;">휴보강</a></li>
+                            </ul>
+                        </li>
+                    </c:if>
+
+
+                    <c:if test="${logined.kind eq 1 || logined.kind eq 0}">
+                        <li class="submenu">
+                            <a href="#"><i class="fa fa-fw fa-male"></i> <span>조교</span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a href="../main/as.do" style="padding:5px 0 5px 40px;">조교 메인</a></li>
+                                <li><a href="../subject/list.do" style="padding:5px 0 5px 40px;">학년별 교과목</a></li>
+                                <li><a href="../lectures/list.do" style="padding:5px 0 5px 40px;">반별 교과목</a></li>
+                                <li><a href="../astime/time.do" style="padding:5px 0 5px 40px;">시간표 작성</a></li>
+                                <li><a href="../astime/timeall.do" style="padding:5px 0 5px 40px;">학과별 시간표</a></li>
+                                <li><a href="../s-subject-attend/list.do" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
+                                <li><a href="../lecMove/list.do" style="padding:5px 0 5px 40px;">휴보강</a></li>
+                            </ul>
+                        </li>
+                    </c:if>
+
+                    <c:if test="${logined.kind eq 2 || logined.kind eq 0}">
                     <li class="submenu">
                         <a href="#"><i class="fa fa-fw fa-user"></i> <span> 교수 </span> <span class="menu-arrow"></span></a>
                         <ul class="list-unstyled">
-                            <li><a href="te_main.html" style="padding:5px 0 5px 40px;">교수 메인</a></li>
-                            <li><a href="/time/te_time.do" style="padding:5px 0 5px 40px;">시간표</a></li>
-                            <li><a href="${pageContext.request.contextPath}/daily-attend/list.do" style="padding:5px 0 5px 40px;">일별 출석부</a></li>
-                            <li><a href="${pageContext.request.contextPath}/subject-attend/list.do" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
-                            <li><a href="te_lecmove.html" style="padding:5px 0 5px 40px;">휴보강</a></li>
-                            <li><a href="/lecQa/te_list.do" style="padding:5px 0 5px 40px;">교과목 문의</a></li>
+                            <li><a href="../main/teacher.do" style="padding:5px 0 5px 40px;">교수 메인</a></li>
+                            <li><a href="../time/te_time.do" style="padding:5px 0 5px 40px;">시간표</a></li>
+                            <li><a href="../daily-attend/list.do" style="padding:5px 0 5px 40px;">일별 출석부</a></li>
+                            <li><a href="../subject-attend/list.do" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
+                            <li><a href="../TeLecMove/list.do" style="padding:5px 0 5px 40px;">휴보강</a></li>
+                            <li><a href="../lecQa/te_list.do" style="padding:5px 0 5px 40px;">교과목 문의</a></li>
                         </ul>
                     </li>
+                    </c:if>
+
+                    <c:if test="${logined.kind eq 3 || logined.kind eq 0}">
                     <li class="submenu">
                         <a href="#"><i class="fa fa-fw fa-table"></i> <span> 학생 </span> <span class="menu-arrow"></span></a>
                         <ul class="list-unstyled">
-                            <li><a href="/main/st.do" style="padding:5px 0 5px 40px;">학생 메인</a></li>
-                            <li><a href="st_time.html" style="padding:5px 0 5px 40px;">시간표</a></li>
-                            <li><a href="st_lecall.html" style="padding:5px 0 5px 40px;">출석부</a></li>
+                            <li><a href="../main/st.do" style="padding:5px 0 5px 40px;">학생 메인</a></li>
+                            <li><a href="../student-attend/list.do" style="padding:5px 0 5px 40px;">시간표</a></li>
+                            <li><a href="../student-time/list.do" style="padding:5px 0 5px 40px;">출석부</a></li>
                             <li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
-                            <li><a href="st_lec.html" style="padding:5px 0 5px 40px;">수강신청</a></li>
-                            <li><a href="st_lecsj.html" style="padding:5px 0 5px 40px;">수강과목</a></li>
-                            <li><a href="st_lecqa.html" style="padding:5px 0 5px 40px;">교과목 문의</a></li>
+                            <li><a href="../stLec/list.do" style="padding:5px 0 5px 40px;">수강신청</a></li>
+                            <li><a href="../student/list.do" style="padding:5px 0 5px 40px;">수강과목</a></li>
+                            <li><a href="../lecQa/st_list.do" style="padding:5px 0 5px 40px;">교과목 문의</a></li>
                         </ul>
                     </li>
+                    </c:if>
 
                 </ul>
                 <div class="clearfix"></div>

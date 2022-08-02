@@ -136,13 +136,6 @@
 
 
     }
-
-    function aa() {
-        var subject = document.getElementById("subject");
-        var selectValue = subject.options[subject.selectedIndex].value;
-
-        alert(selectValue)
-    }
 </script>
 
 <%@ include file="../section/footer.jsp" %>
