@@ -1,10 +1,7 @@
 package com.gamejigi.attend.controller;
 
 import com.gamejigi.attend.model.dto.*;
-import com.gamejigi.attend.model.service.StaffServiceImpl;
-import com.gamejigi.attend.model.service.StudentServiceImpl;
-import com.gamejigi.attend.model.service.TeacherService;
-import com.gamejigi.attend.model.service.TeacherServiceImpl;
+import com.gamejigi.attend.model.service.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,6 +19,7 @@ public class LoginController extends HttpServlet {
     StaffServiceImpl staffService = new StaffServiceImpl();
     TeacherServiceImpl teacherService = new TeacherServiceImpl();
     StudentServiceImpl studentService = new StudentServiceImpl();
+    ADControlServiceImpl adControlService = new ADControlServiceImpl();
 
 
     @Override
@@ -59,6 +57,11 @@ public class LoginController extends HttpServlet {
             String uid = req.getParameter("login_uid");
             String pwd = req.getParameter("login_password");
 
+            ADControlDTO adControlDTO;
+            adControlDTO = adControlService.findControl();
+
+
+
             if (Objects.equals(uid, "admin") && Objects.equals(pwd, "1234"))    // 직원 로그인
             {
                 loginDTO = new LoginDTO();
@@ -67,6 +70,10 @@ public class LoginController extends HttpServlet {
                 loginDTO.setUid("admin");
                 loginDTO.setPwd("1234");
                 loginDTO.setKind(0);
+                loginDTO.setSubjecttime(adControlDTO.getSubjecttime());
+                loginDTO.setLecturetime(adControlDTO.getLecturetime());
+                loginDTO.setMylecturetime(adControlDTO.getMylecturetime());
+                loginDTO.setAttendtime(adControlDTO.getAttendtime());
 
                 session.setAttribute("logined", loginDTO);
                 resp.sendRedirect(req.getContextPath() + "/main/ad.do");
@@ -84,6 +91,11 @@ public class LoginController extends HttpServlet {
                 loginDTO.setPic(staffDTO.getPic());
                 loginDTO.setPicPath(picPath + "staff/");
 
+                loginDTO.setSubjecttime(adControlDTO.getSubjecttime());
+                loginDTO.setLecturetime(adControlDTO.getLecturetime());
+                loginDTO.setMylecturetime(adControlDTO.getMylecturetime());
+                loginDTO.setAttendtime(adControlDTO.getAttendtime());
+
                 session.setAttribute("logined", loginDTO);
                 resp.sendRedirect(contextPath + "/main/as.do");
             }
@@ -100,6 +112,11 @@ public class LoginController extends HttpServlet {
                 loginDTO.setPic(teacherDTO.getPic());
                 loginDTO.setPicPath(picPath + "teacher/");
 
+                loginDTO.setSubjecttime(adControlDTO.getSubjecttime());
+                loginDTO.setLecturetime(adControlDTO.getLecturetime());
+                loginDTO.setMylecturetime(adControlDTO.getMylecturetime());
+                loginDTO.setAttendtime(adControlDTO.getAttendtime());
+
                 session.setAttribute("logined", loginDTO);
                 resp.sendRedirect(contextPath + "/main/teacher.do");
             }
@@ -115,6 +132,11 @@ public class LoginController extends HttpServlet {
 
                 loginDTO.setPic(studentDTO.getPic());
                 loginDTO.setPicPath(picPath + "student/");
+
+                loginDTO.setSubjecttime(adControlDTO.getSubjecttime());
+                loginDTO.setLecturetime(adControlDTO.getLecturetime());
+                loginDTO.setMylecturetime(adControlDTO.getMylecturetime());
+                loginDTO.setAttendtime(adControlDTO.getAttendtime());
 
                 session.setAttribute("logined", loginDTO);
                 resp.sendRedirect(contextPath + "/main/st.do");
