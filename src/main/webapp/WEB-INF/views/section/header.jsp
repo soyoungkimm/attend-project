@@ -107,11 +107,15 @@
 
                     <c:if test="${logined.kind eq 0}">
                         <li class="submenu">
-                            <a href="#" id="adMenu1" class="active"><i class="fa fa-fw fa-table"></i> <span> 직원(학사행정) </span> <span class="menu-arrow"></span></a>
+                            <a href="#" id="adMenu1"
+                               <c:if test="${logined.kind eq 0}">
+                                    class="active"
+                               </c:if>
+                              ><i class="fa fa-fw fa-table"></i> <span> 직원(학사행정) </span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
                                 <li><a href="../main/ad.do" style="padding:5px 0 5px 40px;">직원 메인</a></li>
                                 <li><a href="../control/list.do" style="padding:5px 0 5px 40px;">제어판</a></li>
-                                <li class="active"><a href="../notice/list.do" style="padding:5px 0 5px 40px;">공지사항</a></li>
+                                <li><a href="../notice/list.do" style="padding:5px 0 5px 40px;">공지사항</a></li>
                                 <li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
                                 <li><a href="../student/list.do" style="padding:5px 0 5px 40px;">학생정보</a></li>
                                 <li><a href="../teacher/list.do" style="padding:5px 0 5px 40px;">교수정보</a></li>
@@ -124,7 +128,7 @@
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a href="#" id="asMenu2"><i class="fa fa-fw fa-table"></i> <span> 직원(전자출석) </span> <span class="menu-arrow"></span></a>
+                            <a href="#" id="adMenu2" class=""><i class="fa fa-fw fa-table"></i> <span> 직원(전자출석) </span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
                                 <li><a href="../adTimes/timeAll.do" style="padding:5px 0 5px 40px;">학과별 시간표</a></li>
                                 <li><a href="../TimeTeacher/list.do" style="padding:5px 0 5px 40px;">교수별 강의현황</a></li>
@@ -136,7 +140,11 @@
 
                     <c:if test="${logined.kind eq 1 || logined.kind eq 0}">
                         <li class="submenu">
-                            <a href="#"><i class="fa fa-fw fa-male"></i> <span>조교</span> <span class="menu-arrow"></span></a>
+                            <a href="#" id="asMenu"
+                                    <c:if test="${logined.kind eq 1}">
+                                        class="active"
+                                    </c:if>
+                            ><i class="fa fa-fw fa-male"></i> <span>조교</span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
                                 <li><a href="../main/as.do" style="padding:5px 0 5px 40px;">조교 메인</a></li>
                                 <li><a
@@ -175,7 +183,11 @@
 
                     <c:if test="${logined.kind eq 2 || logined.kind eq 0}">
                     <li class="submenu">
-                        <a href="#"><i class="fa fa-fw fa-user"></i> <span> 교수 </span> <span class="menu-arrow"></span></a>
+                        <a href="#" id="teMenu"
+                                <c:if test="${logined.kind eq 2}">
+                                    class="active"
+                                </c:if>
+                        ><i class="fa fa-fw fa-user"></i> <span> 교수 </span> <span class="menu-arrow"></span></a>
                         <ul class="list-unstyled">
                             <li><a href="../main/teacher.do" style="padding:5px 0 5px 40px;">교수 메인</a></li>
                             <li><a
@@ -205,7 +217,11 @@
 
                     <c:if test="${logined.kind eq 3 || logined.kind eq 0}">
                     <li class="submenu">
-                        <a href="#"><i class="fa fa-fw fa-table"></i> <span> 학생 </span> <span class="menu-arrow"></span></a>
+                        <a href="#" id="stMenu"
+                                <c:if test="${logined.kind eq 3}">
+                                    class="active"
+                                </c:if>
+                        ><i class="fa fa-fw fa-table"></i> <span> 학생 </span> <span class="menu-arrow"></span></a>
                         <ul class="list-unstyled">
                             <li><a href="../main/st.do" style="padding:5px 0 5px 40px;">학생 메인</a></li>
                             <li><a
@@ -240,7 +256,133 @@
             <div class="clearfix"></div>
         </div>
     </div>
+
+    <script>
+
+
+
+
+        window.onload = function () {
+
+            var logined_kind = "${logined.kind}"
+
+            var adMenu1 = document.getElementById('adMenu1')
+            var adMenu2 = document.getElementById('adMenu2')
+            var asMenu = document.getElementById('asMenu')
+            var teMenu = document.getElementById('teMenu')
+            var stMenu = document.getElementById('stMenu')
+
+
+
+            if (logined_kind === '0')
+            {
+                adMenu1.onclick = function () {
+
+                    var check = adMenu1.classList.contains('active');
+                    if (check === false)
+                    {
+                        adMenu1.classList.add('active')
+                        adMenu2.classList.remove('active')
+                        asMenu.classList.remove('active')
+                        teMenu.classList.remove('active')
+                        stMenu.classList.remove('active')
+                    }
+                    else
+                    {
+                        adMenu1.classList.remove('active')
+                    }
+                };
+            }
+
+
+
+            if (logined_kind === '0')
+            {
+                adMenu2.onclick = function () {
+
+                    var check = adMenu2.classList.contains('active');
+                    if (check === false)
+                    {
+                        adMenu2.classList.add('active')
+                        adMenu1.classList.remove('active')
+                        asMenu.classList.remove('active')
+                        teMenu.classList.remove('active')
+                        stMenu.classList.remove('active')
+                    }
+                    else
+                    {
+                        adMenu2.classList.remove('active')
+                    }
+                };
+            }
+
+
+
+            if (logined_kind === '1' || logined_kind === '0')
+            {
+                asMenu.onclick = function () {
+
+                    var check = asMenu.classList.contains('active');
+                    if (check === false)
+                    {
+                        asMenu.classList.add('active')
+                        adMenu1.classList.remove('active')
+                        adMenu2.classList.remove('active')
+                        teMenu.classList.remove('active')
+                        stMenu.classList.remove('active')
+                    }
+                    else
+                    {
+                        asMenu.classList.remove('active')
+                    }
+                };
+            }
+
+            if (logined_kind === '2' || logined_kind === '0')
+            {
+                teMenu.onclick = function () {
+
+                    var check = teMenu.classList.contains('active');
+                    if (check === false)
+                    {
+                        teMenu.classList.add('active')
+                        adMenu1.classList.remove('active')
+                        adMenu2.classList.remove('active')
+                        asMenu.classList.remove('active')
+                        stMenu.classList.remove('active')
+                    }
+                    else
+                    {
+                        teMenu.classList.remove('active')
+                    }
+                };
+            }
+
+            if (logined_kind === '3' || logined_kind === '0')
+            {
+                stMenu.onclick = function () {
+
+                    var check = stMenu.classList.contains('active');
+                    if (check === false)
+                    {
+                        stMenu.classList.add('active')
+                        adMenu1.classList.remove('active')
+                        adMenu2.classList.remove('active')
+                        asMenu.classList.remove('active')
+                        teMenu.classList.remove('active')
+                    }
+                    else
+                    {
+                        stMenu.classList.remove('active')
+                    }
+                };
+            }
+        }
+
+    </script>
+
     <!-- 좌측 Sidebar 메뉴 끝-->
     <div class="content-page">
         <div class="content">
             <div class="container-fluid">
+
