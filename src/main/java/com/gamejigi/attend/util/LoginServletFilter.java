@@ -41,11 +41,13 @@ public class LoginServletFilter implements Filter {
                 int kind = loginDTO.getKind();
 
                 // 직원
-                if (path.contains("/main/ad.do") || path.contains("/control") || path.contains("/notice") ||
-                        path.contains("/student") || path.contains("/teacher") || path.contains("/staff") ||
-                        path.contains("/depart") || path.contains("/room") || path.contains("/building") ||
-                        path.contains("/holidays") || path.contains("/adTimes") || path.contains("/TimeTeacher") ||
-                        path.contains("/lecMove")) {
+                if (path.contains("/main/ad.do") || path.contains("/control/") || path.contains("/notice/") ||
+                        path.contains("/student/list.do") || path.contains("/student/create.do") || path.contains("/student/create-action.do") ||
+                        path.contains("/student/detail.do") || path.contains("/student/delete.do") || path.contains("/student/edit.do") ||
+                        path.contains("/student/edit-action.do") || path.contains("/teacher/") || path.contains("/staff/") ||
+                        path.contains("/depart/") || path.contains("/room/") || path.contains("/building/") ||
+                        path.contains("/holidays/") || path.contains("/adTimes/") || path.contains("/TimeTeacher/") ||
+                        path.contains("/lecMove/")) {
                     if (kind != 0) {
                         httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/error/permission.do");
                         return;
@@ -53,24 +55,24 @@ public class LoginServletFilter implements Filter {
 
                 }
                 // 조교
-                else if (path.contains("/main/as.do") || path.contains("/subject") || path.contains("/lectures") ||
-                            path.contains("/astime") || path.contains("/s-subject-attend") || path.contains("/asLecMove")) {
+                else if (path.contains("/main/as.do") || path.contains("/subject/") || path.contains("/lectures/") ||
+                            path.contains("/astime/") || path.contains("/s-subject-attend/list.do") || path.contains("/asLecMove/")) {
                     if (kind != 1) {
                         httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/error/permission.do");
                         return;
                     }
                 }
                 // 교수
-                else if (path.contains("/main/teacher.do") || path.contains("/time") || path.contains("/daily-attend") ||
-                            path.contains("/subject-attend") || path.contains("/TeLecMove") || path.contains("/lecQa/te_")) {
+                else if (path.contains("/main/teacher.do") || path.contains("/time") || path.contains("/daily-attend/") ||
+                            path.contains("/subject-attend/") || path.contains("/TeLecMove/") || path.contains("/lecQa/te_")) {
                     if (kind != 2) {
                         httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/error/permission.do");
                         return;
                     }
                 }
                 // 학생
-                else if (path.contains("/main/st.do") || path.contains("/student-attend") || path.contains("/student-time") ||
-                            path.contains("/stLec") || path.contains("/student/sugang.do") || path.contains("/lecQa/st_")) {
+                else if (path.contains("/main/st.do") || path.contains("/student-attend/") || path.contains("/student-time/") ||
+                            path.contains("/stLec/") || path.contains("/student/sugang.do") || path.contains("/lecQa/st_")) {
                     if (kind != 3) {
                         httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/error/permission.do");
                         return;

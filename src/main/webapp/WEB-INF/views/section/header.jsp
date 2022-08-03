@@ -61,7 +61,14 @@
 
                             </c:when>
                             <c:otherwise>
-                                <img src="${pageContext.request.contextPath}${logined.picPath}${logined.pic}" alt="Profile image" class="avatar-rounded">
+                                <c:choose>
+                                    <c:when test="${logined.pic ne null}">
+                                        <img src="${pageContext.request.contextPath}${logined.picPath}${logined.pic}" alt="Profile image" class="avatar-rounded">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img src="${pageContext.request.contextPath}/template/attend/my/images/avatars/default.jpg" alt="Profile image" class="avatar-rounded">
+                                    </c:otherwise>
+                                </c:choose>
 
                             </c:otherwise>
                         </c:choose>
@@ -174,7 +181,7 @@
                                          style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
                                 <li><a
                                         <c:if test="${logined.lecturetime eq 1 || logined.kind eq 0}">
-                                            href="../lecMove/list.do"
+                                            href="../asLecMove/main.do"
                                         </c:if>
                                          style="padding:5px 0 5px 40px;">휴보강</a></li>
                             </ul>
@@ -242,7 +249,7 @@
                                      style="padding:5px 0 5px 40px;">수강신청</a></li>
                             <li><a
                                     <c:if test="${logined.mylecturetime eq 1 || logined.kind eq 0}">
-                                        href="../student/list.do"
+                                        href="../student/sugang.do"
                                     </c:if>
                                      style="padding:5px 0 5px 40px;">수강과목</a></li>
                             <li><a href="../lecQa/st_list.do" style="padding:5px 0 5px 40px;">교과목 문의</a></li>
