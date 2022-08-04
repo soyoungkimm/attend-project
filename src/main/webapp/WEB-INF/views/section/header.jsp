@@ -145,7 +145,7 @@
                     </c:if>
 
 
-                    <c:if test="${logined.kind eq 1 || logined.kind eq 0}">
+                    <c:if test="${logined.kind eq 1}">
                         <li class="submenu">
                             <a href="#" id="asMenu"
                                     <c:if test="${logined.kind eq 1}">
@@ -155,32 +155,32 @@
                             <ul class="list-unstyled">
                                 <li><a href="../main/as.do" style="padding:5px 0 5px 40px;">조교 메인</a></li>
                                 <li><a
-                                        <c:if test="${logined.subjecttime eq 1 || logined.kind eq 0}">
+                                        <c:if test="${logined.subjecttime eq 1}">
                                             href="../subject/list.do"
                                         </c:if>
                                                style="padding:5px 0 5px 40px;">학년별 교과목</a></li>
                                 <li><a
-                                        <c:if test="${logined.subjecttime eq 1 || logined.kind eq 0}">
+                                        <c:if test="${logined.subjecttime eq 1}">
                                             href="../lectures/list.do"
                                         </c:if>
                                          style="padding:5px 0 5px 40px;">반별 교과목</a></li>
                                 <li><a
-                                        <c:if test="${logined.lecturetime eq 1 || logined.kind eq 0}">
+                                        <c:if test="${logined.lecturetime eq 1}">
                                             href="../astime/time.do"
                                         </c:if>
                                          style="padding:5px 0 5px 40px;">시간표 작성</a></li>
                                 <li><a
-                                        <c:if test="${logined.lecturetime eq 1 || logined.kind eq 0}">
+                                        <c:if test="${logined.lecturetime eq 1}">
                                             href="../astime/timeall.do"
                                         </c:if>
                                          style="padding:5px 0 5px 40px;">학과별 시간표</a></li>
                                 <li><a
-                                        <c:if test="${logined.attendtime eq 1 || logined.kind eq 0}">
+                                        <c:if test="${logined.attendtime eq 1}">
                                             href="../s-subject-attend/list.do"
                                         </c:if>
                                          style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
                                 <li><a
-                                        <c:if test="${logined.lecturetime eq 1 || logined.kind eq 0}">
+                                        <c:if test="${logined.lecturetime eq 1}">
                                             href="../asLecMove/main.do"
                                         </c:if>
                                          style="padding:5px 0 5px 40px;">휴보강</a></li>
@@ -188,7 +188,7 @@
                         </li>
                     </c:if>
 
-                    <c:if test="${logined.kind eq 2 || logined.kind eq 0}">
+                    <c:if test="${logined.kind eq 2}">
                     <li class="submenu">
                         <a href="#" id="teMenu"
                                 <c:if test="${logined.kind eq 2}">
@@ -198,22 +198,22 @@
                         <ul class="list-unstyled">
                             <li><a href="../main/teacher.do" style="padding:5px 0 5px 40px;">교수 메인</a></li>
                             <li><a
-                                    <c:if test="${logined.lecturetime eq 1 || logined.kind eq 0}">
+                                    <c:if test="${logined.lecturetime eq 1}">
                                         href="../time/te_time.do"
                                     </c:if>
                                      style="padding:5px 0 5px 40px;">시간표</a></li>
                             <li><a
-                                    <c:if test="${logined.attendtime eq 1 || logined.kind eq 0}">
+                                    <c:if test="${logined.attendtime eq 1}">
                                         href="../daily-attend/list.do"
                                     </c:if>
                                      style="padding:5px 0 5px 40px;">일별 출석부</a></li>
                             <li><a
-                                    <c:if test="${logined.attendtime eq 1 || logined.kind eq 0}">
+                                    <c:if test="${logined.attendtime eq 1}">
                                         href="../subject-attend/list.do"
                                     </c:if>
                                      style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
                             <li><a
-                                    <c:if test="${logined.lecturetime eq 1 || logined.kind eq 0}">
+                                    <c:if test="${logined.lecturetime eq 1}">
                                         href="../TeLecMove/list.do"
                                     </c:if>
                                      style="padding:5px 0 5px 40px;">휴보강</a></li>
@@ -222,7 +222,7 @@
                     </li>
                     </c:if>
 
-                    <c:if test="${logined.kind eq 3 || logined.kind eq 0}">
+                    <c:if test="${logined.kind eq 3}">
                     <li class="submenu">
                         <a href="#" id="stMenu"
                                 <c:if test="${logined.kind eq 3}">
@@ -232,23 +232,23 @@
                         <ul class="list-unstyled">
                             <li><a href="../main/st.do" style="padding:5px 0 5px 40px;">학생 메인</a></li>
                             <li><a
-                                    <c:if test="${logined.lecturetime eq 1 || logined.kind eq 0}">
+                                    <c:if test="${logined.lecturetime eq 1}">
                                         href="../student-attend/list.do"
                                     </c:if>
                                      style="padding:5px 0 5px 40px;">시간표</a></li>
                             <li><a
-                                    <c:if test="${logined.attendtime eq 1 || logined.kind eq 0}">
+                                    <c:if test="${logined.attendtime eq 1}">
                                         href="../student-time/list.do"
                                     </c:if>
                                      style="padding:5px 0 5px 40px;">출석부</a></li>
                             <li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
                             <li><a
-                                    <c:if test="${logined.mylecturetime eq 1 || logined.kind eq 0}">
+                                    <c:if test="${logined.mylecturetime eq 1}">
                                         href="../stLec/list.do"
                                     </c:if>
                                      style="padding:5px 0 5px 40px;">수강신청</a></li>
                             <li><a
-                                    <c:if test="${logined.mylecturetime eq 1 || logined.kind eq 0}">
+                                    <c:if test="${logined.mylecturetime eq 1}">
                                         href="../student/sugang.do"
                                     </c:if>
                                      style="padding:5px 0 5px 40px;">수강과목</a></li>
