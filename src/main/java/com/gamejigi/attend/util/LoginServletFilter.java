@@ -20,7 +20,7 @@ public class LoginServletFilter implements Filter {
         HttpSession session = httpServletRequest.getSession(false);
         String path = httpServletRequest.getRequestURI();
 
-        if (path.contains("/login") || path.contains("css") || path.contains("js") ) { // 제외
+        if (path.contains("/login") || path.contains("css") || path.contains("js") || path.contains("font-awesome")) { // 제외
             chain.doFilter(request, response);
             return;
         }
